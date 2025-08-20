@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Background Colors */
+  --background: hsl(260 23% 97%);
+  --foreground: hsl(243 14% 27%);
+  
+  /* Card Colors */
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(243 14% 27%);
+  
+  /* Popover Colors */
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(243 14% 27%);
+  
+  /* Primary Colors - Beautiful Purple */
+  --primary: hsl(260 23% 57%);
+  --primary-foreground: hsl(260 23% 97%);
+  
+  /* Secondary Colors */
+  --secondary: hsl(259 33% 89%);
+  --secondary-foreground: hsl(243 14% 27%);
+  
+  /* Muted Colors */
+  --muted: hsl(258 15% 87%);
+  --muted-foreground: hsl(248 10% 45%);
+  
+  /* Accent Colors - Pink/Red */
+  --accent: hsl(342 57% 77%);
+  --accent-foreground: hsl(343 24% 24%);
+  
+  /* Destructive Colors */
+  --destructive: hsl(0 62% 61%);
+  --destructive-foreground: hsl(260 23% 97%);
+  
+  /* Border and Input Colors */
+  --border: hsl(259 17% 82%);
+  --input: hsl(260 23% 92%);
+  --ring: hsl(260 23% 57%);
+  
+  /* Chart Colors - Your Beautiful tweakcn Theme */
+  --chart-1: hsl(260 23% 57%);  /* Primary Purple */
+  --chart-2: hsl(342 57% 77%);  /* Pink/Red */
+  --chart-3: hsl(159 31% 59%);  /* Green */
+  --chart-4: hsl(36 77% 75%);   /* Orange/Yellow */
+  --chart-5: hsl(216 54% 76%);  /* Blue */
+  
+  /* Sidebar Colors */
+  --sidebar: hsl(260 24% 95%);
+  --sidebar-foreground: hsl(243 14% 27%);
+  --sidebar-primary: hsl(260 23% 57%);
+  --sidebar-primary-foreground: hsl(260 23% 97%);
+  --sidebar-accent: hsl(342 57% 77%);
+  --sidebar-accent-foreground: hsl(343 24% 24%);
+  --sidebar-border: hsl(261 18% 85%);
+  --sidebar-ring: hsl(260 23% 57%);
+  
+  /* Typography */
+  --font-sans: Geist, sans-serif;
+  --font-serif: "Lora", Georgia, serif;
+  --font-mono: "Fira Code", "Courier New", monospace;
+  
+  /* Border Radius */
+  --radius: 0.5rem;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  
+  /* Shadows */
+  --shadow-2xs: 1px 2px 5px 1px hsl(0 0% 0% / 0.03);
+  --shadow-xs: 1px 2px 5px 1px hsl(0 0% 0% / 0.03);
+  --shadow-sm: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 1px 2px 0px hsl(0 0% 0% / 0.06);
+  --shadow: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 1px 2px 0px hsl(0 0% 0% / 0.06);
+  --shadow-md: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 2px 4px 0px hsl(0 0% 0% / 0.06);
+  --shadow-lg: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 4px 6px 0px hsl(0 0% 0% / 0.06);
+  --shadow-xl: 1px 2px 5px 1px hsl(0 0% 0% / 0.06), 1px 8px 10px 0px hsl(0 0% 0% / 0.06);
+  --shadow-2xl: 1px 2px 5px 1px hsl(0 0% 0% / 0.15);
+  
+  /* Spacing and Typography */
+  --tracking-normal: 0em;
+  --spacing: 0.25rem;
+}
+
+/* Dark Mode Colors */
+.dark {
+  --background: hsl(251 19% 12%);
+  --foreground: hsl(250 36% 90%);
+  
+  --card: hsl(251 20% 16%);
+  --card-foreground: hsl(250 36% 90%);
+  
+  --popover: hsl(251 20% 16%);
+  --popover-foreground: hsl(250 36% 90%);
+  
+  --primary: hsl(263 33% 69%);
+  --primary-foreground: hsl(251 19% 12%);
+  
+  --secondary: hsl(254 15% 38%);
+  --secondary-foreground: hsl(250 36% 90%);
+  
+  --muted: hsl(254 21% 16%);
+  --muted-foreground: hsl(259 10% 64%);
+  
+  --accent: hsl(272 16% 21%);
+  --accent-foreground: hsl(346 69% 84%);
+  
+  --destructive: hsl(0 69% 67%);
+  --destructive-foreground: hsl(251 19% 12%);
+  
+  --border: hsl(252 19% 21%);
+  --input: hsl(249 20% 19%);
+  --ring: hsl(263 33% 69%);
+  
+  /* Dark Mode Chart Colors */
+  --chart-1: hsl(263 33% 69%);
+  --chart-2: hsl(346 69% 84%);
+  --chart-3: hsl(159 31% 59%);
+  --chart-4: hsl(36 77% 75%);
+  --chart-5: hsl(216 54% 76%);
+  
+  --sidebar: hsl(252 20% 10%);
+  --sidebar-foreground: hsl(250 36% 90%);
+  --sidebar-primary: hsl(263 33% 69%);
+  --sidebar-primary-foreground: hsl(251 19% 12%);
+  --sidebar-accent: hsl(272 16% 21%);
+  --sidebar-accent-foreground: hsl(346 69% 84%);
+  --sidebar-border: hsl(249 20% 19%);
+  --sidebar-ring: hsl(263 33% 69%);
+}
+
+/* Base Styles */
+* {
+  border-color: hsl(var(--border));
+}
+
+body {
+  color: hsl(var(--foreground));
+  background: hsl(var(--background));
+  font-family: var(--font-sans);
+  letter-spacing: var(--tracking-normal);
+}
+
+/* Tailwind Layer Base */
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+  }
+}
