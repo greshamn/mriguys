@@ -1,6 +1,6 @@
-# 🧠 MRI Guys - Professional MRI Services Dashboard
+# 🧠 N4M React - Professional Dashboard
 
-A modern, responsive React dashboard built with Vite, Tailwind CSS, and tweakcn styling. Features beautiful charts, KPI cards, and a professional medical services interface.
+A modern, responsive React dashboard built with Vite, Tailwind CSS, and tweakcn styling. Features beautiful charts, KPI cards, and a professional interface for N4Mative services.
 
 ## ✨ Features
 
@@ -11,6 +11,8 @@ A modern, responsive React dashboard built with Vite, Tailwind CSS, and tweakcn 
 - **Professional UI Components** with shadcn/ui
 - **Dark Mode Support** (CSS variables ready)
 - **Netlify Ready** with proper build configuration
+- **Theme Switcher** with light/dark mode toggle
+- **Fullscreen Mode** for immersive viewing
 
 ## 🎨 Design System
 
@@ -62,6 +64,7 @@ src/
 │   ├── ChartArea.jsx          # Area chart for visitors
 │   ├── AdditionalCharts.jsx   # Pie and bar charts
 │   ├── Sidebar.jsx            # Navigation sidebar
+│   ├── TopMenu.jsx            # Top menu bar with theme switcher
 │   └── DocumentsTable.jsx     # Data table component
 ├── lib/
 │   └── utils.jsx              # Utility functions
@@ -111,6 +114,11 @@ src/
 - **Main Chart**: Area chart showing visitor data over time
 - **Additional Charts**: Revenue distribution pie chart and monthly performance bars
 - **Documents Table**: Data management interface
+
+### Navigation & UI
+- **Top Menu Bar**: Theme switcher, fullscreen toggle, and branding
+- **Full-Length Sidebar**: Complete navigation with user profile and search
+- **Responsive Design**: Mobile-friendly with collapsible sidebar
 
 ### Chart Features
 - **Responsive Design**: Adapts to all screen sizes
@@ -189,4 +197,4 @@ If you have any questions or need help:
 
 ---
 
-**Built with ❤️ using React, Vite, Tailwind CSS, and tweakcn**
+**Built with ❤️ using React, Vite, Tailwind CSS, and tweakcn for N4Mative**
