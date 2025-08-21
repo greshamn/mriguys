@@ -1,54 +1,58 @@
 import React from 'react';
-import KPICard from './KPICard';
-import ChartArea from './ChartArea';
-import DocumentsTable from './DocumentsTable';
-import AdditionalCharts from './AdditionalCharts';
+import { useRole } from '../context/RoleContext';
+import { AdminDashboard } from '../pages/dashboards/AdminDashboard';
+import { PatientDashboard } from '../pages/dashboards/PatientDashboard';
+import { ReferrerDashboard } from '../pages/dashboards/ReferrerDashboard';
 
-const Dashboard = () => {
-  return (
-    <div className="p-6 space-y-6">
-      {/* KPI Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <KPICard
-          title="Total Revenue"
-          value="$1,250.00"
-          change="+12.5%"
-          changeType="positive"
-        />
-        <KPICard
-          title="New Customers"
-          value="1,234"
-          change="-20%"
-          changeType="negative"
-        />
-        <KPICard
-          title="Active Accounts"
-          value="45,678"
-          change="+12.5%"
-          changeType="positive"
-        />
-        <KPICard
-          title="Growth Rate"
-          value="4.5%"
-          change="+2.1%"
-          changeType="positive"
-        />
-      </div>
+// Placeholder components for other roles (you can expand these later)
+const ImagingCenterDashboard = () => (
+  <div className="p-6">
+    <h1 className="text-3xl font-bold text-foreground">Imaging Center Dashboard</h1>
+    <p className="text-muted-foreground">Worklist and scheduling management</p>
+  </div>
+);
 
-      {/* Main Chart */}
-      <div className="bg-card rounded-lg border border-border p-6">
-        <ChartArea />
-      </div>
+const AttorneyDashboard = () => (
+  <div className="p-6">
+    <h1 className="text-3xl font-bold text-foreground">Attorney Dashboard</h1>
+    <p className="text-muted-foreground">Case management and lien tracking</p>
+  </div>
+);
 
-      {/* Additional Charts */}
-      <AdditionalCharts />
+const FunderDashboard = () => (
+  <div className="p-6">
+    <h1 className="text-3xl font-bold text-foreground">Funder Dashboard</h1>
+    <p className="text-muted-foreground">Funding applications and approvals</p>
+  </div>
+);
 
-      {/* Documents Table */}
-      <div className="bg-card rounded-lg border border-border p-6">
-        <DocumentsTable />
-      </div>
-    </div>
-  );
+const OpsDashboard = () => (
+  <div className="p-6">
+    <h1 className="text-3xl font-bold text-foreground">Operations Dashboard</h1>
+    <p className="text-muted-foreground">Queue management and center scorecards</p>
+  </div>
+);
+
+export const Dashboard = () => {
+  const { viewingAsRole, isAdmin } = useRole();
+
+  // Render dashboard based on viewing role
+  switch (viewingAsRole) {
+    case 'admin':
+      return <AdminDashboard />;
+    case 'patient':
+      return <PatientDashboard />;
+    case 'referrer':
+      return <ReferrerDashboard />;
+    case 'imaging-center':
+      return <ImagingCenterDashboard />;
+    case 'attorney':
+      return <AttorneyDashboard />;
+    case 'funder':
+      return <FunderDashboard />;
+    case 'ops':
+      return <OpsDashboard />;
+    default:
+      return <AdminDashboard />;
+  }
 };
-
-export default Dashboard;

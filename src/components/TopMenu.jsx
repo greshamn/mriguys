@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Sun, Moon, Maximize2, Minimize2, Menu } from 'lucide-react';
+import { RoleSwitcher } from './RoleSwitcher';
 
 const TopMenu = ({ onThemeChange, onSidebarToggle }) => {
   const [isDark, setIsDark] = useState(false);
@@ -84,8 +85,11 @@ const TopMenu = ({ onThemeChange, onSidebarToggle }) => {
         </div>
       </div>
 
-      {/* Right side - Theme and Fullscreen buttons */}
+      {/* Right side - Role Switcher, Theme, and Fullscreen buttons */}
       <div className="flex items-center gap-2">
+        {/* Role Switcher - Only visible to admins */}
+        <RoleSwitcher />
+        
         {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
