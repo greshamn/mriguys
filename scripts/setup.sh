@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "🚀 Setting up MRI Guys React Dashboard..."
+echo "🚀 Setting up N4M React React Dashboard..."
 
 # Check if Node.js is installed
 if ! command -v node &> /dev/null; then
