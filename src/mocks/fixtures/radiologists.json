@@ -44,7 +44,7 @@
     "experience": 12,
     "education": {
       "medicalSchool": "University of Miami Miller School of Medicine",
-      "graduationYear": 2011",
+      "graduationYear": 2011,
       "residency": "Jackson Memorial Hospital",
       "fellowship": "Musculoskeletal Imaging Fellowship"
     },
@@ -75,7 +75,7 @@
     "experience": 15,
     "education": {
       "medicalSchool": "Stanford University School of Medicine",
-      "graduationYear": 2008",
+      "graduationYear": 2008,
       "residency": "Stanford Hospital",
       "fellowship": "Neuroradiology Fellowship"
     },
@@ -106,7 +106,7 @@
     "experience": 10,
     "education": {
       "medicalSchool": "University of Florida College of Medicine",
-      "graduationYear": 2013",
+      "graduationYear": 2013,
       "residency": "Shands Hospital",
       "fellowship": null
     },
@@ -137,7 +137,7 @@
     "experience": 14,
     "education": {
       "medicalSchool": "University of Pennsylvania Perelman School of Medicine",
-      "graduationYear": 2009",
+      "graduationYear": 2009,
       "residency": "Hospital of the University of Pennsylvania",
       "fellowship": "Breast Imaging Fellowship"
     },
@@ -168,7 +168,7 @@
     "experience": 11,
     "education": {
       "medicalSchool": "University of Michigan Medical School",
-      "graduationYear": 2012",
+      "graduationYear": 2012,
       "residency": "University of Michigan Hospital",
       "fellowship": "Musculoskeletal Imaging Fellowship"
     },

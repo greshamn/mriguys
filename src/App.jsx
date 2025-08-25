@@ -4,6 +4,7 @@ import { RoleProvider } from './context/RoleContext';
 import { Layout } from './components/Layout';
 import { Dashboard } from './components/Dashboard';
 import MSWTest from './pages/MSWTest';
+import ZustandTest from './pages/ZustandTest';
 
 function App() {
   return (
@@ -12,6 +13,9 @@ function App() {
         <Routes>
           {/* MSW Test route - standalone for development testing */}
           <Route path="/msw-test" element={<MSWTest />} />
+          
+          {/* Zustand Test route - standalone for development testing */}
+          <Route path="/zustand-test" element={<ZustandTest />} />
           
           {/* All other routes wrapped in Layout */}
           <Route path="*" element={
