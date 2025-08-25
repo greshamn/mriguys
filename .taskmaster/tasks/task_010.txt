@@ -1,0 +1,126 @@
+# Task ID: 10
+# Title: AI Insight Drawer Implementation
+# Status: pending
+# Dependencies: 2, 3
+# Priority: medium
+# Description: Implement the AI Insight Drawer component with context-aware suggestions based on heuristics over seed data.
+# Details:
+1. Create the AI Insight Drawer component that can be toggled open/closed
+2. Implement heuristic functions to generate suggestions based on the current page and user role
+3. Create an MSW handler for `/ai/suggest` to simulate AI responses
+4. Add different suggestion styles (clinical, friendly, concise)
+
+Example AI Insight Drawer:
+```tsx
+// src/components/AIDrawer.tsx
+import { useEffect, useState } from 'react';
+import { X } from 'lucide-react';
+import { Button } from './ui/button';
+import { Skeleton } from './ui/skeleton';
+import { useLocation } from 'react-router-dom';
+import { useStore } from '@/store';
+
+export function AIDrawer({ onClose }) {
+  const [loading, setLoading] = useState(true);
+  const [suggestions, setSuggestions] = useState([]);
+  const location = useLocation();
+  const { currentUser } = useStore();
+  
+  useEffect(() => {
+    // Fetch AI suggestions based on current page and role
+    fetch(`/api/ai/suggest?path=${location.pathname}&role=${currentUser.role}`)
+      .then(res => res.json())
+      .then(data => {
+        setSuggestions(data.suggestions);
+        setLoading(false);
+      });
+  }, [location.pathname, currentUser.role]);
+  
+  return (
+    <div className="w-80 border-l border-border bg-background p-4 flex flex-col h-full">
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-lg font-bold">AI Insights</h2>
+        <Button variant="ghost" size="icon" onClick={onClose}>
+          <X className="h-4 w-4" />
+        </Button>
+      </div>
+      
+      <div className="flex-1 overflow-y-auto space-y-4">
+        {loading ? (
+          Array(3).fill(0).map((_, i) => (
+            <div key={i} className="p-4 border border-border rounded-lg">
+              <Skeleton className="h-4 w-3/4 mb-2" />
+              <Skeleton className="h-4 w-full mb-2" />
+              <Skeleton className="h-4 w-5/6" />
+            </div>
+          ))
+        ) : suggestions.map((suggestion, i) => (
+          <div key={i} className="p-4 border border-border rounded-lg">
+            <h3 className="font-medium mb-1">{suggestion.title}</h3>
+            <p className="text-sm text-muted-foreground">{suggestion.description}</p>
+            {suggestion.action && (
+              <Button variant="link" className="p-0 h-auto mt-2 text-sm">
+                {suggestion.action}
+              </Button>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+```
+
+Example MSW handler:
+```tsx
+// src/mocks/handlers.ts (addition)
+rest.get('/api/ai/suggest', (req, res, ctx) => {
+  const path = req.url.searchParams.get('path');
+  const role = req.url.searchParams.get('role');
+  
+  // Generate suggestions based on path and role
+  let suggestions = [];
+  
+  if (path.includes('/referrer') && role === 'referrer') {
+    suggestions = [
+      {
+        title: 'Center Recommendation',
+        description: 'Based on recent turnaround times, Center A is currently processing MRIs 2 days faster than average.',
+        action: 'View Center Details'
+      },
+      {
+        title: 'Patient Follow-up',
+        description: 'Three patients have completed scans in the last week with reports now available.',
+        action: 'View Reports'
+      }
+    ];
+  } else if (path.includes('/attorney') && role === 'attorney') {
+    suggestions = [
+      {
+        title: 'No-show Risk',
+        description: 'Two clients are at risk of no-show this week. Consider sending reminders to John Doe and Jane Smith.',
+        action: 'Send Reminders'
+      },
+      {
+        title: 'Missing Documentation',
+        description: 'Case #12345 is missing insurance verification which may delay processing.',
+        action: 'Request Document'
+      }
+    ];
+  }
+  // Add more conditions for other paths/roles
+  
+  return res(
+    ctx.delay(300 + Math.random() * 400),
+    ctx.status(200),
+    ctx.json({ suggestions })
+  );
+});
+```
+
+# Test Strategy:
+1. Test the AI Drawer in all theme modes
+2. Verify that suggestions change based on current page and role
+3. Test loading states and error handling
+4. Validate that the drawer can be toggled open/closed
+5. Test responsive layout on different screen sizes

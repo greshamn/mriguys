@@ -1,0 +1,149 @@
+# Task ID: 17
+# Title: Email Intake to Draft Referral Queue Implementation
+# Status: pending
+# Dependencies: 2, 3
+# Priority: medium
+# Description: Implement a queue system for processing emails sent to referrals@mriguys.com, with functionality to parse email content, display draft referrals, and promote drafts to full referrals.
+# Details:
+1. Create a new `DraftReferrals` data model with fields for:
+   - ID, timestamp, status
+   - Email metadata (from, to, subject, received date)
+   - Parsed patient information (name, DOB if available)
+   - Parsed clinical information (modality, body part)
+   - Attachment references
+
+2. Implement email parsing logic:
+   - Create utility functions to extract patient name patterns
+   - Implement modality/body part detection using keyword matching
+   - Build attachment handling with placeholder functionality for prototype
+
+3. Design and implement the Draft Referrals Queue UI:
+   - Create a filterable table component showing parsed email content
+   - Include columns for timestamp, patient name, modality, body part, attachments
+   - Add status indicators (new, reviewed, promoted, rejected)
+   - Implement sorting and filtering capabilities
+
+4. Build the "Promote to Referral" action:
+   - Create a button/action in each row to promote draft to referral
+   - Implement logic to pre-populate the Referral Wizard with parsed data
+   - Handle attachment transfer to the new referral
+
+5. Integrate with existing referral creation flow:
+   - Ensure the pre-populated Referral Wizard follows the same validation rules
+   - Update the draft status when promoted to referral
+   - Create bidirectional references between drafts and created referrals
+
+6. Add placeholder email intake simulation for the prototype:
+   - Create a mock email generator for testing
+   - Add a "Simulate New Email" button for demo purposes
+
+Example Draft Referrals Table Component:
+```tsx
+// src/components/referrals/DraftReferralsTable.tsx
+import { useState } from 'react';
+import { Table, TableHeader, TableRow, TableCell } from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import { useDraftReferrals } from '@/hooks/useDraftReferrals';
+import { formatDate } from '@/lib/utils';
+
+export function DraftReferralsTable() {
+  const { drafts, promoteDraft, rejectDraft } = useDraftReferrals();
+  const [filter, setFilter] = useState('');
+  
+  const filteredDrafts = drafts.filter(draft => 
+    draft.patientName.toLowerCase().includes(filter.toLowerCase()) ||
+    draft.modality.toLowerCase().includes(filter.toLowerCase()) ||
+    draft.bodyPart.toLowerCase().includes(filter.toLowerCase())
+  );
+  
+  return (
+    <div className="space-y-4">
+      <div className="flex justify-between">
+        <input 
+          type="text" 
+          placeholder="Filter drafts..." 
+          value={filter} 
+          onChange={(e) => setFilter(e.target.value)}
+          className="px-3 py-2 border rounded-md"
+        />
+        <Button onClick={() => simulateNewEmail()}>
+          Simulate New Email
+        </Button>
+      </div>
+      
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableCell>Received</TableCell>
+            <TableCell>Patient</TableCell>
+            <TableCell>Modality</TableCell>
+            <TableCell>Body Part</TableCell>
+            <TableCell>Attachments</TableCell>
+            <TableCell>Actions</TableCell>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {filteredDrafts.map(draft => (
+            <TableRow key={draft.id}>
+              <TableCell>{formatDate(draft.receivedAt)}</TableCell>
+              <TableCell>{draft.patientName}</TableCell>
+              <TableCell>{draft.modality}</TableCell>
+              <TableCell>{draft.bodyPart}</TableCell>
+              <TableCell>{draft.attachments.length}</TableCell>
+              <TableCell>
+                <div className="flex space-x-2">
+                  <Button 
+                    variant="primary" 
+                    onClick={() => promoteDraft(draft.id)}
+                  >
+                    Promote to Referral
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => rejectDraft(draft.id)}
+                  >
+                    Reject
+                  </Button>
+                </div>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
+  );
+}
+
+# Test Strategy:
+1. Test email parsing functionality:
+   - Create unit tests for the email parsing utilities
+   - Test with various email formats to verify patient name extraction
+   - Validate modality and body part detection accuracy
+   - Verify attachment handling logic
+
+2. Test Draft Referrals Queue UI:
+   - Verify that the table displays all draft referrals correctly
+   - Test filtering and sorting functionality
+   - Ensure status indicators update appropriately
+   - Validate responsive design on different screen sizes
+
+3. Test "Promote to Referral" functionality:
+   - Verify that clicking the action opens the Referral Wizard
+   - Confirm that parsed data is correctly pre-populated in the wizard
+   - Test the complete flow from draft to created referral
+   - Validate that attachments are properly transferred
+
+4. Test integration with existing referral flow:
+   - Ensure the pre-populated wizard follows validation rules
+   - Verify that draft status updates when promoted
+   - Test bidirectional references between drafts and referrals
+
+5. End-to-end testing:
+   - Create a test script that simulates the entire flow from email intake to referral creation
+   - Test edge cases like malformed emails, missing information, and duplicate emails
+   - Verify that the UI handles empty states and loading states correctly
+
+6. Accessibility testing:
+   - Test keyboard navigation throughout the draft referrals interface
+   - Verify screen reader compatibility
+   - Check color contrast for status indicators

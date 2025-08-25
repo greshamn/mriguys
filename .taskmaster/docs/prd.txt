@@ -1,0 +1,333 @@
+# MRIGuys Platform — Product Requirements Document (PRD)
+
+**Version:** v2.2 (TaskMaster‑aligned visual prototype)  
+**Recommended file path for TaskMaster:** `.taskmaster/docs/prd.txt` (copy this content there)  
+**Owner:** Product (you)  
+**Stakeholders:** Engineering, Design, BizDev, Legal/Compliance, Case Management  
+**Target Markets:** US Personal Injury & PIP first; later UK/EU  
+
+---
+
+## 1) Vision & Strategy
+**Vision:** Build a PI‑friendly diagnostic imaging marketplace and workflow platform that reaches **parity with Scan.com** booking + developer surface, then **leapfrogs** with lien/funding automation, attorney/funder workspaces, and turnkey **case packets**.
+
+**One‑week objective:** A polished **frontend‑only** demo (mock data, simulated APIs) proving value across **role‑specific dashboards** and **three golden flows**: (1) Referral → Booking → Report; (2) Attorney Case Packet; (3) Funder Approval.
+
+**Success criteria:**
+- Clear value per role, working flows with believable latency, and **theme agility** via TweakCN.
+- A PRD that TaskMaster can parse into tasks with dependencies.
+
+---
+
+## 2) Competitive Parity vs. Scan.com (Demo Scope)
+- **Public finder with map** (list + map, ZIP/city + body part/modality filters) with deep link to booking.
+- **Referring provider portal**: create referral; track status; download report.
+- **Center console**: manage slots; worklist; upload report; basic billing.
+- **D2C booking**: patient safety Qs, slot picking, confirmation.
+- **Developer surface** (mock): availability, referral, booking, report access.
+
+**Differentiators (show in demo copy/flows):** lien/funding pipeline, attorney/funder workspaces, automated case packets, SLA scorecards, and no‑show tooling.
+
+---
+
+## 3) Personas & Roles
+- **Patient** — finds centers, answers safety Qs, books, views results.
+- **Referring Healthcare Provider (RHP)** — creates referral, tracks status, reviews reports.
+- **Imaging Center Staff** — manages slots & worklist, uploads reports, bills.
+- **Attorney** — monitors clients, compiles **Attorney Case Packet**, manages lien & settlement.
+- **Medical Lien Funder** — evaluates cases, approves funding, tracks exposure & reconciliation.
+- **Case Management (Internal)** — triage queues (no‑shows, missing docs, aged referrals), reassignments, scorecards.
+- **Admin** — master data, theming, audit.
+
+---
+
+## 4) Current State (from PROGRESS.md)
+**Completed (DONE):**
+- App scaffold: **Vite + React + Tailwind (tweakcn)**, **shadcn/ui**.
+- **Routing** with protected routes; **role switching** (primary vs viewing role).
+- **Global shell**: Left Sidebar, Top Bar, **AI Insights Drawer**, Sticky Action Bar, **Command‑K** modal.
+- **Responsive grid**, accessibility (ARIA, focus rings), light/dark theme switcher.
+
+**Open (TO‑DO) for v2.2 demo:**
+- Mock data + MSW; seed JSON; Zustand store.
+- Public **Find Centers** (map + list) + Center Profile + deep‑link booking.
+- **Email intake → Draft Referral** queue.
+- Role dashboards (metrics, charts) and golden flows.
+- Attorney Case Packet + Lien Ledger (simplified math).
+- Funder exposure/approval + reconciliation (simulated).
+- Case Management queues + scorecards.
+- Mock API surface & OpenAPI YAML; fake webhook panel.
+
+---
+
+## 5) Scope (v2.2 visual prototype)
+**Approach:** React + Tailwind v4 (tokens via TweakCN) + shadcn/ui + **Nivo** charts + **Framer Motion** + **MSW** + **Zustand**. All data is mock; no real auth, payments, or PACS.
+
+### 5.1 Deliverables
+1) **Role‑specific dashboards** with KPIs, charts, tables, AI suggestions.
+2) **Three golden flows** fully simulated.
+3) **Public finder** (map + list) → booking.
+4) Data seeds + MSW endpoints; OpenAPI (static) + demo webhooks.
+5) Theming (light/dark + "MRI Neon"), chart token mapping, micro‑interactions.
+
+### 5.2 Out of scope (this week)
+HL7/FHIR, true DICOM viewer, SSO, real notifications, payments/EDI, SOC2/HIPAA posture beyond mock.
+
+---
+
+## 6) UX System: Global Navigation & Page Layouts
+**Shell**: Left Sidebar (role menus) • Top Bar (search, notifications, Theme Switch, Role Switch, Command‑K) • Right **AI Insight Drawer** • 12‑col Content Grid • Sticky Action Bar.
+
+**Key patterns**
+- **Dashboard layout:** KPI row → Charts row → Tables row; AI Drawer open by default.
+- **Referral Wizard:** stepper; two‑column form; right rail shows validation & "AI Center Pick".
+- **Center Console:** split view (calendar/slots + worklist); upload modal (report PDF).
+- **Attorney Packet:** left doc list → right preview; Export in sticky bar.
+- **Finder:** search rail (filters) + results list + map; center profile modal.
+
+---
+
+## 7) Role‑Specific Dashboards (v2.2)
+> All dashboards expose **AI Insight Drawer**: 2–4 contextual tips driven by simple heuristics.
+
+### 7.1 Patient
+- **Hero**: Next appointment card (date, center, prep checklist, reschedule).
+- **Timeline**: Referral → Booking → Scan → Report Ready.
+- **CTAs**: View Results (mock PDF), Contact Center.
+
+### 7.2 Referring Provider (RHP)
+- **KPIs**: New results, upcoming scans, avg TAT, no‑show rate.
+- **Charts**: TAT (7/30d line), Modality mix (bar).
+- **Worklist**: patient/status/center; **New Referral** CTA.
+- **AI**: Best center suggestion (distance + recent TAT).
+
+### 7.3 Imaging Center
+- **KPIs**: Today's scans, utilization %, no‑shows, report lag.
+- **Charts**: Calendar heatmap (utilization), No‑show causes (stacked bars).
+- **Worklist**: check‑in/complete/upload report/bill.
+- **AI**: "Open 2 extra MRI slots Fri 2–4pm to hit 85% util".
+
+### 7.4 Attorney
+- **KPIs**: Active clients, attendance %, pending packets, lien exposure.
+- **Tables**: Cases + next action; **Packet Preview** component.
+- **AI**: At‑risk clients (no‑show risk), missing docs.
+
+### 7.5 Medical Lien Funder
+- **KPIs**: Exposure, approvals pending, avg decision time, expected ROI (mock).
+- **Charts**: Exposure over time (area); approval funnel (bar).
+- **Tables**: Case queue (requirements satisfied?); **Reconciliation** view (simulated).
+- **AI**: "Top 3 to approve today" based on simple score.
+
+### 7.6 Case Management (Internal)
+- **Queues**: No‑shows, Missing docs, Aged referrals, Unsigned liens.
+- **Scorecards**: Center SLAs with badges; **Reassign** action.
+- **AI**: "Reassign 2 patients to Center X for earlier slots tomorrow."
+
+### 7.7 Admin
+- **Theme Manager** (TweakCN presets), **Master Data** (read‑only CRUD stubs), Audit log viewer (mock).
+
+---
+
+## 8) Flows & Acceptance Criteria
+### 8.1 Public Finder (Map + List) → Booking
+- **Filters**: City/ZIP, Body Part, Modality; optional date range.
+- **Views**: Result list, Map markers, Center Profile modal (badges: modalities, magnet strength, languages, ADA, accreditations).
+- **AC**: Deep‑link into Referral Wizard or Slot Picker with center preselected.
+
+### 8.2 Email Intake → Draft Referral (queue)
+- **Source**: `referrals@mriguys.com` (stub).
+- **AC**: Items show patient name, modality/body part (parsed), attachments (fake); action **Promote to Referral** opens Wizard prefilled.
+
+### 8.3 Referral Wizard (RHP)
+- Steps: Patient → Exam → Clinical Notes → Attachments → Center → Review.
+- **AC**: Validates contraindications; enforces safety Q completion; writes **Referral** + **Appointment**; timeline shows progress.
+
+### 8.4 Center Console
+- **Worklist**: statuses (Booked/In‑progress/Complete/Report Ready).
+- **Slot Manager**: template + one‑off slots; simple drag interactions.
+- **Upload Report**: attach PDF; triggers status → Report Ready; mock bill create.
+
+### 8.5 Attorney Case Packet
+- **Packet**: latest Report (PDF), Bill, Summary page; optional Image link (expiring URL placeholder).
+- **AC**: Packet compiles; export PDF; timeline logs downloads.
+
+### 8.6 Funder Approval + Exposure/Reconciliation
+- **Queue**: cases with min docs; Approve/Reject (notes).
+- **Exposure**: updates chart; **Reconciliation** table simulates flow (case → lien → provider payments → reimbursement).
+
+### 8.7 Case Management
+- **Queues** with counts & SLAs; **Bulk actions**; **Reassign** flow; audit entries.
+
+---
+
+## 9) Data Model (prototype)
+**Core entities**
+- **Patient** {id, name, dob, phone, email, address, insurance, pipFlag}
+- **Referral** {id, patientId, referrerId, modality, bodyPart, clinicalNotes, safetyAnswers[], preferredCenterId?, status}
+- **Appointment** {id, referralId, centerId, datetime, status}
+- **ScanReport** {id, referralId, radiologistId, reportPdfUrl, images[], releasedAt}
+- **Bill** {id, referralId, cptCodes[], lineItems[{code, desc, qty, unitPrice}], total, status}
+- **Lien** {id, referralId, attorneyId, funderId?, principal, rateApr, accrualBasis, ledger[]}
+- **Settlement** {id, lienId, amount, disbursements[{payeeId, amount}], closedAt}
+- **ImagingCenter** {id, name, modalities[], magnetStrength, openUpright, sedationAvailable, languages[], ADA, parking, accreditations[], address, geo, slots[]}
+- **Radiologist** {id, name, subspecialty[]}
+- **Insurer** {id, name}
+- **Claim** {id, patientId, insurerId, claimNo, pipFlag}
+
+---
+
+## 10) Mock API Surface (MSW)
+**Auth**: API key (mock only)
+
+**Public**
+- `GET /centers?city|zip&modality&bodyPart` — list centers
+- `GET /centers/:id/availability?from&to` — slot grid
+- `GET /body-parts` • `GET /safety-questions`
+
+**Referrals/Booking**
+- `POST /referrals` — create referral
+- `POST /slots/hold` → `POST /referrals/:id/confirm` → `POST /referrals/:id/cancel`
+- `POST /appointments`
+
+**Reports/Images**
+- `GET /reports/:id` — returns mock PDF URL
+- `GET /images/:id/download` — returns **expiring link** (placeholder)
+
+**Attorney/Funder**
+- `GET /liens` • `POST /liens/:id/approve` • `GET /exposure`
+
+**System**
+- `POST /webhooks/test` — simulate center callback;
+- `GET /audit/:entityId` — unified timeline events.
+
+**Docs**: ship a static **OpenAPI YAML** at `/api-docs`.
+
+---
+
+## 11) Design System, Theming & Motion
+- **Tailwind v4 + shadcn/ui** with **TweakCN** variables in `:root` and `.dark`.
+- Chart tokens: `--chart-1..5` mapped into **Nivo** themes; dark mode variants.
+- **Framer Motion** micro‑interactions (≤200ms) and respect `prefers-reduced-motion`.
+
+---
+
+## 12) Charts to Ship
+- **Utilization heatmap** (center calendar weeks vs occupancy).
+- **TAT line** by center (7/30d).
+- **No‑show causes** stacked bars.
+- **Exposure area** over time.
+
+---
+
+## 13) AI Insight Drawer (Mock Logic)
+- **Risky appointment** if safety answers include any contraindication keywords.
+- **Center pick** score = distance weight + historical TAT weight + rating.
+- **Attorney**: missing docs = packetIncomplete OR no‑show risk > threshold.
+- **Funder**: approval score = injury severity + attendance + report findings flag.
+
+---
+
+## 14) Acceptance Criteria (screen‑level)
+**Patient Booking** — Appointment created → Confirmation shows prep checklist & contact.
+
+**RHP Wizard** — Contraindication rules enforced; timeline updated.
+
+**Center Console** — Upload adds ScanReport; status → Report Ready; bill created.
+
+**Attorney** — Packet compiles latest docs; Lien Ledger totals; PDF export works.
+
+**Funder** — Approve updates exposure; reconciliation table shows updated flow.
+
+**Case Mgmt** — Bulk actions write audit events; Reassign changes appointment center.
+
+**Admin** — Theme presets toggle; master data lists visible.
+
+---
+
+## 15) Security/Compliance (prototype stance)
+Role‑based routing only; mock PHI; immutable audit entries; config toggles for demo personas. Future: HIPAA/BAAs, encryption at rest, SSO, logging.
+
+---
+
+## 16) Testing & Demo
+- **Playwright**: 3 golden paths (RHP→Booking→Report; Center Upload; Attorney Packet).
+- **Visual snapshots**: across themes and dark mode.
+- **Demo script**: five flows; screenshots export (optional).
+
+---
+
+## 17) Milestone Plan (5 days)
+**Day 1:** Seed + MSW + store; public Finder skeleton; Theme switcher final polish.  
+**Day 2:** RHP + Patient dashboards; Referral Wizard + Slot Picker.  
+**Day 3:** Center dashboard + Worklist + Upload + Billing stub.  
+**Day 4:** Attorney + Funder + Case Mgmt dashboards; Packet + Lien Ledger; Exposure/Reconciliation.  
+**Day 5:** Framer polish, empty/skeleton states, README + demo script, OpenAPI YAML.
+
+---
+
+## 18) Backlog (Task Seeds for TaskMaster)
+> Use these as **seed tasks**. Status reflects current progress; dependencies assume a fresh parse. TaskMaster will generate `tasks.json` and task files. (IDs here are friendly labels; real IDs assigned by TaskMaster.)
+
+### Completed (Status: DONE)
+- **C‑01: Project scaffold & theme system** — Vite/React, Tailwind, shadcn/ui, tweakcn variables; light/dark toggle. **Status:** DONE.
+- **C‑02: Layout shell & navigation** — Sidebar, Top Bar, AI Drawer, Sticky Action Bar, Command‑K, responsive grid, a11y. **Status:** DONE.
+
+### In‑Progress / To‑Do (Status: PENDING)
+- **T‑01: Mock data & MSW** — Create JSON seeds (centers, slots, referrals, appointments, reports, bills, liens, settlements, insurers, claims, bodyParts, safetyQuestions). **Deps:** C‑01, C‑02. **Test:** API routes return realistic payloads; latency simulated.
+- **T‑02: State store (Zustand)** — Entities, selectors, optimistic updates. **Deps:** T‑01. **Test:** Dashboards derive stats from store.
+- **T‑03: Public Finder (map+list)** — Filters, list, markers, Center Profile modal, deep links. **Deps:** T‑01. **Test:** Booking prefilled via deep link.
+- **T‑04: Email intake → Draft Referral** — Drafts table; `Promote to Referral`. **Deps:** T‑01. **Test:** Wizard prepopulates from draft.
+- **T‑05: Referral Wizard + Slot Picker** — Contraindications + safety Qs gate; appointment write. **Deps:** T‑01, T‑02. **Test:** Timeline shows new status.
+- **T‑06: Patient dashboard** — Next appt card, timeline, AI tips. **Deps:** T‑02, T‑05. **Test:** Matches upcoming appt; AI tips render.
+- **T‑07: RHP dashboard** — KPIs, TAT/Modality charts, Worklist, New Referral CTA. **Deps:** T‑02, T‑05. **Test:** Charts respond to seeds.
+- **T‑08: Center dashboard & console** — Util heatmap, Worklist actions, Upload Report, Bill stub. **Deps:** T‑02. **Test:** Upload flips status; bill created.
+- **T‑09: Attorney workspace** — Cases table, Packet preview, Lien Ledger math, export. **Deps:** T‑02. **Test:** Packet compiles; ledger totals.
+- **T‑10: Funder desk** — Queue, Approvals, Exposure chart, Reconciliation view. **Deps:** T‑02, T‑09. **Test:** Approve updates exposure.
+- **T‑11: Case Mgmt dashboard** — Queues, Scorecards, Reassign flow. **Deps:** T‑02, T‑05. **Test:** Audit entries written.
+- **T‑12: OpenAPI YAML + API Doc page** — Document mock endpoints; link from top bar. **Deps:** T‑01. **Test:** YAML loads; examples match seeds.
+- **T‑13: Charts theme bridge** — Map `--chart-1..5` into Nivo theme; dark mode AA. **Deps:** C‑02. **Test:** Charts recolor when theme changes.
+- **T‑14: AI Insight heuristics** — Simple functions per role; MSW `/ai/suggest` with delay. **Deps:** T‑02. **Test:** Drawer shows 2–4 insights/role.
+- **T‑15: Demo polish** — Framer micro‑interactions; skeleton/empty states; README demo script; screenshot export. **Deps:** ALL.
+
+---
+
+## 19) Definition of Done (v2.2)
+- Role dashboards are **interactive** with charts/KPIs fed by seed data.
+- Golden flows run end‑to‑end using mock APIs; believable latency.
+- Theme switching + chart theming integrated; a11y passes spot checks.
+- Static OpenAPI available; demo script reproducible with `pnpm dev`.
+
+---
+
+## 20) How to Run (for reviewers)
+1. `pnpm i && pnpm dev`  
+2. Toggle role from the top bar (admin only).  
+3. Open **/find** → book → follow timeline to **Report Ready**.  
+4. Visit Attorney → **Packet**; Funder → **Approve**; Case Mgmt → **Reassign**.
+
+---
+
+## 21) Notes & Future Hooks
+- PACS viewer integration kept as **placeholder** (expiring links, access logging).  
+- Insurance/in‑network filters and calendar live availability are **future** toggles in UI copy.
+
+---
+
+## 22) Appendix: File/Folder Hints
+- `src/mocks/handlers.ts` — MSW endpoints.
+- `src/mocks/fixtures/*.json` — seeds.
+- `src/store/*` — Zustand slices.
+- `src/pages/find/*` — public finder.
+- `src/pages/*/Dashboard.tsx` — role dashboards.
+- `src/pages/referrals/Wizard.tsx` — RHP flow.
+- `src/pages/center/*` — worklist, slots, upload.
+- `src/pages/attorney/*` — packet, ledger.
+- `src/pages/funder/*` — approvals, exposure.
+
+---
+
+## 23) TaskMaster Usage (quick prompts)
+- "**Parse my PRD** at `.taskmaster/docs/prd.txt` and generate tasks with dependencies."  
+- "**Analyze complexity** and suggest which tasks to expand."  
+- "**Expand tasks** 3, 5, and 8 into subtasks with implementation detail."  
+- "Show me **next** task and mark it **in‑progress**."

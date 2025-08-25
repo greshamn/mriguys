@@ -1,0 +1,250 @@
+[
+  {
+    "id": "insurer-001",
+    "name": "Blue Cross Blue Shield",
+    "type": "Commercial",
+    "planTypes": ["PPO", "HMO", "EPO"],
+    "phone": "(800) 521-2227",
+    "email": "customer.service@bcbs.com",
+    "website": "https://www.bcbs.com",
+    "address": {
+      "street": "225 North Michigan Avenue",
+      "city": "Chicago",
+      "state": "IL",
+      "zip": "60601",
+      "country": "USA"
+    },
+    "claimsAddress": {
+      "street": "P.O. Box 105247",
+      "city": "Atlanta",
+      "state": "GA",
+      "zip": "30348",
+      "country": "USA"
+    },
+    "priorAuthPhone": "(800) 521-2227",
+    "priorAuthEmail": "prior.auth@bcbs.com",
+    "priorAuthWebsite": "https://www.bcbs.com/prior-auth",
+    "coverageTypes": ["Medical", "Dental", "Vision", "Prescription"],
+    "networkTypes": ["In-Network", "Out-of-Network"],
+    "acceptedCenters": ["center-001", "center-003", "center-004", "center-005", "center-006", "center-007", "center-008"],
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "insurer-002",
+    "name": "Aetna",
+    "type": "Commercial",
+    "planTypes": ["PPO", "HMO", "HDHP"],
+    "phone": "(800) 872-3862",
+    "email": "member.services@aetna.com",
+    "website": "https://www.aetna.com",
+    "address": {
+      "street": "151 Farmington Avenue",
+      "city": "Hartford",
+      "state": "CT",
+      "zip": "06156",
+      "country": "USA"
+    },
+    "claimsAddress": {
+      "street": "P.O. Box 14080",
+      "city": "Lexington",
+      "state": "KY",
+      "zip": "40512",
+      "country": "USA"
+    },
+    "priorAuthPhone": "(800) 872-3862",
+    "priorAuthEmail": "prior.auth@aetna.com",
+    "priorAuthWebsite": "https://www.aetna.com/prior-auth",
+    "coverageTypes": ["Medical", "Dental", "Vision", "Prescription"],
+    "networkTypes": ["In-Network", "Out-of-Network"],
+    "acceptedCenters": ["center-001", "center-002", "center-003", "center-004", "center-005", "center-007", "center-008"],
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "insurer-003",
+    "name": "Cigna",
+    "type": "Commercial",
+    "planTypes": ["PPO", "HMO", "EPO"],
+    "phone": "(800) 244-6224",
+    "email": "customer.service@cigna.com",
+    "website": "https://www.cigna.com",
+    "address": {
+      "street": "900 Cottage Grove Road",
+      "city": "Bloomfield",
+      "state": "CT",
+      "zip": "06002",
+      "country": "USA"
+    },
+    "claimsAddress": {
+      "street": "P.O. Box 188061",
+      "city": "Chattanooga",
+      "state": "TN",
+      "zip": "37422",
+      "country": "USA"
+    },
+    "priorAuthPhone": "(800) 244-6224",
+    "priorAuthEmail": "prior.auth@cigna.com",
+    "priorAuthWebsite": "https://www.cigna.com/prior-auth",
+    "coverageTypes": ["Medical", "Dental", "Vision", "Prescription"],
+    "networkTypes": ["In-Network", "Out-of-Network"],
+    "acceptedCenters": ["center-001", "center-002", "center-003", "center-005", "center-007", "center-008"],
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "insurer-004",
+    "name": "Medicare",
+    "type": "Government",
+    "planTypes": ["Original Medicare", "Medicare Advantage"],
+    "phone": "(800) 633-4227",
+    "email": "medicare@cms.hhs.gov",
+    "website": "https://www.medicare.gov",
+    "address": {
+      "street": "7500 Security Boulevard",
+      "city": "Baltimore",
+      "state": "MD",
+      "zip": "21244",
+      "country": "USA"
+    },
+    "claimsAddress": {
+      "street": "P.O. Box 1000",
+      "city": "Baltimore",
+      "state": "MD",
+      "zip": "21244",
+      "country": "USA"
+    },
+    "priorAuthPhone": "(800) 633-4227",
+    "priorAuthEmail": "medicare@cms.hhs.gov",
+    "priorAuthWebsite": "https://www.medicare.gov/prior-auth",
+    "coverageTypes": ["Medical", "Prescription"],
+    "networkTypes": ["In-Network"],
+    "acceptedCenters": ["center-001", "center-004", "center-006", "center-007"],
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "insurer-005",
+    "name": "Medicaid",
+    "type": "Government",
+    "planTypes": ["Medicaid", "CHIP"],
+    "phone": "(800) 318-2596",
+    "email": "medicaid@cms.hhs.gov",
+    "website": "https://www.medicaid.gov",
+    "address": {
+      "street": "7500 Security Boulevard",
+      "city": "Baltimore",
+      "state": "MD",
+      "zip": "21244",
+      "country": "USA"
+    },
+    "claimsAddress": {
+      "street": "P.O. Box 1000",
+      "city": "Baltimore",
+      "state": "MD",
+      "zip": "21244",
+      "country": "USA"
+    },
+    "priorAuthPhone": "(800) 318-2596",
+    "priorAuthEmail": "medicaid@cms.hhs.gov",
+    "priorAuthWebsite": "https://www.medicaid.gov/prior-auth",
+    "coverageTypes": ["Medical", "Dental", "Vision", "Prescription"],
+    "networkTypes": ["In-Network"],
+    "acceptedCenters": ["center-004", "center-006"],
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "insurer-006",
+    "name": "Humana",
+    "type": "Commercial",
+    "planTypes": ["PPO", "HMO", "Medicare Advantage"],
+    "phone": "(800) 444-9137",
+    "email": "customer.service@humana.com",
+    "website": "https://www.humana.com",
+    "address": {
+      "street": "500 West Main Street",
+      "city": "Louisville",
+      "state": "KY",
+      "zip": "40202",
+      "country": "USA"
+    },
+    "claimsAddress": {
+      "street": "P.O. Box 14601",
+      "city": "Lexington",
+      "state": "KY",
+      "zip": "40512",
+      "country": "USA"
+    },
+    "priorAuthPhone": "(800) 444-9137",
+    "priorAuthEmail": "prior.auth@humana.com",
+    "priorAuthWebsite": "https://www.humana.com/prior-auth",
+    "coverageTypes": ["Medical", "Dental", "Vision", "Prescription"],
+    "networkTypes": ["In-Network", "Out-of-Network"],
+    "acceptedCenters": ["center-002", "center-003", "center-005", "center-008"],
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "insurer-007",
+    "name": "UnitedHealth Group",
+    "type": "Commercial",
+    "planTypes": ["PPO", "HMO", "EPO", "Medicare Advantage"],
+    "phone": "(800) 328-5979",
+    "email": "customer.service@uhc.com",
+    "website": "https://www.uhc.com",
+    "address": {
+      "street": "9900 Bren Road East",
+      "city": "Minnetonka",
+      "state": "MN",
+      "zip": "55343",
+      "country": "USA"
+    },
+    "claimsAddress": {
+      "street": "P.O. Box 740800",
+      "city": "Atlanta",
+      "state": "GA",
+      "zip": "30374",
+      "country": "USA"
+    },
+    "priorAuthPhone": "(800) 328-5979",
+    "priorAuthEmail": "prior.auth@uhc.com",
+    "priorAuthWebsite": "https://www.uhc.com/prior-auth",
+    "coverageTypes": ["Medical", "Dental", "Vision", "Prescription"],
+    "networkTypes": ["In-Network", "Out-of-Network"],
+    "acceptedCenters": ["center-003", "center-005", "center-007"],
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "insurer-008",
+    "name": "Children's Health Insurance Program",
+    "type": "Government",
+    "planTypes": ["CHIP"],
+    "phone": "(877) 543-7669",
+    "email": "chip@cms.hhs.gov",
+    "website": "https://www.insurekidsnow.gov",
+    "address": {
+      "street": "7500 Security Boulevard",
+      "city": "Baltimore",
+      "state": "MD",
+      "zip": "21244",
+      "country": "USA"
+    },
+    "claimsAddress": {
+      "street": "P.O. Box 1000",
+      "city": "Baltimore",
+      "state": "MD",
+      "zip": "21244",
+      "country": "USA"
+    },
+    "priorAuthPhone": "(877) 543-7669",
+    "priorAuthEmail": "chip@cms.hhs.gov",
+    "priorAuthWebsite": "https://www.insurekidsnow.gov/prior-auth",
+    "coverageTypes": ["Medical", "Dental", "Vision", "Prescription"],
+    "networkTypes": ["In-Network"],
+    "acceptedCenters": ["center-006"],
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  }
+]

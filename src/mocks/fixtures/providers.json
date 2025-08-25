@@ -1,0 +1,402 @@
+[
+  {
+    "id": "provider-001",
+    "name": "Dr. Sarah Johnson",
+    "type": "physician",
+    "specialty": "Orthopedics",
+    "subspecialty": "Spine Surgery",
+    "npi": "1234567890",
+    "license": "ME123456",
+    "phone": "(305) 555-1111",
+    "email": "dr.johnson@miamiortho.com",
+    "address": {
+      "street": "123 Medical Plaza Dr",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33101",
+      "country": "USA"
+    },
+    "facility": "Miami Orthopedic Group",
+    "facilityAddress": {
+      "street": "123 Medical Plaza Dr",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33101",
+      "country": "USA"
+    },
+    "facilityPhone": "(305) 555-1111",
+    "facilityEmail": "info@miamiortho.com",
+    "facilityWebsite": "https://www.miamiortho.com",
+    "acceptingPatients": true,
+    "insuranceAccepted": ["insurer-001", "insurer-002", "insurer-003", "insurer-004"],
+    "languages": ["English", "Spanish"],
+    "education": {
+      "medicalSchool": "University of Miami Miller School of Medicine",
+      "graduationYear": "2010",
+      "residency": "Jackson Memorial Hospital",
+      "fellowship": "Spine Surgery Fellowship"
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "provider-002",
+    "name": "Dr. Michael Rodriguez",
+    "type": "physician",
+    "specialty": "Sports Medicine",
+    "subspecialty": "Orthopedic Sports Medicine",
+    "npi": "1234567891",
+    "license": "ME123457",
+    "phone": "(305) 555-2222",
+    "email": "dr.rodriguez@sportsmed.com",
+    "address": {
+      "street": "456 Sports Ave",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33131",
+      "country": "USA"
+    },
+    "facility": "Sports Medicine Associates",
+    "facilityAddress": {
+      "street": "456 Sports Ave",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33131",
+      "country": "USA"
+    },
+    "facilityPhone": "(305) 555-2222",
+    "facilityEmail": "info@sportsmed.com",
+    "facilityWebsite": "https://www.sportsmed.com",
+    "acceptingPatients": true,
+    "insuranceAccepted": ["insurer-001", "insurer-002", "insurer-003", "insurer-006"],
+    "languages": ["English", "Spanish"],
+    "education": {
+      "medicalSchool": "University of Florida College of Medicine",
+      "graduationYear": "2012",
+      "residency": "Shands Hospital",
+      "fellowship": "Sports Medicine Fellowship"
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "provider-003",
+    "name": "Dr. Lisa Chen",
+    "type": "physician",
+    "specialty": "Cardiology",
+    "subspecialty": "Interventional Cardiology",
+    "npi": "1234567892",
+    "license": "ME123458",
+    "phone": "(305) 555-3333",
+    "email": "dr.chen@miamiheart.com",
+    "address": {
+      "street": "789 Heart Way",
+      "city": "Miami Beach",
+      "state": "FL",
+      "zip": "33139",
+      "country": "USA"
+    },
+    "facility": "Miami Heart Institute",
+    "facilityAddress": {
+      "street": "789 Heart Way",
+      "city": "Miami Beach",
+      "state": "FL",
+      "zip": "33139",
+      "country": "USA"
+    },
+    "facilityPhone": "(305) 555-3333",
+    "facilityEmail": "info@miamiheart.com",
+    "facilityWebsite": "https://www.miamiheart.com",
+    "acceptingPatients": true,
+    "insuranceAccepted": ["insurer-001", "insurer-002", "insurer-003", "insurer-004", "insurer-005"],
+    "languages": ["English", "Mandarin"],
+    "education": {
+      "medicalSchool": "Stanford University School of Medicine",
+      "graduationYear": "2008",
+      "residency": "Stanford Hospital",
+      "fellowship": "Interventional Cardiology Fellowship"
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "provider-004",
+    "name": "Dr. Robert Wilson",
+    "type": "physician",
+    "specialty": "Family Medicine",
+    "subspecialty": "Primary Care",
+    "npi": "1234567893",
+    "license": "ME123459",
+    "phone": "(305) 555-4444",
+    "email": "dr.wilson@hialeahfamily.com",
+    "address": {
+      "street": "654 Family Dr",
+      "city": "Hialeah",
+      "state": "FL",
+      "zip": "33010",
+      "country": "USA"
+    },
+    "facility": "Hialeah Family Practice",
+    "facilityAddress": {
+      "street": "654 Family Dr",
+      "city": "Hialeah",
+      "state": "FL",
+      "zip": "33010",
+      "country": "USA"
+    },
+    "facilityPhone": "(305) 555-4444",
+    "facilityEmail": "info@hialeahfamily.com",
+    "facilityWebsite": "https://www.hialeahfamily.com",
+    "acceptingPatients": true,
+    "insuranceAccepted": ["insurer-001", "insurer-002", "insurer-003", "insurer-004", "insurer-005"],
+    "languages": ["English", "Spanish"],
+    "education": {
+      "medicalSchool": "Florida International University Herbert Wertheim College of Medicine",
+      "graduationYear": "2015",
+      "residency": "Jackson Memorial Hospital",
+      "fellowship": null
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "provider-005",
+    "name": "Dr. Ana Garcia",
+    "type": "physician",
+    "specialty": "Neurology",
+    "subspecialty": "Headache Medicine",
+    "npi": "1234567894",
+    "license": "ME123460",
+    "phone": "(305) 555-5555",
+    "email": "dr.garcia@coralgablesneuro.com",
+    "address": {
+      "street": "987 Neurology Blvd",
+      "city": "Coral Gables",
+      "state": "FL",
+      "zip": "33134",
+      "country": "USA"
+    },
+    "facility": "Coral Gables Neurology",
+    "facilityAddress": {
+      "street": "987 Neurology Blvd",
+      "city": "Coral Gables",
+      "state": "FL",
+      "zip": "33134",
+      "country": "USA"
+    },
+    "facilityPhone": "(305) 555-5555",
+    "facilityEmail": "info@coralgablesneuro.com",
+    "facilityWebsite": "https://www.coralgablesneuro.com",
+    "acceptingPatients": true,
+    "insuranceAccepted": ["insurer-001", "insurer-002", "insurer-003", "insurer-006"],
+    "languages": ["English", "Spanish"],
+    "education": {
+      "medicalSchool": "University of South Florida Morsani College of Medicine",
+      "graduationYear": "2011",
+      "residency": "Tampa General Hospital",
+      "fellowship": "Headache Medicine Fellowship"
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "provider-006",
+    "name": "Dr. David Thompson",
+    "type": "physician",
+    "specialty": "Neurosurgery",
+    "subspecialty": "Spine Surgery",
+    "npi": "1234567895",
+    "license": "ME123461",
+    "phone": "(305) 555-6666",
+    "email": "dr.thompson@spinespecialists.com",
+    "address": {
+      "street": "321 Spine Way",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33176",
+      "country": "USA"
+    },
+    "facility": "Spine Specialists of Miami",
+    "facilityAddress": {
+      "street": "321 Spine Way",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33176",
+      "country": "USA"
+    },
+    "facilityPhone": "(305) 555-6666",
+    "facilityEmail": "info@spinespecialists.com",
+    "facilityWebsite": "https://www.spinespecialists.com",
+    "acceptingPatients": true,
+    "insuranceAccepted": ["insurer-001", "insurer-002", "insurer-003", "insurer-007"],
+    "languages": ["English"],
+    "education": {
+      "medicalSchool": "Harvard Medical School",
+      "graduationYear": "2006",
+      "residency": "Massachusetts General Hospital",
+      "fellowship": "Spine Surgery Fellowship"
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "provider-007",
+    "name": "Dr. Elena Hernandez",
+    "type": "physician",
+    "specialty": "Pediatric Neurology",
+    "subspecialty": "Epilepsy",
+    "npi": "1234567896",
+    "license": "ME123462",
+    "phone": "(305) 555-7777",
+    "email": "dr.hernandez@miamichildrens.com",
+    "address": {
+      "street": "456 Children's Way",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33155",
+      "country": "USA"
+    },
+    "facility": "Miami Children's Neurology",
+    "facilityAddress": {
+      "street": "456 Children's Way",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33155",
+      "country": "USA"
+    },
+    "facilityPhone": "(305) 555-7777",
+    "facilityEmail": "info@miamichildrens.com",
+    "facilityWebsite": "https://www.miamichildrens.com",
+    "acceptingPatients": true,
+    "insuranceAccepted": ["insurer-001", "insurer-002", "insurer-003", "insurer-005", "insurer-008"],
+    "languages": ["English", "Spanish"],
+    "education": {
+      "medicalSchool": "Johns Hopkins University School of Medicine",
+      "graduationYear": "2013",
+      "residency": "Johns Hopkins Hospital",
+      "fellowship": "Pediatric Epilepsy Fellowship"
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "provider-008",
+    "name": "Dr. Michael Chen",
+    "type": "physician",
+    "specialty": "Cardiology",
+    "subspecialty": "Non-Invasive Cardiology",
+    "npi": "1234567897",
+    "license": "ME123463",
+    "phone": "(305) 555-8888",
+    "email": "dr.chen@cardiologyassociates.com",
+    "address": {
+      "street": "789 Cardiology Dr",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33176",
+      "country": "USA"
+    },
+    "facility": "Cardiology Associates",
+    "facilityAddress": {
+      "street": "789 Cardiology Dr",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33176",
+      "country": "USA"
+    },
+    "facilityPhone": "(305) 555-8888",
+    "facilityEmail": "info@cardiologyassociates.com",
+    "facilityWebsite": "https://www.cardiologyassociates.com",
+    "acceptingPatients": true,
+    "insuranceAccepted": ["insurer-001", "insurer-002", "insurer-003", "insurer-004"],
+    "languages": ["English", "Mandarin"],
+    "education": {
+      "medicalSchool": "University of California, San Francisco School of Medicine",
+      "graduationYear": "2009",
+      "residency": "UCSF Medical Center",
+      "fellowship": "Cardiology Fellowship"
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "provider-009",
+    "name": "Dr. Carmen Rodriguez",
+    "type": "physician",
+    "specialty": "Obstetrics and Gynecology",
+    "subspecialty": "Gynecologic Oncology",
+    "npi": "1234567898",
+    "license": "ME123464",
+    "phone": "(305) 555-9999",
+    "email": "dr.rodriguez@womenshealth.com",
+    "address": {
+      "street": "123 Women's Health Dr",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33176",
+      "country": "USA"
+    },
+    "facility": "Women's Health Center",
+    "facilityAddress": {
+      "street": "123 Women's Health Dr",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33176",
+      "country": "USA"
+    },
+    "facilityPhone": "(305) 555-9999",
+    "facilityEmail": "info@womenshealth.com",
+    "facilityWebsite": "https://www.womenshealth.com",
+    "acceptingPatients": true,
+    "insuranceAccepted": ["insurer-001", "insurer-002", "insurer-003", "insurer-004", "insurer-005"],
+    "languages": ["English", "Spanish"],
+    "education": {
+      "medicalSchool": "University of Miami Miller School of Medicine",
+      "graduationYear": "2007",
+      "residency": "Jackson Memorial Hospital",
+      "fellowship": "Gynecologic Oncology Fellowship"
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "provider-010",
+    "name": "Dr. Thomas Anderson",
+    "type": "physician",
+    "specialty": "Sports Medicine",
+    "subspecialty": "Orthopedic Sports Medicine",
+    "npi": "1234567899",
+    "license": "ME123465",
+    "phone": "(305) 555-0000",
+    "email": "dr.anderson@sportsmedinstitute.com",
+    "address": {
+      "street": "741 Sports Dr",
+      "city": "Miami Beach",
+      "state": "FL",
+      "zip": "33139",
+      "country": "USA"
+    },
+    "facility": "Sports Medicine Institute",
+    "facilityAddress": {
+      "street": "741 Sports Dr",
+      "city": "Miami Beach",
+      "state": "FL",
+      "zip": "33139",
+      "country": "USA"
+    },
+    "facilityPhone": "(305) 555-0000",
+    "facilityEmail": "info@sportsmedinstitute.com",
+    "facilityWebsite": "https://www.sportsmedinstitute.com",
+    "acceptingPatients": true,
+    "insuranceAccepted": ["insurer-001", "insurer-002", "insurer-003", "insurer-006"],
+    "languages": ["English"],
+    "education": {
+      "medicalSchool": "Duke University School of Medicine",
+      "graduationYear": "2014",
+      "residency": "Duke University Hospital",
+      "fellowship": "Sports Medicine Fellowship"
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  }
+]

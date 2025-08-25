@@ -1,0 +1,175 @@
+# Task ID: 7
+# Title: Attorney and Funder Dashboards
+# Status: pending
+# Dependencies: 2, 3
+# Priority: medium
+# Description: Implement the Attorney and Funder role-specific dashboards with case management, packet preview, and funding approval functionality.
+# Details:
+1. Create Attorney Dashboard with:
+   - KPI cards for active clients, attendance %, pending packets, lien exposure
+   - Case table with status and next action
+   - Packet preview component
+   - AI Suggestions for client management
+
+2. Create Funder Dashboard with:
+   - KPI cards for exposure, approvals pending, avg decision time, expected ROI
+   - Area chart for exposure over time
+   - Case table with approval status
+   - AI Suggestions for case approvals
+
+3. Implement the Case Packet preview component
+4. Create the Lien Ledger component with interest calculation
+
+Example Attorney Dashboard:
+```tsx
+// src/pages/AttorneyDashboard.tsx
+import { useEffect, useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import { AITip } from '@/components/AITip';
+import { PacketPreview } from '@/components/PacketPreview';
+import { useStore } from '@/store';
+
+export function AttorneyDashboard() {
+  const [loading, setLoading] = useState(true);
+  const [selectedCase, setSelectedCase] = useState(null);
+  const { cases, fetchCases } = useStore();
+  
+  useEffect(() => {
+    fetchCases().finally(() => setLoading(false));
+  }, [fetchCases]);
+  
+  // Calculate KPIs
+  const activeClients = cases.length;
+  const attendanceRate = cases.reduce((acc, c) => acc + (c.attendanceRate || 0), 0) / cases.length;
+  const pendingPackets = cases.filter(c => c.packetStatus === 'pending').length;
+  const totalExposure = cases.reduce((acc, c) => acc + (c.lienAmount || 0), 0);
+  
+  return (
+    <>
+      <div className="col-span-12">
+        <h1 className="text-3xl font-bold mb-6">Attorney Dashboard</h1>
+      </div>
+      
+      {/* KPI Row */}
+      <div className="col-span-3">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium">Active Clients</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{activeClients}</div>
+          </CardContent>
+        </Card>
+      </div>
+      
+      <div className="col-span-3">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium">Attendance %</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{Math.round(attendanceRate * 100)}%</div>
+          </CardContent>
+        </Card>
+      </div>
+      
+      <div className="col-span-3">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium">Pending Packets</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{pendingPackets}</div>
+          </CardContent>
+        </Card>
+      </div>
+      
+      <div className="col-span-3">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium">Lien Exposure</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">${totalExposure.toLocaleString()}</div>
+          </CardContent>
+        </Card>
+      </div>
+      
+      {/* Case Table */}
+      <div className="col-span-12 lg:col-span-8">
+        <Card>
+          <CardHeader>
+            <CardTitle>Active Cases</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Client</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Next Action</TableHead>
+                  <TableHead>Lien Amount</TableHead>
+                  <TableHead></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {loading ? (
+                  Array(5).fill(0).map((_, i) => (
+                    <TableRow key={i}>
+                      <TableCell colSpan={5}>
+                        <div className="h-8 animate-pulse bg-muted rounded" />
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : cases.map(c => (
+                  <TableRow key={c.id}>
+                    <TableCell>{c.clientName}</TableCell>
+                    <TableCell>
+                      <Badge variant={c.status === 'active' ? 'default' : c.status === 'pending' ? 'secondary' : 'outline'}>
+                        {c.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{c.nextAction}</TableCell>
+                    <TableCell>${c.lienAmount?.toLocaleString()}</TableCell>
+                    <TableCell>
+                      <Button size="sm" onClick={() => setSelectedCase(c)}>View</Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      </div>
+      
+      {/* AI Tips and Packet Preview */}
+      <div className="col-span-12 lg:col-span-4">
+        <AITip tip="Two clients are at risk of no-show this week. Consider sending reminders to John Doe and Jane Smith." />
+        
+        {selectedCase && (
+          <Card className="mt-6">
+            <CardHeader>
+              <CardTitle>Case Packet Preview</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <PacketPreview caseId={selectedCase.id} />
+              <Button className="w-full mt-4">Generate Full Packet</Button>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+    </>
+  );
+}
+```
+
+# Test Strategy:
+1. Test both dashboards in all theme modes
+2. Verify that KPIs display correct data
+3. Test the Case Packet preview functionality
+4. Validate the Lien Ledger calculations
+5. Test responsive layout on different screen sizes
+6. Ensure AI Suggestions display correctly

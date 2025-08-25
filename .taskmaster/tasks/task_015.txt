@@ -1,0 +1,132 @@
+# Task ID: 15
+# Title: Accessibility and Final Polish
+# Status: pending
+# Dependencies: 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+# Priority: medium
+# Description: Implement accessibility improvements, add empty states, skeleton loaders, and prepare the demo script.
+# Details:
+1. Perform an accessibility audit and fix issues:
+   - Ensure proper contrast ratios
+   - Add focus indicators
+   - Implement keyboard navigation
+   - Add ARIA attributes where needed
+
+2. Create empty states for all data-dependent components
+3. Add skeleton loaders for loading states
+4. Create a demo script for the three golden flows
+5. Add a README with setup instructions and Cursor.ai prompts
+6. Implement a one-click seed reset function
+
+Example Empty State:
+```tsx
+// src/components/EmptyState.tsx
+import { FileQuestion } from 'lucide-react';
+import { Button } from './ui/button';
+
+interface EmptyStateProps {
+  title: string;
+  description: string;
+  icon?: React.ReactNode;
+  action?: {
+    label: string;
+    onClick: () => void;
+  };
+}
+
+export function EmptyState({ title, description, icon, action }: EmptyStateProps) {
+  return (
+    <div className="flex flex-col items-center justify-center p-8 text-center">
+      <div className="rounded-full bg-muted p-3 mb-4">
+        {icon || <FileQuestion className="h-6 w-6 text-muted-foreground" />}
+      </div>
+      <h3 className="text-lg font-medium mb-1">{title}</h3>
+      <p className="text-sm text-muted-foreground mb-4 max-w-md">{description}</p>
+      {action && (
+        <Button onClick={action.onClick}>{action.label}</Button>
+      )}
+    </div>
+  );
+}
+```
+
+Example Skeleton Loader:
+```tsx
+// src/components/SkeletonCard.tsx
+import { Card, CardContent, CardHeader } from './ui/card';
+import { Skeleton } from './ui/skeleton';
+
+export function SkeletonCard() {
+  return (
+    <Card>
+      <CardHeader className="pb-2">
+        <Skeleton className="h-5 w-1/3" />
+      </CardHeader>
+      <CardContent>
+        <Skeleton className="h-8 w-1/2 mb-4" />
+        <Skeleton className="h-4 w-full mb-2" />
+        <Skeleton className="h-4 w-4/5 mb-2" />
+        <Skeleton className="h-4 w-2/3" />
+      </CardContent>
+    </Card>
+  );
+}
+```
+
+Example README section:
+```markdown
+## MRIGuys Platform Visual Prototype
+
+This is a visual prototype for the MRIGuys Platform, a PI-friendly diagnostic imaging marketplace and workflow platform.
+
+### Setup
+
+1. Clone the repository
+2. Install dependencies: `pnpm install`
+3. Start the development server: `pnpm dev`
+4. Open http://localhost:5173 in your browser
+
+### Demo Scenarios
+
+1. **Referrer Flow:** Create referral → AI suggests best center → pick slot → status updates → mock report appears
+   - Navigate to Referrer Dashboard
+   - Click "New Referral"
+   - Fill out the form and proceed through the wizard
+   - Select a center and slot
+   - Return to dashboard to see status update
+
+2. **Center Flow:** See worklist → complete scan → upload report → KPIs/Charts update
+   - Navigate to Center Dashboard
+   - View the worklist
+   - Complete a scan
+   - Upload a report
+   - Observe KPIs and charts update
+
+3. **Attorney Flow:** Open case → AI flags missing doc → generate Case Packet → export PDF
+   - Navigate to Attorney Dashboard
+   - Select a case
+   - View AI suggestions about missing documents
+   - Generate a Case Packet
+   - Export as PDF
+
+### Reset Demo Data
+
+To reset the demo data to its initial state, run: `pnpm demo:reset`
+
+### Cursor.ai Prompts
+
+Here are some useful Cursor.ai prompts for working with this codebase:
+
+- "Create a new dashboard component for [role]" - Generates a role-specific dashboard
+- "Implement a [component] with shadcn/ui and Tailwind" - Creates UI components
+- "Add Framer Motion animations to [component]" - Adds animations to components
+- "Create a mock API handler for [endpoint]" - Sets up MSW handlers
+```
+
+# Test Strategy:
+1. Perform an accessibility audit using axe or similar tools
+2. Test keyboard navigation throughout the application
+3. Verify that all components have appropriate empty states
+4. Test skeleton loaders during data fetching
+5. Validate that the demo script works for all three golden flows
+6. Test the seed reset functionality
+7. Ensure the README contains all necessary information

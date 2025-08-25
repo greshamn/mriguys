@@ -1,0 +1,104 @@
+# Task ID: 5
+# Title: Imaging Center Dashboard
+# Status: pending
+# Dependencies: 2, 3
+# Priority: medium
+# Description: Implement the Imaging Center role-specific dashboard with KPIs, calendar heatmap, and worklist functionality.
+# Details:
+1. Create Imaging Center Dashboard with:
+   - KPI cards for today's scans, utilization %, no-shows, avg report lag
+   - Calendar heatmap for slot fill (12 weeks)
+   - Worklist table with check-in/complete/upload report actions
+   - AI Suggestions card for optimization recommendations
+
+2. Implement the calendar heatmap using Nivo
+3. Create worklist filters and actions
+4. Add skeleton loaders for all components
+
+Example Calendar Heatmap:
+```tsx
+// src/components/UtilizationHeatmap.tsx
+import { ResponsiveHeatMap } from '@nivo/heatmap';
+import { useTheme } from '@/hooks/useTheme';
+
+interface UtilizationHeatmapProps {
+  data: Array<{
+    day: string;
+    slots: Array<{
+      hour: string;
+      value: number; // 0-1 representing utilization
+    }>;
+  }>;
+}
+
+export function UtilizationHeatmap({ data }: UtilizationHeatmapProps) {
+  const { theme } = useTheme();
+  
+  // Map CSS variables to chart colors
+  const colors = [
+    'var(--chart-1)',
+    'var(--chart-2)',
+    'var(--chart-3)',
+    'var(--chart-4)',
+    'var(--chart-5)',
+  ];
+  
+  return (
+    <div className="h-80">
+      <ResponsiveHeatMap
+        data={data}
+        keys={['8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm']}
+        indexBy="day"
+        margin={{ top: 20, right: 20, bottom: 60, left: 60 }}
+        colors={colors}
+        theme={{
+          textColor: 'var(--foreground)',
+          tooltip: {
+            container: {
+              background: 'var(--background)',
+              color: 'var(--foreground)',
+              fontSize: 12,
+            },
+          },
+        }}
+        axisTop={null}
+        axisRight={null}
+        axisBottom={{
+          tickSize: 5,
+          tickPadding: 5,
+          tickRotation: -45,
+          legend: 'Hour',
+          legendPosition: 'middle',
+          legendOffset: 36,
+        }}
+        axisLeft={{
+          tickSize: 5,
+          tickPadding: 5,
+          tickRotation: 0,
+          legend: 'Day',
+          legendPosition: 'middle',
+          legendOffset: -40,
+        }}
+        hoverTarget="cell"
+        cellOpacity={1}
+        cellBorderWidth={1}
+        cellBorderColor="var(--border)"
+        labelTextColor="var(--background)"
+        tooltip={({ xKey, yKey, value }) => (
+          <div className="p-2">
+            <strong>{yKey}</strong> at <strong>{xKey}</strong>: {Math.round(value * 100)}% utilized
+          </div>
+        )}
+      />
+    </div>
+  );
+}
+```
+
+# Test Strategy:
+1. Test the dashboard in all theme modes
+2. Verify that the calendar heatmap displays correctly
+3. Test worklist filtering and actions
+4. Validate that KPIs display correct data
+5. Test responsive layout on different screen sizes
+6. Ensure AI Suggestions display correctly

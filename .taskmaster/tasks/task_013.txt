@@ -1,0 +1,157 @@
+# Task ID: 13
+# Title: Command-K Modal and Global Search
+# Status: pending
+# Dependencies: 2, 3
+# Priority: low
+# Description: Implement the Command-K modal for quick actions and global search functionality.
+# Details:
+1. Create a Command-K modal component that opens with the keyboard shortcut
+2. Implement global search functionality across entities
+3. Add quick action shortcuts for common tasks
+4. Ensure keyboard navigation works correctly
+
+Example Command-K Modal:
+```tsx
+// src/components/CommandK.tsx
+import { useEffect, useState } from 'react';
+import { Command } from 'cmdk';
+import { Dialog, DialogContent } from './ui/dialog';
+import { Search, Calendar, User, FileText, Settings, ChevronRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { useStore } from '@/store';
+
+export function CommandK() {
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const { searchEntities } = useStore();
+  const [results, setResults] = useState([]);
+  const [query, setQuery] = useState('');
+  
+  useEffect(() => {
+    const down = (e) => {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setOpen(open => !open);
+      }
+    };
+    
+    document.addEventListener('keydown', down);
+    return () => document.removeEventListener('keydown', down);
+  }, []);
+  
+  useEffect(() => {
+    if (query.length > 1) {
+      searchEntities(query).then(setResults);
+    } else {
+      setResults([]);
+    }
+  }, [query, searchEntities]);
+  
+  const onSelect = (value) => {
+    setOpen(false);
+    
+    if (value.startsWith('/')) {
+      navigate(value);
+    } else if (value.startsWith('action:')) {
+      // Handle actions
+      const action = value.replace('action:', '');
+      if (action === 'new-referral') {
+        navigate('/referrer/new-referral');
+      } else if (action === 'theme') {
+        navigate('/admin/theme');
+      }
+    } else {
+      // Handle entity selection
+      const [type, id] = value.split(':');
+      if (type === 'patient') {
+        navigate(`/patients/${id}`);
+      } else if (type === 'referral') {
+        navigate(`/referrals/${id}`);
+      }
+    }
+  };
+  
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogContent className="p-0 gap-0 max-w-2xl">
+        <Command className="rounded-lg border shadow-md">
+          <div className="flex items-center border-b px-3">
+            <Search className="h-4 w-4 mr-2 text-muted-foreground" />
+            <Command.Input 
+              autoFocus 
+              placeholder="Search or type a command..."
+              className="flex-1 outline-none py-3"
+              value={query}
+              onValueChange={setQuery}
+            />
+          </div>
+          <Command.List className="max-h-96 overflow-y-auto p-2">
+            {query === '' ? (
+              <>
+                <Command.Group heading="Navigation">
+                  <Command.Item onSelect={() => onSelect('/dashboard')}>
+                    <div className="flex items-center">
+                      <Calendar className="h-4 w-4 mr-2" />
+                      <span>Dashboard</span>
+                    </div>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                  </Command.Item>
+                  <Command.Item onSelect={() => onSelect('/referrals')}>
+                    <div className="flex items-center">
+                      <FileText className="h-4 w-4 mr-2" />
+                      <span>Referrals</span>
+                    </div>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                  </Command.Item>
+                  <Command.Item onSelect={() => onSelect('/admin/theme')}>
+                    <div className="flex items-center">
+                      <Settings className="h-4 w-4 mr-2" />
+                      <span>Theme Settings</span>
+                    </div>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                  </Command.Item>
+                </Command.Group>
+                
+                <Command.Group heading="Actions">
+                  <Command.Item onSelect={() => onSelect('action:new-referral')}>
+                    <div className="flex items-center">
+                      <FileText className="h-4 w-4 mr-2" />
+                      <span>New Referral</span>
+                    </div>
+                  </Command.Item>
+                </Command.Group>
+              </>
+            ) : results.length > 0 ? (
+              <Command.Group heading="Results">
+                {results.map(result => (
+                  <Command.Item
+                    key={`${result.type}:${result.id}`}
+                    onSelect={() => onSelect(`${result.type}:${result.id}`)}
+                  >
+                    <div className="flex items-center">
+                      {result.type === 'patient' && <User className="h-4 w-4 mr-2" />}
+                      {result.type === 'referral' && <FileText className="h-4 w-4 mr-2" />}
+                      <span>{result.title}</span>
+                    </div>
+                    <span className="text-sm text-muted-foreground">{result.subtitle}</span>
+                  </Command.Item>
+                ))}
+              </Command.Group>
+            ) : (
+              <Command.Empty>No results found.</Command.Empty>
+            )}
+          </Command.List>
+        </Command>
+      </DialogContent>
+    </Dialog>
+  );
+}
+```
+
+# Test Strategy:
+1. Test that Command-K shortcut opens the modal
+2. Verify that search returns appropriate results
+3. Test keyboard navigation within the modal
+4. Validate that selecting items navigates to the correct page
+5. Test in all theme modes
+6. Ensure accessibility for keyboard-only users

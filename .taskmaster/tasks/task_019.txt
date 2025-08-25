@@ -1,0 +1,128 @@
+# Task ID: 19
+# Title: Webhook Simulation Panel Implementation
+# Status: pending
+# Dependencies: 2, 3, 18
+# Priority: low
+# Description: Implement a webhook testing interface for simulating center callbacks and system events, with a UI panel for triggering and monitoring webhook events, event logging, and integration with the existing MSW mock system.
+# Details:
+1. Create a new Webhook Simulation Panel component:
+   - Design a clean, intuitive interface for webhook testing
+   - Implement tabs for different webhook event categories
+   - Add controls for configuring and triggering webhook events
+
+2. Extend the MSW setup to handle webhook simulation:
+   - Create new endpoint handlers for `/webhooks/test`
+   - Implement webhook event simulation logic
+   - Build webhook payload generators for different event types
+
+3. Implement webhook event types:
+   - Appointment status updates (created, confirmed, canceled, completed)
+   - Report events (ready, updated, signed)
+   - Center status changes (open, closed, emergency)
+   - System notifications (maintenance, updates)
+
+4. Create webhook payload templates:
+   - Design JSON schema for each webhook event type
+   - Include all relevant fields with realistic sample data
+   - Support customization of key fields before sending
+
+5. Build webhook history and logging:
+   - Create a data store for webhook event history
+   - Implement a log viewer component with filtering
+   - Add status indicators (success, failed, pending)
+   - Include timestamp, event type, and delivery status
+
+6. Implement webhook delivery simulation:
+   - Add configurable delay options
+   - Simulate different response codes
+   - Include retry logic for failed webhooks
+   - Support webhook signature verification
+
+7. Create developer documentation:
+   - Document available webhook event types
+   - Provide payload examples for each event
+   - Include integration instructions
+
+8. Add webhook testing to the developer tools section:
+   - Integrate with the API documentation page
+   - Create a dedicated webhook testing section
+   - Allow saving of webhook configurations
+
+Example webhook payload generator:
+```typescript
+// src/mocks/webhooks/payloadGenerators.ts
+export const generateAppointmentWebhook = (
+  type: 'created' | 'confirmed' | 'canceled' | 'completed',
+  appointmentId?: string
+) => {
+  const appointment = appointmentId 
+    ? db.appointments.find(a => a.id === appointmentId)
+    : getRandomAppointment();
+    
+  return {
+    event: `appointment.${type}`,
+    timestamp: new Date().toISOString(),
+    data: {
+      appointmentId: appointment.id,
+      patientName: appointment.patientName,
+      modality: appointment.modality,
+      bodyPart: appointment.bodyPart,
+      centerName: appointment.centerName,
+      scheduledTime: appointment.scheduledTime,
+      status: type,
+      // Additional fields based on event type
+      ...(type === 'canceled' && { 
+        cancellationReason: 'patient_request',
+        canceledAt: new Date().toISOString()
+      }),
+      ...(type === 'completed' && {
+        completedAt: new Date().toISOString(),
+        reportAvailableAt: addHours(new Date(), 2).toISOString()
+      })
+    }
+  };
+};
+```
+
+# Test Strategy:
+1. Test webhook simulation endpoint:
+   - Verify that `/webhooks/test` endpoint correctly handles POST requests
+   - Test with different event types and parameters
+   - Validate response format and status codes
+   - Check error handling for invalid requests
+
+2. Test webhook UI panel:
+   - Verify that all webhook event types can be selected and configured
+   - Test triggering of different webhook events
+   - Validate that payload preview updates based on configuration
+   - Ensure form validation works correctly for required fields
+
+3. Test webhook history and logging:
+   - Verify that triggered webhooks appear in the history log
+   - Test filtering and sorting of webhook history
+   - Validate that status indicators correctly reflect delivery status
+   - Check that webhook details can be expanded and viewed
+
+4. Test webhook payload generation:
+   - Verify that generated payloads match the expected schema
+   - Test customization of payload fields
+   - Validate that timestamps and IDs are correctly formatted
+   - Check that payloads contain realistic data
+
+5. Test MSW integration:
+   - Verify that webhook simulation works with the existing MSW setup
+   - Test that simulated webhooks trigger appropriate UI updates
+   - Validate that webhook delivery simulation works correctly
+   - Check that retry logic functions as expected
+
+6. Test developer experience:
+   - Verify that webhook documentation is clear and comprehensive
+   - Test copying of webhook payload examples
+   - Validate that saved webhook configurations persist
+   - Check integration with the API documentation page
+
+7. Test edge cases:
+   - Verify handling of network errors during webhook delivery
+   - Test with very large payloads
+   - Validate behavior with concurrent webhook triggers
+   - Check performance with a large history of webhook events

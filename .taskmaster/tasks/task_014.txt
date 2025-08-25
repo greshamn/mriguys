@@ -1,0 +1,151 @@
+# Task ID: 14
+# Title: Animations and Micro-interactions
+# Status: pending
+# Dependencies: 2, 4, 5, 7, 8
+# Priority: low
+# Description: Implement Framer Motion animations for page transitions, list item hover/press states, and modal entrances.
+# Details:
+1. Add Framer Motion to the project
+2. Implement page transitions (≤200ms)
+3. Add hover/press animations for list items
+4. Create entrance animations for modals and drawers
+5. Respect `prefers-reduced-motion` preference
+
+Example Page Transition:
+```tsx
+// src/components/PageTransition.tsx
+import { motion } from 'framer-motion';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
+
+interface PageTransitionProps {
+  children: React.ReactNode;
+}
+
+export function PageTransition({ children }: PageTransitionProps) {
+  const prefersReducedMotion = useReducedMotion();
+  
+  const variants = {
+    initial: { opacity: 0, y: prefersReducedMotion ? 0 : 10 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: prefersReducedMotion ? 0 : -10 }
+  };
+  
+  return (
+    <motion.div
+      variants={variants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+```
+
+Example List Item Animation:
+```tsx
+// src/components/AnimatedListItem.tsx
+import { motion } from 'framer-motion';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
+
+interface AnimatedListItemProps {
+  children: React.ReactNode;
+  index: number;
+}
+
+export function AnimatedListItem({ children, index }: AnimatedListItemProps) {
+  const prefersReducedMotion = useReducedMotion();
+  
+  const variants = {
+    initial: { opacity: 0, y: prefersReducedMotion ? 0 : 20 },
+    animate: { opacity: 1, y: 0 },
+    hover: { scale: prefersReducedMotion ? 1 : 1.02 }
+  };
+  
+  return (
+    <motion.div
+      variants={variants}
+      initial="initial"
+      animate="animate"
+      whileHover="hover"
+      transition={{ 
+        duration: prefersReducedMotion ? 0 : 0.2,
+        delay: prefersReducedMotion ? 0 : index * 0.05 
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+```
+
+Example Modal Animation:
+```tsx
+// src/components/ui/dialog.tsx (modified)
+import * as React from 'react';
+import * as DialogPrimitive from '@radix-ui/react-dialog';
+import { X } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
+
+// ... other Dialog components
+
+const DialogContent = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
+>(({ className, children, ...props }, ref) => {
+  const prefersReducedMotion = useReducedMotion();
+  
+  return (
+    <DialogPrimitive.Portal>
+      <DialogPrimitive.Overlay
+        className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm"
+        asChild
+      >
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: prefersReducedMotion ? 0 : 0.15 }}
+        />
+      </DialogPrimitive.Overlay>
+      <DialogPrimitive.Content
+        ref={ref}
+        className={cn(
+          "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg duration-200 sm:rounded-lg",
+          className
+        )}
+        asChild
+        {...props}
+      >
+        <motion.div
+          initial={{ opacity: 0, scale: prefersReducedMotion ? 1 : 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: prefersReducedMotion ? 1 : 0.95 }}
+          transition={{ duration: prefersReducedMotion ? 0 : 0.2 }}
+        >
+          {children}
+          <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
+            <X className="h-4 w-4" />
+            <span className="sr-only">Close</span>
+          </DialogPrimitive.Close>
+        </motion.div>
+      </DialogPrimitive.Content>
+    </DialogPrimitive.Portal>
+  );
+});
+DialogContent.displayName = DialogPrimitive.Content.displayName;
+
+// ... export components
+```
+
+# Test Strategy:
+1. Test animations in all theme modes
+2. Verify that animations respect the `prefers-reduced-motion` preference
+3. Test page transitions between different routes
+4. Validate that list item animations work correctly
+5. Test modal entrance and exit animations
+6. Ensure animations don't interfere with accessibility

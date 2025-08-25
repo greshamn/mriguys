@@ -1,0 +1,167 @@
+[
+  {
+    "id": "attorney-001",
+    "name": "Maria Rodriguez",
+    "firm": "Rodriguez & Associates",
+    "specialty": "Personal Injury",
+    "subspecialty": "Motor Vehicle Accidents",
+    "license": "FL123456",
+    "phone": "(305) 555-1001",
+    "email": "maria.rodriguez@rodriguezlaw.com",
+    "address": {
+      "street": "123 Legal Plaza",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33101",
+      "country": "USA"
+    },
+    "website": "https://www.rodriguezlaw.com",
+    "experience": 15,
+    "education": {
+      "lawSchool": "University of Miami School of Law",
+      "graduationYear": 2008,
+      "undergraduate": "University of Florida",
+      "undergraduateYear": 2005
+    },
+    "languages": ["English", "Spanish"],
+    "practiceAreas": ["Personal Injury", "Motor Vehicle Accidents", "Slip and Fall", "Medical Malpractice"],
+    "barMemberships": ["Florida Bar", "U.S. District Court Southern District of Florida"],
+    "awards": ["Super Lawyers Rising Star 2020", "Best Lawyers in America 2023"],
+    "acceptingCases": true,
+    "contingencyFee": 33.33,
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "attorney-002",
+    "name": "David Thompson",
+    "firm": "Thompson Law Group",
+    "specialty": "Personal Injury",
+    "subspecialty": "Premises Liability",
+    "license": "FL123457",
+    "phone": "(305) 555-1002",
+    "email": "david.thompson@thompsonlaw.com",
+    "address": {
+      "street": "456 Justice Way",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33131",
+      "country": "USA"
+    },
+    "website": "https://www.thompsonlaw.com",
+    "experience": 12,
+    "education": {
+      "lawSchool": "Florida State University College of Law",
+      "graduationYear": 2011,
+      "undergraduate": "University of Central Florida",
+      "undergraduateYear": 2008
+    },
+    "languages": ["English"],
+    "practiceAreas": ["Personal Injury", "Premises Liability", "Product Liability", "Wrongful Death"],
+    "barMemberships": ["Florida Bar", "U.S. District Court Southern District of Florida"],
+    "awards": ["Super Lawyers 2022", "Million Dollar Advocates Forum"],
+    "acceptingCases": true,
+    "contingencyFee": 33.33,
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "attorney-003",
+    "name": "Lisa Chen",
+    "firm": "Chen & Partners",
+    "specialty": "Personal Injury",
+    "subspecialty": "Medical Malpractice",
+    "license": "FL123458",
+    "phone": "(305) 555-1003",
+    "email": "lisa.chen@chenpartners.com",
+    "address": {
+      "street": "789 Medical Center Blvd",
+      "city": "Miami Beach",
+      "state": "FL",
+      "zip": "33139",
+      "country": "USA"
+    },
+    "website": "https://www.chenpartners.com",
+    "experience": 18,
+    "education": {
+      "lawSchool": "Stanford Law School",
+      "graduationYear": 2005,
+      "undergraduate": "Stanford University",
+      "undergraduateYear": 2002
+    },
+    "languages": ["English", "Mandarin"],
+    "practiceAreas": ["Medical Malpractice", "Personal Injury", "Wrongful Death", "Nursing Home Abuse"],
+    "barMemberships": ["Florida Bar", "California Bar", "U.S. District Court Southern District of Florida"],
+    "awards": ["Best Lawyers in America 2023", "Super Lawyers 2023", "Million Dollar Advocates Forum"],
+    "acceptingCases": true,
+    "contingencyFee": 40.00,
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "attorney-004",
+    "name": "Robert Wilson",
+    "firm": "Wilson Injury Law",
+    "specialty": "Personal Injury",
+    "subspecialty": "Medical Malpractice",
+    "license": "FL123459",
+    "phone": "(305) 555-1004",
+    "email": "robert.wilson@wilsoninjury.com",
+    "address": {
+      "street": "654 Injury Dr",
+      "city": "Hialeah",
+      "state": "FL",
+      "zip": "33010",
+      "country": "USA"
+    },
+    "website": "https://www.wilsoninjury.com",
+    "experience": 20,
+    "education": {
+      "lawSchool": "University of Florida Levin College of Law",
+      "graduationYear": 2003,
+      "undergraduate": "University of Florida",
+      "undergraduateYear": 2000
+    },
+    "languages": ["English", "Spanish"],
+    "practiceAreas": ["Medical Malpractice", "Personal Injury", "Wrongful Death", "Birth Injuries"],
+    "barMemberships": ["Florida Bar", "U.S. District Court Southern District of Florida"],
+    "awards": ["Best Lawyers in America 2023", "Super Lawyers 2023", "Multi-Million Dollar Advocates Forum"],
+    "acceptingCases": true,
+    "contingencyFee": 40.00,
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "attorney-005",
+    "name": "Ana Garcia",
+    "firm": "Garcia Legal Services",
+    "specialty": "Personal Injury",
+    "subspecialty": "Sports Injuries",
+    "license": "FL123460",
+    "phone": "(305) 555-1005",
+    "email": "ana.garcia@garcialegal.com",
+    "address": {
+      "street": "987 Sports Ave",
+      "city": "Coral Gables",
+      "state": "FL",
+      "zip": "33134",
+      "country": "USA"
+    },
+    "website": "https://www.garcialegal.com",
+    "experience": 10,
+    "education": {
+      "lawSchool": "Florida International University College of Law",
+      "graduationYear": 2013,
+      "undergraduate": "Florida International University",
+      "undergraduateYear": 2010
+    },
+    "languages": ["English", "Spanish"],
+    "practiceAreas": ["Personal Injury", "Sports Injuries", "Premises Liability", "Motor Vehicle Accidents"],
+    "barMemberships": ["Florida Bar", "U.S. District Court Southern District of Florida"],
+    "awards": ["Super Lawyers Rising Star 2022", "Best Lawyers in America 2023"],
+    "acceptingCases": true,
+    "contingencyFee": 33.33,
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  }
+]

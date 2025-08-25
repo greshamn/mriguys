@@ -1,0 +1,482 @@
+[
+  {
+    "id": "ref-001",
+    "patientId": "patient-001",
+    "referrerId": "provider-001",
+    "modality": "MRI",
+    "bodyPart": "bp-002",
+    "clinicalNotes": "Patient presents with chronic neck pain and radiating pain down left arm. History of whiplash injury 6 months ago. Symptoms worsened over past 2 weeks. Suspected cervical disc herniation.",
+    "safetyAnswers": [
+      {
+        "questionId": "sq-001",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-002",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-003",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-004",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-007",
+        "answer": false,
+        "details": null
+      }
+    ],
+    "preferredCenterId": "center-001",
+    "status": "approved",
+    "priority": "high",
+    "urgency": "routine",
+    "createdAt": "2024-01-10T08:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z",
+    "approvedAt": "2024-01-10T14:30:00Z",
+    "approvedBy": "provider-001",
+    "clinicalIndication": "Chronic neck pain with radiculopathy",
+    "diagnosisCode": "M54.2",
+    "referringPhysician": "Dr. Sarah Johnson",
+    "referringFacility": "Miami Orthopedic Group",
+    "contactPhone": "(305) 555-1111",
+    "contactEmail": "dr.johnson@miamiortho.com"
+  },
+  {
+    "id": "ref-002",
+    "patientId": "patient-002",
+    "referrerId": "provider-002",
+    "modality": "MRI",
+    "bodyPart": "bp-009",
+    "clinicalNotes": "Athlete with acute knee injury during soccer game. Mechanism: planted foot, twisted knee. Immediate swelling and pain. Suspected ACL tear. Need MRI to confirm diagnosis and plan treatment.",
+    "safetyAnswers": [
+      {
+        "questionId": "sq-001",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-002",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-003",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-004",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-011",
+        "answer": true,
+        "details": "Severe knee pain, difficulty bearing weight"
+      }
+    ],
+    "preferredCenterId": "center-003",
+    "status": "approved",
+    "priority": "urgent",
+    "urgency": "urgent",
+    "createdAt": "2024-01-12T16:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z",
+    "approvedAt": "2024-01-12T16:30:00Z",
+    "approvedBy": "provider-002",
+    "clinicalIndication": "Acute knee injury with suspected ACL tear",
+    "diagnosisCode": "S83.511A",
+    "referringPhysician": "Dr. Michael Rodriguez",
+    "referringFacility": "Sports Medicine Associates",
+    "contactPhone": "(305) 555-2222",
+    "contactEmail": "dr.rodriguez@sportsmed.com"
+  },
+  {
+    "id": "ref-003",
+    "patientId": "patient-003",
+    "referrerId": "provider-003",
+    "modality": "CT",
+    "bodyPart": "bp-011",
+    "clinicalNotes": "Patient with chest pain and shortness of breath. EKG shows ST elevation. Suspected acute coronary syndrome. Need chest CT to rule out pulmonary embolism and assess coronary arteries.",
+    "safetyAnswers": [
+      {
+        "questionId": "sq-002",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-003",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-004",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-005",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-013",
+        "answer": true,
+        "details": "Severe chest pain, difficulty breathing"
+      }
+    ],
+    "preferredCenterId": "center-007",
+    "status": "approved",
+    "priority": "urgent",
+    "urgency": "emergent",
+    "createdAt": "2024-01-14T10:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z",
+    "approvedAt": "2024-01-14T10:15:00Z",
+    "approvedBy": "provider-003",
+    "clinicalIndication": "Acute chest pain with suspected ACS",
+    "diagnosisCode": "R07.9",
+    "referringPhysician": "Dr. Lisa Chen",
+    "referringFacility": "Miami Heart Institute",
+    "contactPhone": "(305) 555-3333",
+    "contactEmail": "dr.chen@miamiheart.com"
+  },
+  {
+    "id": "ref-004",
+    "patientId": "patient-004",
+    "referrerId": "provider-004",
+    "modality": "X-Ray",
+    "bodyPart": "bp-004",
+    "clinicalNotes": "Elderly patient with chronic low back pain. Pain worse with standing and walking. Suspected lumbar spinal stenosis. Need X-ray to assess alignment and rule out fractures.",
+    "safetyAnswers": [
+      {
+        "questionId": "sq-002",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-003",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-004",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-011",
+        "answer": true,
+        "details": "Chronic low back pain, difficulty walking"
+      }
+    ],
+    "preferredCenterId": "center-004",
+    "status": "approved",
+    "priority": "medium",
+    "urgency": "routine",
+    "createdAt": "2024-01-13T09:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z",
+    "approvedAt": "2024-01-13T11:00:00Z",
+    "approvedBy": "provider-004",
+    "clinicalIndication": "Chronic low back pain with suspected stenosis",
+    "diagnosisCode": "M48.06",
+    "referringPhysician": "Dr. Robert Wilson",
+    "referringFacility": "Hialeah Family Practice",
+    "contactPhone": "(305) 555-4444",
+    "contactEmail": "dr.wilson@hialeahfamily.com"
+  },
+  {
+    "id": "ref-005",
+    "patientId": "patient-005",
+    "referrerId": "provider-005",
+    "modality": "MRI",
+    "bodyPart": "bp-001",
+    "clinicalNotes": "Patient with severe headaches and visual disturbances. Headaches are unilateral, pulsating, and last 4-72 hours. Suspected migraine with aura. Need brain MRI to rule out structural causes.",
+    "safetyAnswers": [
+      {
+        "questionId": "sq-001",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-002",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-003",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-004",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-007",
+        "answer": false,
+        "details": null
+      }
+    ],
+    "preferredCenterId": "center-001",
+    "status": "approved",
+    "priority": "medium",
+    "urgency": "routine",
+    "createdAt": "2024-01-11T14:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z",
+    "approvedAt": "2024-01-11T16:00:00Z",
+    "approvedBy": "provider-005",
+    "clinicalIndication": "Severe headaches with visual disturbances",
+    "diagnosisCode": "G43.109",
+    "referringPhysician": "Dr. Ana Garcia",
+    "referringFacility": "Coral Gables Neurology",
+    "contactPhone": "(305) 555-5555",
+    "contactEmail": "dr.garcia@coralgablesneuro.com"
+  },
+  {
+    "id": "ref-006",
+    "patientId": "patient-006",
+    "referrerId": "provider-006",
+    "modality": "MRI",
+    "bodyPart": "bp-004",
+    "clinicalNotes": "Patient with persistent low back pain after previous L4-L5 fusion surgery. Pain radiates to right leg. Suspected adjacent segment disease or recurrent herniation. Need lumbar spine MRI.",
+    "safetyAnswers": [
+      {
+        "questionId": "sq-001",
+        "answer": true,
+        "details": "L4-L5 spinal fusion hardware"
+      },
+      {
+        "questionId": "sq-002",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-003",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-004",
+        "answer": true,
+        "details": "L4-L5 fusion surgery 2 years ago"
+      },
+      {
+        "questionId": "sq-011",
+        "answer": true,
+        "details": "Chronic low back pain with right leg radiation"
+      }
+    ],
+    "preferredCenterId": "center-005",
+    "status": "approved",
+    "priority": "high",
+    "urgency": "routine",
+    "createdAt": "2024-01-12T11:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z",
+    "approvedAt": "2024-01-12T13:00:00Z",
+    "approvedBy": "provider-006",
+    "clinicalIndication": "Post-surgical low back pain with radiculopathy",
+    "diagnosisCode": "M96.1",
+    "referringPhysician": "Dr. David Thompson",
+    "referringFacility": "Spine Specialists of Miami",
+    "contactPhone": "(305) 555-6666",
+    "contactEmail": "dr.thompson@spinespecialists.com"
+  },
+  {
+    "id": "ref-007",
+    "patientId": "patient-007",
+    "referrerId": "provider-007",
+    "modality": "MRI",
+    "bodyPart": "bp-001",
+    "clinicalNotes": "Pediatric patient with developmental delay and new onset seizures. Previous EEG shows focal epileptiform activity. Need brain MRI to assess for structural abnormalities or developmental anomalies.",
+    "safetyAnswers": [
+      {
+        "questionId": "sq-001",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-002",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-003",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-004",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-012",
+        "answer": false,
+        "details": null
+      }
+    ],
+    "preferredCenterId": "center-006",
+    "status": "approved",
+    "priority": "high",
+    "urgency": "routine",
+    "createdAt": "2024-01-10T15:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z",
+    "approvedAt": "2024-01-10T17:00:00Z",
+    "approvedBy": "provider-007",
+    "clinicalIndication": "Developmental delay with new onset seizures",
+    "diagnosisCode": "F80.9",
+    "referringPhysician": "Dr. Elena Hernandez",
+    "referringFacility": "Miami Children's Neurology",
+    "contactPhone": "(305) 555-7777",
+    "contactEmail": "dr.hernandez@miamichildrens.com"
+  },
+  {
+    "id": "ref-008",
+    "patientId": "patient-008",
+    "referrerId": "provider-008",
+    "modality": "CT",
+    "bodyPart": "bp-011",
+    "clinicalNotes": "Patient with chest pain and family history of premature coronary artery disease. EKG normal. Stress test equivocal. Need cardiac CT angiography to assess coronary artery anatomy and rule out CAD.",
+    "safetyAnswers": [
+      {
+        "questionId": "sq-002",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-003",
+        "answer": true,
+        "details": "Allergic to iodine contrast"
+      },
+      {
+        "questionId": "sq-004",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-005",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-013",
+        "answer": true,
+        "details": "Chest pain with exertion"
+      }
+    ],
+    "preferredCenterId": "center-007",
+    "status": "pending",
+    "priority": "medium",
+    "urgency": "routine",
+    "createdAt": "2024-01-14T13:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z",
+    "approvedAt": null,
+    "approvedBy": null,
+    "clinicalIndication": "Chest pain with family history of CAD",
+    "diagnosisCode": "R07.9",
+    "referringPhysician": "Dr. Michael Chen",
+    "referringFacility": "Cardiology Associates",
+    "contactPhone": "(305) 555-8888",
+    "contactEmail": "dr.chen@cardiologyassociates.com"
+  },
+  {
+    "id": "ref-009",
+    "patientId": "patient-009",
+    "referrerId": "provider-009",
+    "modality": "Mammography",
+    "bodyPart": "bp-011",
+    "clinicalNotes": "Patient with personal history of breast cancer (left breast, 2019). Annual screening mammogram due. No new symptoms or concerns. Routine surveillance imaging.",
+    "safetyAnswers": [
+      {
+        "questionId": "sq-002",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-003",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-004",
+        "answer": true,
+        "details": "Left breast lumpectomy 2019"
+      },
+      {
+        "questionId": "sq-005",
+        "answer": false,
+        "details": null
+      }
+    ],
+    "preferredCenterId": "center-008",
+    "status": "approved",
+    "priority": "medium",
+    "urgency": "routine",
+    "createdAt": "2024-01-13T10:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z",
+    "approvedAt": "2024-01-13T12:00:00Z",
+    "approvedBy": "provider-009",
+    "clinicalIndication": "Annual screening mammogram - breast cancer survivor",
+    "diagnosisCode": "Z08",
+    "referringPhysician": "Dr. Carmen Rodriguez",
+    "referringFacility": "Women's Health Center",
+    "contactPhone": "(305) 555-9999",
+    "contactEmail": "dr.rodriguez@womenshealth.com"
+  },
+  {
+    "id": "ref-010",
+    "patientId": "patient-010",
+    "referrerId": "provider-010",
+    "modality": "MRI",
+    "bodyPart": "bp-009",
+    "clinicalNotes": "Athlete with recurrent knee instability after previous ACL reconstruction. Reports giving way episodes during sports activities. Need knee MRI to assess graft integrity and identify any new injuries.",
+    "safetyAnswers": [
+      {
+        "questionId": "sq-001",
+        "answer": true,
+        "details": "ACL reconstruction hardware"
+      },
+      {
+        "questionId": "sq-002",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-003",
+        "answer": false,
+        "details": null
+      },
+      {
+        "questionId": "sq-004",
+        "answer": true,
+        "details": "ACL reconstruction surgery 18 months ago"
+      },
+      {
+        "questionId": "sq-011",
+        "answer": true,
+        "details": "Knee instability and giving way episodes"
+      }
+    ],
+    "preferredCenterId": "center-003",
+    "status": "approved",
+    "priority": "high",
+    "urgency": "routine",
+    "createdAt": "2024-01-11T16:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z",
+    "approvedAt": "2024-01-11T18:00:00Z",
+    "approvedBy": "provider-010",
+    "clinicalIndication": "Recurrent knee instability after ACL reconstruction",
+    "diagnosisCode": "M23.8",
+    "referringPhysician": "Dr. Thomas Anderson",
+    "referringFacility": "Sports Medicine Institute",
+    "contactPhone": "(305) 555-0000",
+    "contactEmail": "dr.anderson@sportsmedinstitute.com"
+  }
+]

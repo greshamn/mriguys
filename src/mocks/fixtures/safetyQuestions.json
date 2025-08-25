@@ -1,0 +1,211 @@
+[
+  {
+    "id": "sq-001",
+    "question": "Do you have any metal implants, pacemakers, or medical devices?",
+    "type": "boolean",
+    "required": true,
+    "modality": "MRI",
+    "bodyPart": null,
+    "contraindication": "Metal implants may be unsafe for MRI",
+    "followUpQuestions": [
+      "If yes, please specify the type and location of the implant",
+      "When was the implant placed?",
+      "Do you have documentation from your doctor?"
+    ]
+  },
+  {
+    "id": "sq-002",
+    "question": "Are you pregnant or could you be pregnant?",
+    "type": "boolean",
+    "required": true,
+    "modality": null,
+    "bodyPart": null,
+    "contraindication": "Pregnancy may affect imaging safety",
+    "followUpQuestions": [
+      "How many weeks pregnant are you?",
+      "Have you discussed this with your obstetrician?"
+    ]
+  },
+  {
+    "id": "sq-003",
+    "question": "Do you have any allergies to contrast dye or iodine?",
+    "type": "boolean",
+    "required": true,
+    "modality": null,
+    "bodyPart": null,
+    "contraindication": "Contrast allergy may cause severe reaction",
+    "followUpQuestions": [
+      "What type of reaction did you have?",
+      "When did the reaction occur?",
+      "What treatment was required?"
+    ]
+  },
+  {
+    "id": "sq-004",
+    "question": "Have you had any recent surgeries or procedures?",
+    "type": "boolean",
+    "required": true,
+    "modality": null,
+    "bodyPart": null,
+    "contraindication": "Recent surgery may affect imaging",
+    "followUpQuestions": [
+      "What type of surgery?",
+      "When was the surgery performed?",
+      "Are you still recovering?"
+    ]
+  },
+  {
+    "id": "sq-005",
+    "question": "Do you have kidney disease or kidney problems?",
+    "type": "boolean",
+    "required": true,
+    "modality": null,
+    "bodyPart": null,
+    "contraindication": "Kidney problems may affect contrast clearance",
+    "followUpQuestions": [
+      "What is your current kidney function?",
+      "Are you on dialysis?",
+      "Have you had recent kidney function tests?"
+    ]
+  },
+  {
+    "id": "sq-006",
+    "question": "Do you have diabetes?",
+    "type": "boolean",
+    "required": true,
+    "modality": null,
+    "bodyPart": null,
+    "contraindication": "Diabetes may affect contrast safety",
+    "followUpQuestions": [
+      "How long have you had diabetes?",
+      "How is it controlled (diet, medication, insulin)?",
+      "What is your current blood sugar level?"
+    ]
+  },
+  {
+    "id": "sq-007",
+    "question": "Do you have claustrophobia or anxiety about enclosed spaces?",
+    "type": "boolean",
+    "required": true,
+    "modality": "MRI",
+    "bodyPart": null,
+    "contraindication": "May need sedation or open MRI",
+    "followUpQuestions": [
+      "How severe is your claustrophobia?",
+      "Have you had an MRI before?",
+      "Would you prefer sedation or an open MRI?"
+    ]
+  },
+  {
+    "id": "sq-008",
+    "question": "Do you have any hearing problems or hearing aids?",
+    "type": "boolean",
+    "required": true,
+    "modality": "MRI",
+    "bodyPart": null,
+    "contraindication": "Hearing aids may be damaged by MRI",
+    "followUpQuestions": [
+      "What type of hearing aid do you have?",
+      "Can you remove it during the scan?",
+      "Do you have a backup hearing aid?"
+    ]
+  },
+  {
+    "id": "sq-009",
+    "question": "Do you have any tattoos or permanent makeup?",
+    "type": "boolean",
+    "required": true,
+    "modality": "MRI",
+    "bodyPart": null,
+    "contraindication": "Some tattoo inks may contain metal",
+    "followUpQuestions": [
+      "Where are your tattoos located?",
+      "When did you get them?",
+      "Do you know what type of ink was used?"
+    ]
+  },
+  {
+    "id": "sq-010",
+    "question": "Do you have any piercings or jewelry you cannot remove?",
+    "type": "boolean",
+    "required": true,
+    "modality": "MRI",
+    "bodyPart": null,
+    "contraindication": "Metal jewelry may interfere with MRI",
+    "followUpQuestions": [
+      "What type of piercing is it?",
+      "Can it be removed temporarily?",
+      "Is it made of surgical steel or other metal?"
+    ]
+  },
+  {
+    "id": "sq-011",
+    "question": "Do you have any pain or discomfort in the area to be scanned?",
+    "type": "boolean",
+    "required": true,
+    "modality": null,
+    "bodyPart": null,
+    "contraindication": "Pain may affect ability to hold still",
+    "followUpQuestions": [
+      "What type of pain is it?",
+      "How severe is the pain (1-10 scale)?",
+      "Does anything make it better or worse?"
+    ]
+  },
+  {
+    "id": "sq-012",
+    "question": "Can you lie still for 15-45 minutes?",
+    "type": "boolean",
+    "required": true,
+    "modality": null,
+    "bodyPart": null,
+    "contraindication": "Movement may blur images",
+    "followUpQuestions": [
+      "Do you have any conditions that cause involuntary movement?",
+      "Are you comfortable lying on your back?",
+      "Would you need breaks during the scan?"
+    ]
+  },
+  {
+    "id": "sq-013",
+    "question": "Do you have any breathing problems or lung conditions?",
+    "type": "boolean",
+    "required": true,
+    "modality": null,
+    "bodyPart": "Chest",
+    "contraindication": "Breathing problems may affect chest imaging",
+    "followUpQuestions": [
+      "What type of breathing problem do you have?",
+      "Are you on any breathing medications?",
+      "Can you hold your breath for 10-20 seconds?"
+    ]
+  },
+  {
+    "id": "sq-014",
+    "question": "Do you have any heart conditions or chest pain?",
+    "type": "boolean",
+    "required": true,
+    "modality": null,
+    "bodyPart": "Chest",
+    "contraindication": "Heart conditions may affect chest imaging",
+    "followUpQuestions": [
+      "What type of heart condition?",
+      "Are you on heart medications?",
+      "Do you experience chest pain during exercise?"
+    ]
+  },
+  {
+    "id": "sq-015",
+    "question": "Do you have any digestive problems or recent abdominal surgery?",
+    "type": "boolean",
+    "required": true,
+    "modality": null,
+    "bodyPart": "Abdomen",
+    "contraindication": "Digestive problems may affect abdominal imaging",
+    "followUpQuestions": [
+      "What type of digestive problem?",
+      "When was your last abdominal surgery?",
+      "Are you currently experiencing symptoms?"
+    ]
+  }
+]

@@ -1,0 +1,110 @@
+# Task ID: 4
+# Title: Patient and Referrer Dashboards
+# Status: pending
+# Dependencies: 2, 3
+# Priority: medium
+# Description: Implement the Patient and Referrer role-specific dashboards with KPIs, charts, and action cards.
+# Details:
+1. Create Patient Dashboard with:
+   - Hero Card showing next appointment details
+   - Timeline component for Referral → Booking → Scan → Report Ready
+   - AI Tip card with contextual advice
+   - CTAs for "View Results" and "Message Center"
+
+2. Create Referrer Dashboard with:
+   - KPI cards for new results, upcoming scans, avg TAT, no-show rate
+   - Line chart for TAT (7/30 days)
+   - Bar chart for modalities
+   - Worklist table of patients with status and center
+   - AI Suggestions card for best center recommendations
+   - "New Referral" CTA button
+
+3. Implement responsive card layouts using the 12-column grid
+4. Add skeleton loaders for all dashboard components
+
+Example Patient Dashboard:
+```tsx
+// src/pages/PatientDashboard.tsx
+import { useEffect, useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Timeline } from '@/components/Timeline';
+import { AITip } from '@/components/AITip';
+import { useStore } from '@/store';
+
+export function PatientDashboard() {
+  const [loading, setLoading] = useState(true);
+  const { appointments, fetchAppointments } = useStore();
+  
+  useEffect(() => {
+    fetchAppointments().finally(() => setLoading(false));
+  }, [fetchAppointments]);
+  
+  const nextAppointment = appointments[0]; // Assuming sorted
+  
+  return (
+    <>
+      <div className="col-span-12">
+        <h1 className="text-3xl font-bold mb-6">Your Dashboard</h1>
+      </div>
+      
+      <div className="col-span-12 lg:col-span-8">
+        <Card>
+          <CardHeader>
+            <CardTitle>Your Next Appointment</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {loading ? (
+              <div className="h-24 animate-pulse bg-muted rounded" />
+            ) : nextAppointment ? (
+              <div>
+                <h3 className="text-xl font-medium">{new Date(nextAppointment.datetime).toLocaleDateString()}</h3>
+                <p>{nextAppointment.center.name}</p>
+                <div className="mt-4">
+                  <h4 className="font-medium">Preparation Checklist:</h4>
+                  <ul className="list-disc pl-5 mt-2">
+                    <li>No metal objects</li>
+                    <li>Wear comfortable clothing</li>
+                    <li>Arrive 15 minutes early</li>
+                  </ul>
+                </div>
+                <Button className="mt-4">Reschedule</Button>
+              </div>
+            ) : (
+              <p>No upcoming appointments</p>
+            )}
+          </CardContent>
+        </Card>
+        
+        <Card className="mt-6">
+          <CardHeader>
+            <CardTitle>Your Care Timeline</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Timeline />
+          </CardContent>
+        </Card>
+      </div>
+      
+      <div className="col-span-12 lg:col-span-4">
+        <AITip tip="Arrive 15 min early; metal object checklist." />
+        
+        <div className="mt-6 flex flex-col gap-4">
+          <Button size="lg" className="w-full">View Results</Button>
+          <Button size="lg" variant="outline" className="w-full" disabled>
+            Message Center
+          </Button>
+        </div>
+      </div>
+    </>
+  );
+}
+```
+
+# Test Strategy:
+1. Test both dashboards in all theme modes
+2. Verify responsive layout on different screen sizes
+3. Test loading states and skeleton loaders
+4. Validate that KPIs and charts display correct data
+5. Ensure CTAs trigger appropriate actions
+6. Test AI Tip/Suggestions display correctly

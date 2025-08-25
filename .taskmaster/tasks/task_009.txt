@@ -1,0 +1,91 @@
+# Task ID: 9
+# Title: Admin Dashboard and Master Data
+# Status: pending
+# Dependencies: 1, 2
+# Priority: low
+# Description: Implement the Admin Dashboard with theme management and master data display.
+# Details:
+1. Create Admin Dashboard with:
+   - Theme Manager component
+   - Users/Roles static list
+
+2. Implement the Theme Manager with preset selection
+3. Create read-only views of master data entities
+
+Example Theme Manager:
+```tsx
+// src/components/ThemeManager.tsx
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { useTheme } from '@/hooks/useTheme';
+
+const presets = [
+  { id: 'light', name: 'Light' },
+  { id: 'dark', name: 'Dark' },
+  { id: 'neon', name: 'MRI Neon' }
+];
+
+export function ThemeManager() {
+  const { theme, setTheme, isDark, setIsDark } = useTheme();
+  
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Theme Manager</CardTitle>
+        <CardDescription>Customize the appearance of the platform</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-6">
+          <div>
+            <h3 className="text-lg font-medium mb-2">Color Preset</h3>
+            <RadioGroup value={theme} onValueChange={setTheme}>
+              {presets.map(preset => (
+                <div key={preset.id} className="flex items-center space-x-2">
+                  <RadioGroupItem value={preset.id} id={`preset-${preset.id}`} />
+                  <Label htmlFor={`preset-${preset.id}`}>{preset.name}</Label>
+                </div>
+              ))}
+            </RadioGroup>
+          </div>
+          
+          <div className="flex items-center space-x-2">
+            <Switch id="dark-mode" checked={isDark} onCheckedChange={setIsDark} />
+            <Label htmlFor="dark-mode">Dark Mode</Label>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4 mt-6">
+            <div className="p-4 rounded bg-background border border-border">
+              <span className="text-foreground">Background</span>
+            </div>
+            <div className="p-4 rounded bg-primary text-primary-foreground">
+              <span>Primary</span>
+            </div>
+            <div className="p-4 rounded bg-secondary text-secondary-foreground">
+              <span>Secondary</span>
+            </div>
+            <div className="p-4 rounded bg-muted text-muted-foreground">
+              <span>Muted</span>
+            </div>
+            <div className="p-4 rounded bg-accent text-accent-foreground">
+              <span>Accent</span>
+            </div>
+            <div className="p-4 rounded bg-destructive text-destructive-foreground">
+              <span>Destructive</span>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+```
+
+# Test Strategy:
+1. Test the Theme Manager in all theme modes
+2. Verify that theme presets apply correctly
+3. Test dark mode toggle
+4. Validate that master data displays correctly
+5. Test responsive layout on different screen sizes

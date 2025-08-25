@@ -1,0 +1,142 @@
+# Task ID: 8
+# Title: Ops Dashboard and Center Scorecards
+# Status: pending
+# Dependencies: 2, 3
+# Priority: medium
+# Description: Implement the Ops Dashboard with queues, center scorecards, and reassignment functionality.
+# Details:
+1. Create Ops Dashboard with:
+   - Queue cards for Missing docs, No-shows, Aged referrals
+   - Center SLA scorecards with badges
+   - AI Suggestions for optimization
+
+2. Implement queue filtering and bulk actions
+3. Create the center reassignment flow
+4. Add audit logging for actions
+
+Example Ops Dashboard:
+```tsx
+// src/pages/OpsDashboard.tsx
+import { useEffect, useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import { AITip } from '@/components/AITip';
+import { CenterScorecard } from '@/components/CenterScorecard';
+import { useStore } from '@/store';
+
+export function OpsDashboard() {
+  const [loading, setLoading] = useState(true);
+  const { queues, centers, fetchQueues, fetchCenters } = useStore();
+  
+  useEffect(() => {
+    Promise.all([
+      fetchQueues(),
+      fetchCenters()
+    ]).finally(() => setLoading(false));
+  }, [fetchQueues, fetchCenters]);
+  
+  return (
+    <>
+      <div className="col-span-12">
+        <h1 className="text-3xl font-bold mb-6">Operations Dashboard</h1>
+      </div>
+      
+      {/* Queues */}
+      <div className="col-span-12">
+        <Card>
+          <CardHeader>
+            <CardTitle>Action Queues</CardTitle>
+            <CardDescription>Items requiring attention</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Tabs defaultValue="missing-docs">
+              <TabsList className="mb-4">
+                <TabsTrigger value="missing-docs">
+                  Missing Docs
+                  <Badge className="ml-2" variant="secondary">{queues.missingDocs?.length || 0}</Badge>
+                </TabsTrigger>
+                <TabsTrigger value="no-shows">
+                  No-Shows
+                  <Badge className="ml-2" variant="secondary">{queues.noShows?.length || 0}</Badge>
+                </TabsTrigger>
+                <TabsTrigger value="aged-referrals">
+                  Aged Referrals
+                  <Badge className="ml-2" variant="secondary">{queues.agedReferrals?.length || 0}</Badge>
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="missing-docs">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Patient</TableHead>
+                      <TableHead>Referrer</TableHead>
+                      <TableHead>Missing Document</TableHead>
+                      <TableHead>Age (days)</TableHead>
+                      <TableHead></TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {loading ? (
+                      Array(5).fill(0).map((_, i) => (
+                        <TableRow key={i}>
+                          <TableCell colSpan={5}>
+                            <div className="h-8 animate-pulse bg-muted rounded" />
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : queues.missingDocs?.map(item => (
+                      <TableRow key={item.id}>
+                        <TableCell>{item.patientName}</TableCell>
+                        <TableCell>{item.referrerName}</TableCell>
+                        <TableCell>{item.missingDoc}</TableCell>
+                        <TableCell>{item.ageDays}</TableCell>
+                        <TableCell>
+                          <Button size="sm">Request</Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TabsContent>
+              
+              {/* Similar tables for other tabs */}
+            </Tabs>
+          </CardContent>
+        </Card>
+      </div>
+      
+      {/* Center Scorecards */}
+      <div className="col-span-12 mt-6">
+        <h2 className="text-2xl font-bold mb-4">Center Scorecards</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {loading ? (
+            Array(3).fill(0).map((_, i) => (
+              <div key={i} className="h-64 animate-pulse bg-muted rounded" />
+            ))
+          ) : centers.map(center => (
+            <CenterScorecard key={center.id} center={center} />
+          ))}
+        </div>
+      </div>
+      
+      {/* AI Suggestions */}
+      <div className="col-span-12 mt-6">
+        <AITip tip="Consider reassigning John Doe's MRI to Center B which has availability tomorrow. Center A is currently booking 7+ days out." />
+      </div>
+    </>
+  );
+}
+```
+
+# Test Strategy:
+1. Test the dashboard in all theme modes
+2. Verify that queues display correct data and filter properly
+3. Test the center reassignment flow
+4. Validate that scorecards display correct metrics
+5. Test responsive layout on different screen sizes
+6. Ensure AI Suggestions display correctly
+7. Verify audit logging for actions

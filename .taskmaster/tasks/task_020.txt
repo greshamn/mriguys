@@ -1,0 +1,175 @@
+# Task ID: 20
+# Title: Chart Implementation for PRD v2.2 Requirements
+# Status: pending
+# Dependencies: 2, 3
+# Priority: medium
+# Description: Implement four specific chart types (Utilization Heatmap, TAT Line Chart, No-Show Causes Stacked Bars, and Exposure Area Chart) using the Nivo library with theme-aware styling and responsive design.
+# Details:
+1. Set up Nivo library integration with the project:
+   - Install required Nivo packages: `@nivo/core`, `@nivo/heatmap`, `@nivo/line`, `@nivo/bar`, `@nivo/area`
+   - Create a shared chart theme configuration that connects to the application's theming system
+
+2. Implement Utilization Heatmap chart:
+   - Create a `UtilizationHeatmap` component using Nivo's heatmap visualization
+   - Map calendar weeks to X-axis and centers to Y-axis
+   - Implement color gradient based on occupancy percentage
+   - Connect to mock data from the data store for center utilization
+
+3. Implement TAT Line Chart:
+   - Create a `TATLineChart` component using Nivo's line chart
+   - Display turnaround time trends by center over selectable time periods (7/30 days)
+   - Add toggle for switching between time periods
+   - Implement proper date formatting on the X-axis
+
+4. Implement No-Show Causes Stacked Bars:
+   - Create a `NoShowStackedBar` component using Nivo's bar chart
+   - Configure for stacked bar visualization showing breakdown of no-show reasons
+   - Implement tooltips showing percentage and count for each reason
+   - Add legend for different no-show categories
+
+5. Implement Exposure Area Chart:
+   - Create an `ExposureAreaChart` component using Nivo's area chart
+   - Display funding exposure over time with proper area visualization
+   - Add gradient fills for visual appeal
+   - Implement date range selector for time period adjustment
+
+6. Create a shared chart theming system:
+   - Define CSS variables for chart colors (--chart-1, --chart-2, etc.)
+   - Create a theme provider that maps these variables to Nivo theme properties
+   - Implement theme switching logic to update chart colors based on light/dark mode
+   - Ensure consistent color application across all chart types
+
+7. Implement responsive design for all charts:
+   - Create responsive containers that adjust chart dimensions based on viewport
+   - Define breakpoints for different device sizes
+   - Adjust label density and tooltip behavior for smaller screens
+   - Test and optimize for mobile, tablet, and desktop views
+
+8. Connect charts to the mock data store:
+   - Create data transformation utilities to format raw data for each chart type
+   - Implement data fetching hooks that connect to MSW endpoints
+   - Add loading states and error handling for data fetching
+   - Ensure data updates trigger chart re-renders
+
+Example chart component structure:
+```tsx
+// src/components/charts/UtilizationHeatmap.tsx
+import { ResponsiveHeatMap } from '@nivo/heatmap';
+import { useTheme } from '../../hooks/useTheme';
+import { useCenterUtilization } from '../../hooks/useCenterUtilization';
+
+export const UtilizationHeatmap = () => {
+  const { theme } = useTheme();
+  const { data, isLoading, error } = useCenterUtilization();
+  
+  if (isLoading) return <ChartSkeleton />;
+  if (error) return <ChartError message={error.message} />;
+  
+  return (
+    <div className="chart-container">
+      <ResponsiveHeatMap
+        data={data}
+        margin={{ top: 60, right: 90, bottom: 60, left: 90 }}
+        valueFormat=">-.2%"
+        axisTop={{
+          tickSize: 5,
+          tickPadding: 5,
+          tickRotation: -45,
+          legend: 'Calendar Week',
+          legendOffset: 46
+        }}
+        axisLeft={{
+          tickSize: 5,
+          tickPadding: 5,
+          tickRotation: 0,
+          legend: 'Center',
+          legendPosition: 'middle',
+          legendOffset: -72
+        }}
+        colors={{
+          type: 'sequential',
+          scheme: 'blues',
+          minValue: 0,
+          maxValue: 1
+        }}
+        emptyColor="#eeeeee"
+        theme={{
+          textColor: theme === 'dark' ? '#ffffff' : '#333333',
+          tooltip: {
+            container: {
+              background: theme === 'dark' ? '#333333' : '#ffffff',
+              color: theme === 'dark' ? '#ffffff' : '#333333',
+            }
+          }
+        }}
+        hoverTarget="cell"
+        cellHoverOthersOpacity={0.25}
+      />
+    </div>
+  );
+};
+```
+
+# Test Strategy:
+1. Unit test chart components:
+   - Create Jest tests for each chart component
+   - Mock the data hooks to provide test data
+   - Verify that components render without errors
+   - Test theme switching logic and color application
+   - Validate responsive behavior using different viewport sizes
+
+2. Test Utilization Heatmap:
+   - Verify correct rendering of calendar weeks and centers
+   - Test color gradient application based on occupancy values
+   - Validate tooltip information accuracy
+   - Check axis labels and formatting
+   - Test interaction behavior (hover states, etc.)
+
+3. Test TAT Line Chart:
+   - Verify line rendering for multiple centers
+   - Test time period toggle functionality (7/30 days)
+   - Validate date formatting on X-axis
+   - Check legend accuracy and interaction
+   - Test responsive behavior on different screen sizes
+
+4. Test No-Show Causes Stacked Bars:
+   - Verify correct stacking of bar segments
+   - Test tooltip information for each segment
+   - Validate legend rendering and accuracy
+   - Check color application for different categories
+   - Test interaction with bar segments
+
+5. Test Exposure Area Chart:
+   - Verify area rendering and gradient fills
+   - Test date range selector functionality
+   - Validate Y-axis formatting for currency values
+   - Check tooltip information accuracy
+   - Test responsive behavior
+
+6. Test theme integration:
+   - Switch between light and dark themes
+   - Verify that chart colors update correctly
+   - Test CSS variable mapping to chart colors
+   - Validate contrast ratios for accessibility
+   - Check transition animations during theme changes
+
+7. Test data integration:
+   - Mock different data scenarios using MSW
+   - Verify loading states render correctly
+   - Test error handling and error state UI
+   - Validate data transformation logic
+   - Check that charts update when data changes
+
+8. Cross-browser and device testing:
+   - Test on Chrome, Firefox, Safari, and Edge
+   - Verify mobile rendering on iOS and Android
+   - Test touch interactions on mobile devices
+   - Validate tablet layout and interactions
+   - Check performance metrics on lower-end devices
+
+9. Accessibility testing:
+   - Verify color contrast meets WCAG standards
+   - Test keyboard navigation for interactive elements
+   - Check screen reader compatibility
+   - Validate ARIA attributes on chart elements
+   - Test with zoom settings at different levels

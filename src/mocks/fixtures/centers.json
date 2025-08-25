@@ -1,0 +1,330 @@
+[
+  {
+    "id": "center-001",
+    "name": "Advanced Imaging Center - Downtown",
+    "address": {
+      "street": "123 Medical Plaza Dr",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33101",
+      "country": "USA"
+    },
+    "geo": {
+      "lat": 25.7617,
+      "lng": -80.1918
+    },
+    "modalities": ["MRI", "CT", "X-Ray", "Ultrasound"],
+    "magnetStrength": "3T",
+    "openUpright": true,
+    "sedationAvailable": true,
+    "languages": ["English", "Spanish", "Creole"],
+    "ADA": true,
+    "parking": "Free parking available",
+    "accreditations": ["ACR", "Joint Commission", "State Licensed"],
+    "phone": "(305) 555-0101",
+    "email": "info@advancedimagingdowntown.com",
+    "website": "https://advancedimagingdowntown.com",
+    "hours": {
+      "monday": "7:00 AM - 7:00 PM",
+      "tuesday": "7:00 AM - 7:00 PM",
+      "wednesday": "7:00 AM - 7:00 PM",
+      "thursday": "7:00 AM - 7:00 PM",
+      "friday": "7:00 AM - 6:00 PM",
+      "saturday": "8:00 AM - 4:00 PM",
+      "sunday": "Closed"
+    },
+    "rating": 4.8,
+    "reviewCount": 127,
+    "specialties": ["Neurological", "Spine", "Orthopedic"],
+    "insuranceAccepted": ["Blue Cross", "Aetna", "Cigna", "Medicare", "Medicaid"],
+    "description": "State-of-the-art imaging center in the heart of downtown Miami. Specializing in advanced neurological and spine imaging with 3T MRI technology.",
+    "features": ["Free WiFi", "Complimentary Coffee", "Child Care Area", "Wheelchair Accessible"]
+  },
+  {
+    "id": "center-002",
+    "name": "Precision Radiology - Coral Gables",
+    "address": {
+      "street": "456 Miracle Mile",
+      "city": "Coral Gables",
+      "state": "FL",
+      "zip": "33134",
+      "country": "USA"
+    },
+    "geo": {
+      "lat": 25.7215,
+      "lng": -80.2683
+    },
+    "modalities": ["MRI", "CT", "X-Ray", "Mammography"],
+    "magnetStrength": "1.5T",
+    "openUpright": false,
+    "sedationAvailable": false,
+    "languages": ["English", "Spanish"],
+    "ADA": true,
+    "parking": "Street parking and garage",
+    "accreditations": ["ACR", "State Licensed"],
+    "phone": "(305) 555-0202",
+    "email": "contact@precisionradiology.com",
+    "website": "https://precisionradiology.com",
+    "hours": {
+      "monday": "8:00 AM - 6:00 PM",
+      "tuesday": "8:00 AM - 6:00 PM",
+      "wednesday": "8:00 AM - 6:00 PM",
+      "thursday": "8:00 AM - 6:00 PM",
+      "friday": "8:00 AM - 5:00 PM",
+      "saturday": "9:00 AM - 3:00 PM",
+      "sunday": "Closed"
+    },
+    "rating": 4.6,
+    "reviewCount": 89,
+    "specialties": ["Breast Imaging", "General Radiology", "Cardiac"],
+    "insuranceAccepted": ["Blue Cross", "Aetna", "Humana", "Medicare"],
+    "description": "Comprehensive radiology services in beautiful Coral Gables. Known for exceptional breast imaging and cardiac CT services.",
+    "features": ["Comfortable Waiting Area", "Reading Material", "Refreshments"]
+  },
+  {
+    "id": "center-003",
+    "name": "Miami Beach Imaging Center",
+    "address": {
+      "street": "789 Ocean Drive",
+      "city": "Miami Beach",
+      "state": "FL",
+      "zip": "33139",
+      "country": "USA"
+    },
+    "geo": {
+      "lat": 25.7907,
+      "lng": -80.1300
+    },
+    "modalities": ["MRI", "CT", "X-Ray", "Ultrasound", "Nuclear Medicine"],
+    "magnetStrength": "3T",
+    "openUpright": true,
+    "sedationAvailable": true,
+    "languages": ["English", "Spanish", "Portuguese", "French"],
+    "ADA": true,
+    "parking": "Valet parking available",
+    "accreditations": ["ACR", "Joint Commission", "State Licensed", "CAP"],
+    "phone": "(305) 555-0303",
+    "email": "info@miamibeachimaging.com",
+    "website": "https://miamibeachimaging.com",
+    "hours": {
+      "monday": "6:00 AM - 10:00 PM",
+      "tuesday": "6:00 AM - 10:00 PM",
+      "wednesday": "6:00 AM - 10:00 PM",
+      "thursday": "6:00 AM - 10:00 PM",
+      "friday": "6:00 AM - 10:00 PM",
+      "saturday": "7:00 AM - 8:00 PM",
+      "sunday": "8:00 AM - 6:00 PM"
+    },
+    "rating": 4.9,
+    "reviewCount": 203,
+    "specialties": ["Sports Medicine", "Orthopedic", "Cardiac", "Oncological"],
+    "insuranceAccepted": ["Blue Cross", "Aetna", "Cigna", "UnitedHealth", "Medicare", "Medicaid"],
+    "description": "Premium imaging center serving Miami Beach and surrounding areas. Extended hours and luxury amenities for discerning patients.",
+    "features": ["Luxury Waiting Area", "Concierge Service", "Beach View", "Premium Refreshments", "Valet Parking"]
+  },
+  {
+    "id": "center-004",
+    "name": "Community Imaging - Hialeah",
+    "address": {
+      "street": "321 Hialeah Blvd",
+      "city": "Hialeah",
+      "state": "FL",
+      "zip": "33010",
+      "country": "USA"
+    },
+    "geo": {
+      "lat": 25.8576,
+      "lng": -80.2781
+    },
+    "modalities": ["X-Ray", "Ultrasound", "CT", "MRI"],
+    "magnetStrength": "1.5T",
+    "openUpright": false,
+    "sedationAvailable": false,
+    "languages": ["English", "Spanish"],
+    "ADA": true,
+    "parking": "Free parking lot",
+    "accreditations": ["State Licensed"],
+    "phone": "(305) 555-0404",
+    "email": "info@communityimaginghialeah.com",
+    "website": "https://communityimaginghialeah.com",
+    "hours": {
+      "monday": "8:00 AM - 5:00 PM",
+      "tuesday": "8:00 AM - 5:00 PM",
+      "wednesday": "8:00 AM - 5:00 PM",
+      "thursday": "8:00 AM - 5:00 PM",
+      "friday": "8:00 AM - 5:00 PM",
+      "saturday": "9:00 AM - 2:00 PM",
+      "sunday": "Closed"
+    },
+    "rating": 4.3,
+    "reviewCount": 67,
+    "specialties": ["General Radiology", "Pediatric", "Emergency"],
+    "insuranceAccepted": ["Medicare", "Medicaid", "Blue Cross", "Aetna"],
+    "description": "Affordable imaging services for the Hialeah community. Focused on providing quality care at accessible prices.",
+    "features": ["Family-Friendly", "Short Wait Times", "Affordable Pricing"]
+  },
+  {
+    "id": "center-005",
+    "name": "Specialty Spine & Joint Imaging",
+    "address": {
+      "street": "567 Medical Center Way",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33176",
+      "country": "USA"
+    },
+    "geo": {
+      "lat": 25.6586,
+      "lng": -80.3568
+    },
+    "modalities": ["MRI", "CT", "X-Ray", "Ultrasound"],
+    "magnetStrength": "3T",
+    "openUpright": true,
+    "sedationAvailable": true,
+    "languages": ["English", "Spanish"],
+    "ADA": true,
+    "parking": "Free parking garage",
+    "accreditations": ["ACR", "State Licensed", "Spine Center Certified"],
+    "phone": "(305) 555-0505",
+    "email": "info@specialtyspineimaging.com",
+    "website": "https://specialtyspineimaging.com",
+    "hours": {
+      "monday": "7:00 AM - 8:00 PM",
+      "tuesday": "7:00 AM - 8:00 PM",
+      "wednesday": "7:00 AM - 8:00 PM",
+      "thursday": "7:00 AM - 8:00 PM",
+      "friday": "7:00 AM - 7:00 PM",
+      "saturday": "8:00 AM - 5:00 PM",
+      "sunday": "Closed"
+    },
+    "rating": 4.7,
+    "reviewCount": 156,
+    "specialties": ["Spine", "Joint", "Sports Medicine", "Pain Management"],
+    "insuranceAccepted": ["Blue Cross", "Aetna", "Cigna", "Medicare", "Workers Comp"],
+    "description": "Specialized imaging center focused exclusively on spine and joint imaging. Advanced protocols for sports injuries and chronic pain.",
+    "features": ["Spine-Specific Equipment", "Sports Medicine Focus", "Pain Management Support", "Extended Hours"]
+  },
+  {
+    "id": "center-006",
+    "name": "Pediatric Imaging Center",
+    "address": {
+      "street": "890 Children's Hospital Dr",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33155",
+      "country": "USA"
+    },
+    "geo": {
+      "lat": 25.8139,
+      "lng": -80.3247
+    },
+    "modalities": ["MRI", "CT", "X-Ray", "Ultrasound"],
+    "magnetStrength": "1.5T",
+    "openUpright": false,
+    "sedationAvailable": true,
+    "languages": ["English", "Spanish", "Creole"],
+    "ADA": true,
+    "parking": "Free family parking",
+    "accreditations": ["ACR", "Joint Commission", "Pediatric Certified"],
+    "phone": "(305) 555-0606",
+    "email": "info@pediatricimagingmiami.com",
+    "website": "https://pediatricimagingmiami.com",
+    "hours": {
+      "monday": "8:00 AM - 6:00 PM",
+      "tuesday": "8:00 AM - 6:00 PM",
+      "wednesday": "8:00 AM - 6:00 PM",
+      "thursday": "8:00 AM - 6:00 PM",
+      "friday": "8:00 AM - 6:00 PM",
+      "saturday": "9:00 AM - 3:00 PM",
+      "sunday": "Closed"
+    },
+    "rating": 4.9,
+    "reviewCount": 234,
+    "specialties": ["Pediatric", "Neonatal", "Developmental"],
+    "insuranceAccepted": ["Medicaid", "Medicare", "Blue Cross", "Aetna", "Children's Health"],
+    "description": "Child-friendly imaging center designed specifically for pediatric patients. Colorful decor, child life specialists, and family-centered care.",
+    "features": ["Child Life Specialists", "Family Waiting Areas", "Child-Friendly Decor", "Educational Materials", "Parent Support"]
+  },
+  {
+    "id": "center-007",
+    "name": "Cardiac Imaging Specialists",
+    "address": {
+      "street": "432 Heart Center Blvd",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33143",
+      "country": "USA"
+    },
+    "geo": {
+      "lat": 25.7001,
+      "lng": -80.2703
+    },
+    "modalities": ["CT", "MRI", "Nuclear Medicine", "Echocardiography"],
+    "magnetStrength": "3T",
+    "openUpright": false,
+    "sedationAvailable": true,
+    "languages": ["English", "Spanish"],
+    "ADA": true,
+    "parking": "Free parking",
+    "accreditations": ["ACR", "Joint Commission", "Cardiac Certified"],
+    "phone": "(305) 555-0707",
+    "email": "info@cardiacimagingspecialists.com",
+    "website": "https://cardiacimagingspecialists.com",
+    "hours": {
+      "monday": "7:00 AM - 7:00 PM",
+      "tuesday": "7:00 AM - 7:00 PM",
+      "wednesday": "7:00 AM - 7:00 PM",
+      "thursday": "7:00 AM - 7:00 PM",
+      "friday": "7:00 AM - 6:00 PM",
+      "saturday": "8:00 AM - 4:00 PM",
+      "sunday": "Closed"
+    },
+    "rating": 4.8,
+    "reviewCount": 178,
+    "specialties": ["Cardiac", "Vascular", "Thoracic"],
+    "insuranceAccepted": ["Blue Cross", "Aetna", "Cigna", "Medicare", "Medicaid"],
+    "description": "Specialized cardiac imaging center with advanced protocols for heart disease detection and monitoring.",
+    "features": ["Cardiac-Specific Protocols", "Vascular Imaging", "Stress Testing", "Cardiologist Consultation"]
+  },
+  {
+    "id": "center-008",
+    "name": "Women's Imaging Center",
+    "address": {
+      "street": "654 Women's Health Plaza",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33133",
+      "country": "USA"
+    },
+    "geo": {
+      "lat": 25.7617,
+      "lng": -80.1918
+    },
+    "modalities": ["Mammography", "Ultrasound", "MRI", "CT", "X-Ray"],
+    "magnetStrength": "3T",
+    "openUpright": false,
+    "sedationAvailable": false,
+    "languages": ["English", "Spanish", "Portuguese"],
+    "ADA": true,
+    "parking": "Free parking",
+    "accreditations": ["ACR", "Joint Commission", "Breast Center Certified"],
+    "phone": "(305) 555-0808",
+    "email": "info@womensimagingcenter.com",
+    "website": "https://womensimagingcenter.com",
+    "hours": {
+      "monday": "8:00 AM - 6:00 PM",
+      "tuesday": "8:00 AM - 6:00 PM",
+      "wednesday": "8:00 AM - 6:00 PM",
+      "thursday": "8:00 AM - 6:00 PM",
+      "friday": "8:00 AM - 5:00 PM",
+      "saturday": "9:00 AM - 3:00 PM",
+      "sunday": "Closed"
+    },
+    "rating": 4.7,
+    "reviewCount": 145,
+    "specialties": ["Breast Imaging", "Gynecological", "Obstetrical"],
+    "insuranceAccepted": ["Blue Cross", "Aetna", "Cigna", "Medicare", "Medicaid"],
+    "description": "Comprehensive women's imaging center with specialized breast imaging and gynecological ultrasound services.",
+    "features": ["Women-Only Staff", "Private Changing Areas", "Comfortable Robes", "Educational Resources", "Support Groups"]
+  }
+]

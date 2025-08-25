@@ -1,0 +1,214 @@
+# Task ID: 3
+# Title: Mock Data and MSW Setup
+# Status: pending
+# Dependencies: 1
+# Priority: high
+# Description: Create comprehensive seed JSON data for all entities and implement MSW handlers for API endpoints to simulate backend interactions.
+# Details:
+1. Create seed JSON files for all entities: centers, slots, referrals, appointments, reports, bills, liens, settlements, insurers, claims, bodyParts, safetyQuestions
+2. Set up MSW (Mock Service Worker) for API simulation
+3. Implement handlers for all required endpoints:
+   - Public endpoints: `/centers`, `/centers/:id/availability`, `/body-parts`, `/safety-questions`
+   - Referral/booking: `/referrals`, `/slots/hold`, `/appointments`
+   - Reports/images: `/reports/:id`, `/images/:id/download`
+   - Attorney/funder: `/liens`, `/exposure`
+   - System: `/webhooks/test`, `/audit/:entityId`
+4. Add simulated latency (300-700ms) for realism
+5. Create a Zustand store with selectors for state management
+6. Implement a demo webhooks simulator panel
+7. Add a script to reset seed data for demos
+8. Include proper error handling and edge cases
+
+Example MSW setup:
+```tsx
+// src/mocks/handlers.ts
+import { rest } from 'msw';
+import centerData from './data/centers.json';
+import slotData from './data/slots.json';
+import referralData from './data/referrals.json';
+import bodyPartsData from './data/bodyParts.json';
+import safetyQuestionsData from './data/safetyQuestions.json';
+
+export const handlers = [
+  // Public endpoints
+  rest.get('/api/centers', (req, res, ctx) => {
+    // Add simulated latency
+    return res(
+      ctx.delay(300 + Math.random() * 400),
+      ctx.status(200),
+      ctx.json(centerData)
+    );
+  }),
+  
+  rest.get('/api/centers/:id/availability', (req, res, ctx) => {
+    const { id } = req.params;
+    const centerSlots = slotData.filter(slot => slot.centerId === id);
+    return res(
+      ctx.delay(300 + Math.random() * 400),
+      ctx.status(200),
+      ctx.json(centerSlots)
+    );
+  }),
+  
+  rest.get('/api/body-parts', (req, res, ctx) => {
+    return res(
+      ctx.delay(300 + Math.random() * 400),
+      ctx.status(200),
+      ctx.json(bodyPartsData)
+    );
+  }),
+  
+  rest.get('/api/safety-questions', (req, res, ctx) => {
+    const modality = req.url.searchParams.get('modality');
+    const bodyPart = req.url.searchParams.get('bodyPart');
+    
+    // Filter questions based on modality and body part
+    const filteredQuestions = safetyQuestionsData.filter(q => 
+      (!q.modality || q.modality === modality) && 
+      (!q.bodyPart || q.bodyPart === bodyPart)
+    );
+    
+    return res(
+      ctx.delay(300 + Math.random() * 400),
+      ctx.status(200),
+      ctx.json(filteredQuestions)
+    );
+  }),
+  
+  // Referral/booking endpoints
+  rest.post('/api/referrals', async (req, res, ctx) => {
+    const newReferral = await req.json();
+    // Add validation logic here
+    return res(
+      ctx.delay(300 + Math.random() * 400),
+      ctx.status(201),
+      ctx.json({ ...newReferral, id: Date.now().toString() })
+    );
+  }),
+  
+  rest.post('/api/slots/hold', async (req, res, ctx) => {
+    const { slotId, referralId } = await req.json();
+    // Simulate hold logic
+    return res(
+      ctx.delay(300 + Math.random() * 400),
+      ctx.status(200),
+      ctx.json({ holdId: `hold-${Date.now()}`, expiresAt: new Date(Date.now() + 15 * 60000).toISOString() })
+    );
+  }),
+  
+  rest.post('/api/appointments', async (req, res, ctx) => {
+    const appointmentData = await req.json();
+    // Validate and create appointment
+    return res(
+      ctx.delay(300 + Math.random() * 400),
+      ctx.status(201),
+      ctx.json({ ...appointmentData, id: `appt-${Date.now()}` })
+    );
+  }),
+  
+  // Reports/images endpoints
+  rest.get('/api/reports/:id', (req, res, ctx) => {
+    const { id } = req.params;
+    // Find report by ID
+    const report = reportsData.find(r => r.id === id);
+    
+    if (!report) {
+      return res(
+        ctx.delay(300 + Math.random() * 400),
+        ctx.status(404),
+        ctx.json({ error: 'Report not found' })
+      );
+    }
+    
+    return res(
+      ctx.delay(300 + Math.random() * 400),
+      ctx.status(200),
+      ctx.json(report)
+    );
+  }),
+  
+  rest.get('/api/images/:id/download', (req, res, ctx) => {
+    // Simulate image download (return dummy data)
+    return res(
+      ctx.delay(300 + Math.random() * 400),
+      ctx.status(200),
+      ctx.json({ downloadUrl: `https://example.com/images/${req.params.id}` })
+    );
+  }),
+  
+  // Attorney/funder endpoints
+  rest.get('/api/liens', (req, res, ctx) => {
+    const caseId = req.url.searchParams.get('caseId');
+    let result = liensData;
+    
+    if (caseId) {
+      result = result.filter(lien => lien.caseId === caseId);
+    }
+    
+    return res(
+      ctx.delay(300 + Math.random() * 400),
+      ctx.status(200),
+      ctx.json(result)
+    );
+  }),
+  
+  rest.get('/api/exposure', (req, res, ctx) => {
+    const funderId = req.url.searchParams.get('funderId');
+    // Calculate exposure data
+    return res(
+      ctx.delay(300 + Math.random() * 400),
+      ctx.status(200),
+      ctx.json({
+        total: 1250000,
+        byStatus: {
+          active: 850000,
+          pending: 250000,
+          settled: 150000
+        },
+        byMonth: [
+          { month: '2023-01', amount: 950000 },
+          { month: '2023-02', amount: 1050000 },
+          { month: '2023-03', amount: 1150000 },
+          { month: '2023-04', amount: 1250000 }
+        ]
+      })
+    );
+  }),
+  
+  // System endpoints
+  rest.post('/api/webhooks/test', async (req, res, ctx) => {
+    const payload = await req.json();
+    // Log webhook test
+    console.log('Webhook test payload:', payload);
+    return res(
+      ctx.delay(300 + Math.random() * 400),
+      ctx.status(200),
+      ctx.json({ success: true, message: 'Webhook test received' })
+    );
+  }),
+  
+  rest.get('/api/audit/:entityId', (req, res, ctx) => {
+    const { entityId } = req.params;
+    // Return audit logs for entity
+    return res(
+      ctx.delay(300 + Math.random() * 400),
+      ctx.status(200),
+      ctx.json([
+        { timestamp: '2023-04-01T10:30:00Z', user: 'john.doe', action: 'view', details: 'Viewed entity details' },
+        { timestamp: '2023-04-02T14:15:00Z', user: 'jane.smith', action: 'update', details: 'Updated status to active' },
+        { timestamp: '2023-04-03T09:45:00Z', user: 'admin', action: 'reassign', details: 'Reassigned to Center B' }
+      ])
+    );
+  }),
+];
+```
+
+# Test Strategy:
+1. Verify all MSW handlers return appropriate data
+2. Test error scenarios and edge cases
+3. Validate that the Zustand store correctly updates with mock data
+4. Ensure the reset script properly restores seed data
+5. Test webhook simulator functionality
+6. Verify all endpoints support the three golden flows
+7. Test realistic error responses (404, 400, 500)
+8. Validate data model consistency across all entities

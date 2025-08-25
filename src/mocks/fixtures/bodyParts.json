@@ -1,0 +1,137 @@
+[
+  {
+    "id": "bp-001",
+    "name": "Head",
+    "category": "Neurological",
+    "modalities": ["MRI", "CT", "X-Ray"],
+    "description": "Head and brain imaging",
+    "commonIndications": ["Headache", "Trauma", "Neurological symptoms"],
+    "prepInstructions": "No food 4 hours prior for contrast studies"
+  },
+  {
+    "id": "bp-002", 
+    "name": "Cervical Spine",
+    "category": "Spine",
+    "modalities": ["MRI", "CT", "X-Ray"],
+    "description": "Neck and cervical spine imaging",
+    "commonIndications": ["Neck pain", "Whiplash", "Numbness in arms"],
+    "prepInstructions": "Remove jewelry, no metal objects"
+  },
+  {
+    "id": "bp-003",
+    "name": "Thoracic Spine",
+    "category": "Spine", 
+    "modalities": ["MRI", "CT", "X-Ray"],
+    "description": "Upper and middle back imaging",
+    "commonIndications": ["Back pain", "Trauma", "Scoliosis"],
+    "prepInstructions": "Remove jewelry, no metal objects"
+  },
+  {
+    "id": "bp-004",
+    "name": "Lumbar Spine",
+    "category": "Spine",
+    "modalities": ["MRI", "CT", "X-Ray"],
+    "description": "Lower back imaging",
+    "commonIndications": ["Lower back pain", "Sciatica", "Trauma"],
+    "prepInstructions": "Remove jewelry, no metal objects"
+  },
+  {
+    "id": "bp-005",
+    "name": "Shoulder",
+    "category": "Upper Extremity",
+    "modalities": ["MRI", "CT", "X-Ray", "Ultrasound"],
+    "description": "Shoulder joint imaging",
+    "commonIndications": ["Shoulder pain", "Rotator cuff injury", "Dislocation"],
+    "prepInstructions": "Remove jewelry, no metal objects"
+  },
+  {
+    "id": "bp-006",
+    "name": "Elbow",
+    "category": "Upper Extremity",
+    "modalities": ["MRI", "CT", "X-Ray", "Ultrasound"],
+    "description": "Elbow joint imaging",
+    "commonIndications": ["Elbow pain", "Tennis elbow", "Trauma"],
+    "prepInstructions": "Remove jewelry, no metal objects"
+  },
+  {
+    "id": "bp-007",
+    "name": "Wrist",
+    "category": "Upper Extremity",
+    "modalities": ["MRI", "CT", "X-Ray", "Ultrasound"],
+    "description": "Wrist joint imaging",
+    "commonIndications": ["Wrist pain", "Carpal tunnel", "Fracture"],
+    "prepInstructions": "Remove jewelry, no metal objects"
+  },
+  {
+    "id": "bp-008",
+    "name": "Hip",
+    "category": "Lower Extremity",
+    "modalities": ["MRI", "CT", "X-Ray", "Ultrasound"],
+    "description": "Hip joint imaging",
+    "commonIndications": ["Hip pain", "Arthritis", "Trauma"],
+    "prepInstructions": "Remove jewelry, no metal objects"
+  },
+  {
+    "id": "bp-009",
+    "name": "Knee",
+    "category": "Lower Extremity",
+    "modalities": ["MRI", "CT", "X-Ray", "Ultrasound"],
+    "description": "Knee joint imaging",
+    "commonIndications": ["Knee pain", "ACL tear", "Arthritis"],
+    "prepInstructions": "Remove jewelry, no metal objects"
+  },
+  {
+    "id": "bp-010",
+    "name": "Ankle",
+    "category": "Lower Extremity",
+    "modalities": ["MRI", "CT", "X-Ray", "Ultrasound"],
+    "description": "Ankle joint imaging",
+    "commonIndications": ["Ankle pain", "Sprain", "Fracture"],
+    "prepInstructions": "Remove jewelry, no metal objects"
+  },
+  {
+    "id": "bp-011",
+    "name": "Chest",
+    "category": "Thoracic",
+    "modalities": ["CT", "X-Ray", "MRI"],
+    "description": "Chest and lung imaging",
+    "commonIndications": ["Chest pain", "Shortness of breath", "Trauma"],
+    "prepInstructions": "No food 4 hours prior for contrast studies"
+  },
+  {
+    "id": "bp-012",
+    "name": "Abdomen",
+    "category": "Abdominal",
+    "modalities": ["CT", "MRI", "Ultrasound"],
+    "description": "Abdominal organ imaging",
+    "commonIndications": ["Abdominal pain", "Nausea", "Trauma"],
+    "prepInstructions": "No food 6 hours prior, clear liquids only"
+  },
+  {
+    "id": "bp-013",
+    "name": "Pelvis",
+    "category": "Pelvic",
+    "modalities": ["CT", "MRI", "X-Ray"],
+    "description": "Pelvic region imaging",
+    "commonIndications": ["Pelvic pain", "Trauma", "Gynecological issues"],
+    "prepInstructions": "No food 6 hours prior, clear liquids only"
+  },
+  {
+    "id": "bp-014",
+    "name": "Foot",
+    "category": "Lower Extremity",
+    "modalities": ["MRI", "CT", "X-Ray", "Ultrasound"],
+    "description": "Foot imaging",
+    "commonIndications": ["Foot pain", "Plantar fasciitis", "Fracture"],
+    "prepInstructions": "Remove jewelry, no metal objects"
+  },
+  {
+    "id": "bp-015",
+    "name": "Hand",
+    "category": "Upper Extremity",
+    "modalities": ["MRI", "CT", "X-Ray", "Ultrasound"],
+    "description": "Hand imaging",
+    "commonIndications": ["Hand pain", "Arthritis", "Trauma"],
+    "prepInstructions": "Remove jewelry, no metal objects"
+  }
+]

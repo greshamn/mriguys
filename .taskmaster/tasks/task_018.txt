@@ -1,0 +1,115 @@
+# Task ID: 18
+# Title: OpenAPI YAML and API Documentation Page Implementation
+# Status: pending
+# Dependencies: 2, 3
+# Priority: medium
+# Description: Create a comprehensive OpenAPI YAML specification for all mock endpoints and implement a dedicated API documentation page accessible from the top navigation bar with interactive testing capabilities.
+# Details:
+1. Create a comprehensive OpenAPI YAML specification:
+   - Document all endpoints from the MSW handlers:
+     - Public endpoints: `/centers`, `/centers/:id/availability`, etc.
+     - Referral/booking endpoints: `/referrals`, `/slots/hold`, `/appointments`
+     - Reports/images endpoints: `/reports/:id`, `/images/:id/download`
+     - Attorney/funder endpoints
+     - System endpoints
+   - Include detailed schemas for request/response objects
+   - Document query parameters, path parameters, and request bodies
+   - Add descriptions for all endpoints and parameters
+   - Include example values that match the seed data
+
+2. Implement API documentation page:
+   - Create a new route `/api-docs` for the documentation
+   - Add a link in the top navigation bar labeled "API Docs"
+   - Use Swagger UI or ReDoc for rendering the OpenAPI specification
+   - Implement responsive layout for the documentation page
+   - Ensure the page works within the existing layout shell
+
+3. Add interactive testing capabilities:
+   - Configure Swagger UI to allow "Try it out" functionality
+   - Connect the interactive testing to MSW handlers
+   - Ensure example responses match the seed data
+   - Add copy button for code snippets in multiple languages
+
+4. Organize documentation for clarity:
+   - Group endpoints by functional area
+   - Add tags for filtering
+   - Include authentication requirements for each endpoint
+   - Document error responses and status codes
+
+5. Integrate with existing navigation:
+   - Add API Docs link to the top bar component
+   - Ensure proper styling and active state
+   - Consider adding a keyboard shortcut for quick access
+
+Example OpenAPI YAML structure:
+```yaml
+openapi: 3.0.0
+info:
+  title: MRI Guys API
+  version: 1.0.0
+  description: API documentation for MRI Guys platform
+paths:
+  /centers:
+    get:
+      summary: Get all imaging centers
+      tags:
+        - Public
+      parameters:
+        - name: lat
+          in: query
+          description: Latitude for location-based search
+          schema:
+            type: number
+        - name: lng
+          in: query
+          description: Longitude for location-based search
+          schema:
+            type: number
+      responses:
+        '200':
+          description: List of imaging centers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Center'
+              example:
+                - id: 1
+                  name: "Downtown Imaging"
+                  address: "123 Main St"
+                  # ... more fields matching seed data
+```
+
+# Test Strategy:
+1. Validate OpenAPI YAML specification:
+   - Use a linter to verify the YAML syntax is correct
+   - Validate against the OpenAPI 3.0 schema
+   - Ensure all endpoints from MSW handlers are documented
+   - Verify that schemas match the actual data structures
+
+2. Test API documentation page rendering:
+   - Verify the page loads correctly at `/api-docs` route
+   - Test responsive behavior on different screen sizes
+   - Check that all endpoints are properly displayed and grouped
+   - Ensure the page is accessible and keyboard navigable
+   - Test in different browsers (Chrome, Firefox, Safari)
+
+3. Test interactive functionality:
+   - Verify "Try it out" feature works for all endpoints
+   - Test that example requests generate appropriate responses
+   - Validate that responses match the expected seed data
+   - Test error scenarios (invalid input, missing parameters)
+   - Verify code snippets are correctly generated and can be copied
+
+4. Test navigation integration:
+   - Verify API Docs link appears in the top navigation bar
+   - Test that clicking the link navigates to the documentation page
+   - Check that the active state is applied correctly when on the docs page
+   - Test any keyboard shortcuts for accessing the documentation
+
+5. Cross-functional testing:
+   - Verify documentation works in both light and dark themes
+   - Test with screen readers for accessibility
+   - Ensure documentation is printable if needed
+   - Validate that changes to seed data are reflected in the examples

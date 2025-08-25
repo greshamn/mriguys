@@ -1,0 +1,154 @@
+# Task ID: 16
+# Title: Public Finder Implementation with Map and List Views
+# Status: pending
+# Dependencies: 2, 3
+# Priority: high
+# Description: Implement the Public Finder functionality with search filters, map and list views, center profile modal, and deep-linking capabilities for the public booking flow without authentication.
+# Details:
+1. Create search filter components:
+   - Location input (City/ZIP) with autocomplete
+   - Body Part selector (dropdown with categories)
+   - Modality selector (multi-select checkboxes)
+   - Optional date range picker
+
+2. Implement search results views:
+   - List view with center cards showing key information
+   - Map view using Leaflet or Google Maps with custom markers
+   - Toggle between views with state persistence
+   - Implement pagination for list view
+
+3. Build Center Profile modal:
+   - Header with center name, address, and hero image
+   - Badge system for modalities, magnet strength, languages
+   - ADA compliance indicators
+   - Accreditations section with tooltips
+   - Hours of operation
+   - Contact information
+
+4. Create deep-linking functionality:
+   - Generate URLs with center ID and search parameters
+   - Implement handlers to pre-populate Referral Wizard
+   - Add routing to Slot Picker with center preselected
+
+5. Responsive design implementation:
+   - Mobile-first approach with breakpoints
+   - Collapsible filters on mobile
+   - Map view adjustments for small screens
+   - Modal adaptations for different devices
+
+6. Integration with existing components:
+   - Connect to mock API endpoints for centers data
+   - Implement state management for search filters
+   - Add loading states and error handling
+
+Example Search Component:
+```tsx
+// src/components/public/SearchFilters.tsx
+import { useState } from 'react';
+import { useStore } from '@/store';
+import { Input } from '@/components/ui/input';
+import { Select } from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
+import { DateRangePicker } from '@/components/ui/date-range-picker';
+import { Button } from '@/components/ui/button';
+
+export function SearchFilters({ onSearch }) {
+  const [location, setLocation] = useState('');
+  const [bodyPart, setBodyPart] = useState('');
+  const [modalities, setModalities] = useState([]);
+  const [dateRange, setDateRange] = useState(null);
+  const { bodyParts, modalityOptions } = useStore();
+  
+  const handleSearch = () => {
+    onSearch({
+      location,
+      bodyPart,
+      modalities,
+      dateRange
+    });
+  };
+  
+  return (
+    <div className="grid gap-4 p-4 bg-card rounded-lg shadow-sm">
+      <Input 
+        placeholder="City or ZIP code" 
+        value={location} 
+        onChange={(e) => setLocation(e.target.value)} 
+      />
+      <Select 
+        placeholder="Select body part" 
+        options={bodyParts} 
+        value={bodyPart} 
+        onChange={setBodyPart} 
+      />
+      <div className="space-y-2">
+        <p className="text-sm font-medium">Modalities</p>
+        {modalityOptions.map(option => (
+          <Checkbox 
+            key={option.value}
+            label={option.label}
+            checked={modalities.includes(option.value)}
+            onCheckedChange={(checked) => {
+              if (checked) {
+                setModalities([...modalities, option.value]);
+              } else {
+                setModalities(modalities.filter(m => m !== option.value));
+              }
+            }}
+          />
+        ))}
+      </div>
+      <DateRangePicker 
+        placeholder="Optional date range" 
+        value={dateRange} 
+        onChange={setDateRange} 
+      />
+      <Button onClick={handleSearch} className="w-full">Search Centers</Button>
+    </div>
+  );
+}
+
+# Test Strategy:
+1. Test search functionality:
+   - Verify that all filters (location, body part, modality, date range) work correctly
+   - Test autocomplete for location input
+   - Validate that search results update based on filter changes
+   - Test edge cases like no results found
+
+2. Test map view:
+   - Verify that markers appear in correct locations
+   - Test marker clustering for areas with many centers
+   - Validate that clicking a marker shows center information
+   - Test map controls (zoom, pan, etc.)
+   - Verify that map resizes properly on different screen sizes
+
+3. Test list view:
+   - Verify that center cards display all required information
+   - Test pagination functionality
+   - Validate sorting options
+   - Ensure responsive layout works on all screen sizes
+
+4. Test Center Profile modal:
+   - Verify that all center information displays correctly
+   - Test badge system for different center capabilities
+   - Validate that modal opens and closes properly
+   - Test responsive behavior on different screen sizes
+
+5. Test deep-linking:
+   - Verify that URLs with center ID correctly pre-populate forms
+   - Test deep links to Referral Wizard
+   - Validate deep links to Slot Picker
+   - Test handling of invalid parameters
+
+6. Test responsive design:
+   - Verify layout on mobile devices (320px width)
+   - Test tablet layout (768px width)
+   - Validate desktop layout (1024px+ width)
+   - Test filter collapse/expand on mobile
+   - Verify that map/list toggle works on all screen sizes
+
+7. Integration testing:
+   - Test with mock API responses
+   - Verify error handling for API failures
+   - Test loading states
+   - Validate that state is preserved when switching views

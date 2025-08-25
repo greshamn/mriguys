@@ -1,0 +1,437 @@
+[
+  {
+    "id": "tech-001",
+    "name": "Jennifer Martinez",
+    "type": "MRI Technologist",
+    "specialties": ["MRI"],
+    "certifications": ["ARRT", "ARMRIT"],
+    "license": "RT001",
+    "phone": "(305) 555-2001",
+    "email": "jennifer.martinez@advancedimaging.com",
+    "centerId": "center-001",
+    "experience": 8,
+    "education": {
+      "degree": "Associate of Applied Science in Radiologic Technology",
+      "school": "Miami Dade College",
+      "graduationYear": 2015
+    },
+    "languages": ["English", "Spanish"],
+    "availability": {
+      "monday": ["8:00 AM - 5:00 PM"],
+      "tuesday": ["8:00 AM - 5:00 PM"],
+      "wednesday": ["8:00 AM - 5:00 PM"],
+      "thursday": ["8:00 AM - 5:00 PM"],
+      "friday": ["8:00 AM - 5:00 PM"],
+      "saturday": ["Closed"],
+      "sunday": ["Closed"]
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "tech-002",
+    "name": "Robert Chen",
+    "type": "CT Technologist",
+    "specialties": ["CT"],
+    "certifications": ["ARRT", "CT"],
+    "license": "RT002",
+    "phone": "(305) 555-2002",
+    "email": "robert.chen@advancedimaging.com",
+    "centerId": "center-001",
+    "experience": 12,
+    "education": {
+      "degree": "Bachelor of Science in Radiologic Technology",
+      "school": "University of Miami",
+      "graduationYear": 2011
+    },
+    "languages": ["English", "Mandarin"],
+    "availability": {
+      "monday": ["8:00 AM - 5:00 PM"],
+      "tuesday": ["8:00 AM - 5:00 PM"],
+      "wednesday": ["8:00 AM - 5:00 PM"],
+      "thursday": ["8:00 AM - 5:00 PM"],
+      "friday": ["8:00 AM - 5:00 PM"],
+      "saturday": ["Closed"],
+      "sunday": ["Closed"]
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "tech-003",
+    "name": "Maria Rodriguez",
+    "type": "MRI Technologist",
+    "specialties": ["MRI"],
+    "certifications": ["ARRT", "ARMRIT"],
+    "license": "RT003",
+    "phone": "(305) 555-2003",
+    "email": "maria.rodriguez@coastaldiagnostics.com",
+    "centerId": "center-002",
+    "experience": 6,
+    "education": {
+      "degree": "Associate of Applied Science in Radiologic Technology",
+      "school": "Broward College",
+      "graduationYear": 2017
+    },
+    "languages": ["English", "Spanish"],
+    "availability": {
+      "monday": ["9:00 AM - 6:00 PM"],
+      "tuesday": ["9:00 AM - 6:00 PM"],
+      "wednesday": ["9:00 AM - 6:00 PM"],
+      "thursday": ["9:00 AM - 6:00 PM"],
+      "friday": ["9:00 AM - 6:00 PM"],
+      "saturday": ["9:00 AM - 1:00 PM"],
+      "sunday": ["Closed"]
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "tech-004",
+    "name": "David Wilson",
+    "type": "Ultrasound Technologist",
+    "specialties": ["Ultrasound"],
+    "certifications": ["ARDMS"],
+    "license": "RT004",
+    "phone": "(305) 555-2004",
+    "email": "david.wilson@coastaldiagnostics.com",
+    "centerId": "center-002",
+    "experience": 10,
+    "education": {
+      "degree": "Associate of Applied Science in Diagnostic Medical Sonography",
+      "school": "Florida State College at Jacksonville",
+      "graduationYear": 2013
+    },
+    "languages": ["English"],
+    "availability": {
+      "monday": ["9:00 AM - 6:00 PM"],
+      "tuesday": ["9:00 AM - 6:00 PM"],
+      "wednesday": ["9:00 AM - 6:00 PM"],
+      "thursday": ["9:00 AM - 6:00 PM"],
+      "friday": ["9:00 AM - 6:00 PM"],
+      "saturday": ["9:00 AM - 1:00 PM"],
+      "sunday": ["Closed"]
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "tech-005",
+    "name": "Sarah Johnson",
+    "type": "MRI Technologist",
+    "specialties": ["MRI"],
+    "certifications": ["ARRT", "ARMRIT"],
+    "license": "RT005",
+    "phone": "(305) 555-2005",
+    "email": "sarah.johnson@sportsimaging.com",
+    "centerId": "center-003",
+    "experience": 9,
+    "education": {
+      "degree": "Bachelor of Science in Radiologic Technology",
+      "school": "University of Florida",
+      "graduationYear": 2014
+    },
+    "languages": ["English"],
+    "availability": {
+      "monday": ["7:00 AM - 7:00 PM"],
+      "tuesday": ["7:00 AM - 7:00 PM"],
+      "wednesday": ["7:00 AM - 7:00 PM"],
+      "thursday": ["7:00 AM - 7:00 PM"],
+      "friday": ["7:00 AM - 7:00 PM"],
+      "saturday": ["8:00 AM - 12:00 PM"],
+      "sunday": ["Closed"]
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "tech-006",
+    "name": "Michael Brown",
+    "type": "X-Ray Technologist",
+    "specialties": ["X-Ray"],
+    "certifications": ["ARRT"],
+    "license": "RT006",
+    "phone": "(305) 555-2006",
+    "email": "michael.brown@sportsimaging.com",
+    "centerId": "center-003",
+    "experience": 7,
+    "education": {
+      "degree": "Associate of Applied Science in Radiologic Technology",
+      "school": "Palm Beach State College",
+      "graduationYear": 2016
+    },
+    "languages": ["English"],
+    "availability": {
+      "monday": ["7:00 AM - 7:00 PM"],
+      "tuesday": ["7:00 AM - 7:00 PM"],
+      "wednesday": ["7:00 AM - 7:00 PM"],
+      "thursday": ["7:00 AM - 7:00 PM"],
+      "friday": ["7:00 AM - 7:00 PM"],
+      "saturday": ["8:00 AM - 12:00 PM"],
+      "sunday": ["Closed"]
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "tech-007",
+    "name": "Ana Garcia",
+    "type": "X-Ray Technologist",
+    "specialties": ["X-Ray"],
+    "certifications": ["ARRT"],
+    "license": "RT007",
+    "phone": "(305) 555-2007",
+    "email": "ana.garcia@hialeahdiagnostics.com",
+    "centerId": "center-004",
+    "experience": 5,
+    "education": {
+      "degree": "Associate of Applied Science in Radiologic Technology",
+      "school": "Miami Dade College",
+      "graduationYear": 2018
+    },
+    "languages": ["English", "Spanish"],
+    "availability": {
+      "monday": ["8:00 AM - 5:00 PM"],
+      "tuesday": ["8:00 AM - 5:00 PM"],
+      "wednesday": ["8:00 AM - 5:00 PM"],
+      "thursday": ["8:00 AM - 5:00 PM"],
+      "friday": ["8:00 AM - 5:00 PM"],
+      "saturday": ["Closed"],
+      "sunday": ["Closed"]
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "tech-008",
+    "name": "Carlos Rodriguez",
+    "type": "CT Technologist",
+    "specialties": ["CT"],
+    "certifications": ["ARRT", "CT"],
+    "license": "RT008",
+    "phone": "(305) 555-2008",
+    "email": "carlos.rodriguez@hialeahdiagnostics.com",
+    "centerId": "center-004",
+    "experience": 11,
+    "education": {
+      "degree": "Bachelor of Science in Radiologic Technology",
+      "school": "Florida International University",
+      "graduationYear": 2012
+    },
+    "languages": ["English", "Spanish"],
+    "availability": {
+      "monday": ["8:00 AM - 5:00 PM"],
+      "tuesday": ["8:00 AM - 5:00 PM"],
+      "wednesday": ["8:00 AM - 5:00 PM"],
+      "thursday": ["8:00 AM - 5:00 PM"],
+      "friday": ["8:00 AM - 5:00 PM"],
+      "saturday": ["Closed"],
+      "sunday": ["Closed"]
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "tech-009",
+    "name": "Lisa Thompson",
+    "type": "MRI Technologist",
+    "specialties": ["MRI", "CT"],
+    "certifications": ["ARRT", "ARMRIT", "CT"],
+    "license": "RT009",
+    "phone": "(305) 555-2009",
+    "email": "lisa.thompson@spineimaging.com",
+    "centerId": "center-005",
+    "experience": 15,
+    "education": {
+      "degree": "Bachelor of Science in Radiologic Technology",
+      "school": "University of Central Florida",
+      "graduationYear": 2008
+    },
+    "languages": ["English", "Spanish"],
+    "availability": {
+      "monday": ["7:30 AM - 6:30 PM"],
+      "tuesday": ["7:30 AM - 6:30 PM"],
+      "wednesday": ["7:30 AM - 6:30 PM"],
+      "thursday": ["7:30 AM - 6:30 PM"],
+      "friday": ["7:30 AM - 6:30 PM"],
+      "saturday": ["Closed"],
+      "sunday": ["Closed"]
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "tech-010",
+    "name": "James Anderson",
+    "type": "MRI Technologist",
+    "specialties": ["MRI"],
+    "certifications": ["ARRT", "ARMRIT"],
+    "license": "RT010",
+    "phone": "(305) 555-2010",
+    "email": "james.anderson@pediatricimagingmiami.com",
+    "centerId": "center-006",
+    "experience": 13,
+    "education": {
+      "degree": "Bachelor of Science in Radiologic Technology",
+      "school": "University of South Florida",
+      "graduationYear": 2010
+    },
+    "languages": ["English", "Spanish"],
+    "availability": {
+      "monday": ["8:00 AM - 5:00 PM"],
+      "tuesday": ["8:00 AM - 5:00 PM"],
+      "wednesday": ["8:00 AM - 5:00 PM"],
+      "thursday": ["8:00 AM - 5:00 PM"],
+      "friday": ["8:00 AM - 5:00 PM"],
+      "saturday": ["Closed"],
+      "sunday": ["Closed"]
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "tech-011",
+    "name": "Patricia Hernandez",
+    "type": "Ultrasound Technologist",
+    "specialties": ["Ultrasound"],
+    "certifications": ["ARDMS"],
+    "license": "RT011",
+    "phone": "(305) 555-2011",
+    "email": "patricia.hernandez@pediatricimagingmiami.com",
+    "centerId": "center-006",
+    "experience": 8,
+    "education": {
+      "degree": "Associate of Applied Science in Diagnostic Medical Sonography",
+      "school": "Miami Dade College",
+      "graduationYear": 2015
+    },
+    "languages": ["English", "Spanish"],
+    "availability": {
+      "monday": ["8:00 AM - 5:00 PM"],
+      "tuesday": ["8:00 AM - 5:00 PM"],
+      "wednesday": ["8:00 AM - 5:00 PM"],
+      "thursday": ["8:00 AM - 5:00 PM"],
+      "friday": ["8:00 AM - 5:00 PM"],
+      "saturday": ["Closed"],
+      "sunday": ["Closed"]
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "tech-012",
+    "name": "Robert Davis",
+    "type": "CT Technologist",
+    "specialties": ["CT"],
+    "certifications": ["ARRT", "CT"],
+    "license": "RT012",
+    "phone": "(305) 555-2012",
+    "email": "robert.davis@cardiacvascularimaging.com",
+    "centerId": "center-007",
+    "experience": 16,
+    "education": {
+      "degree": "Bachelor of Science in Radiologic Technology",
+      "school": "University of Miami",
+      "graduationYear": 2007
+    },
+    "languages": ["English", "Spanish"],
+    "availability": {
+      "monday": ["7:00 AM - 6:00 PM"],
+      "tuesday": ["7:00 AM - 6:00 PM"],
+      "wednesday": ["7:00 AM - 6:00 PM"],
+      "thursday": ["7:00 AM - 6:00 PM"],
+      "friday": ["7:00 AM - 6:00 PM"],
+      "saturday": ["Closed"],
+      "sunday": ["Closed"]
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "tech-013",
+    "name": "Jennifer Lee",
+    "type": "MRI Technologist",
+    "specialties": ["MRI"],
+    "certifications": ["ARRT", "ARMRIT"],
+    "license": "RT013",
+    "phone": "(305) 555-2013",
+    "email": "jennifer.lee@cardiacvascularimaging.com",
+    "centerId": "center-007",
+    "experience": 14,
+    "education": {
+      "degree": "Bachelor of Science in Radiologic Technology",
+      "school": "University of Florida",
+      "graduationYear": 2009
+    },
+    "languages": ["English", "Spanish"],
+    "availability": {
+      "monday": ["7:00 AM - 6:00 PM"],
+      "tuesday": ["7:00 AM - 6:00 PM"],
+      "wednesday": ["7:00 AM - 6:00 PM"],
+      "thursday": ["7:00 AM - 6:00 PM"],
+      "friday": ["7:00 AM - 6:00 PM"],
+      "saturday": ["Closed"],
+      "sunday": ["Closed"]
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "tech-014",
+    "name": "Sofia Rodriguez",
+    "type": "Mammography Technologist",
+    "specialties": ["Mammography"],
+    "certifications": ["ARRT", "M"],
+    "license": "RT014",
+    "phone": "(305) 555-2014",
+    "email": "sofia.rodriguez@womensimagingdoral.com",
+    "centerId": "center-008",
+    "experience": 9,
+    "education": {
+      "degree": "Associate of Applied Science in Radiologic Technology",
+      "school": "Miami Dade College",
+      "graduationYear": 2014
+    },
+    "languages": ["English", "Spanish"],
+    "availability": {
+      "monday": ["8:00 AM - 5:00 PM"],
+      "tuesday": ["8:00 AM - 5:00 PM"],
+      "wednesday": ["8:00 AM - 5:00 PM"],
+      "thursday": ["8:00 AM - 5:00 PM"],
+      "friday": ["8:00 AM - 5:00 PM"],
+      "saturday": ["Closed"],
+      "sunday": ["Closed"]
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "tech-015",
+    "name": "Amanda Wilson",
+    "type": "Ultrasound Technologist",
+    "specialties": ["Ultrasound"],
+    "certifications": ["ARDMS"],
+    "license": "RT015",
+    "phone": "(305) 555-2015",
+    "email": "amanda.wilson@womensimagingdoral.com",
+    "centerId": "center-008",
+    "experience": 7,
+    "education": {
+      "degree": "Associate of Applied Science in Diagnostic Medical Sonography",
+      "school": "Broward College",
+      "graduationYear": 2016
+    },
+    "languages": ["English", "Spanish"],
+    "availability": {
+      "monday": ["8:00 AM - 5:00 PM"],
+      "tuesday": ["8:00 AM - 5:00 PM"],
+      "wednesday": ["8:00 AM - 5:00 PM"],
+      "thursday": ["8:00 AM - 5:00 PM"],
+      "friday": ["8:00 AM - 5:00 PM"],
+      "saturday": ["Closed"],
+      "sunday": ["Closed"]
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  }
+]

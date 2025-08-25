@@ -1,0 +1,332 @@
+[
+  {
+    "id": "patient-001",
+    "name": "Maria Rodriguez",
+    "dob": "1985-03-15",
+    "phone": "(305) 555-1001",
+    "email": "maria.rodriguez@email.com",
+    "address": {
+      "street": "123 Calle Ocho",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33135",
+      "country": "USA"
+    },
+    "insurance": {
+      "provider": "Blue Cross Blue Shield",
+      "memberId": "BCBS123456789",
+      "groupNumber": "GRP001",
+      "effectiveDate": "2024-01-01",
+      "expirationDate": "2024-12-31"
+    },
+    "pipFlag": true,
+    "emergencyContact": {
+      "name": "Carlos Rodriguez",
+      "relationship": "Spouse",
+      "phone": "(305) 555-1002"
+    },
+    "medicalHistory": ["Hypertension", "Type 2 Diabetes"],
+    "allergies": ["Penicillin", "Shellfish"],
+    "medications": ["Metformin", "Lisinopril"],
+    "preferredLanguage": "Spanish",
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "patient-002",
+    "name": "James Wilson",
+    "dob": "1978-07-22",
+    "phone": "(305) 555-2001",
+    "email": "james.wilson@email.com",
+    "address": {
+      "street": "456 Brickell Ave",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33131",
+      "country": "USA"
+    },
+    "insurance": {
+      "provider": "Aetna",
+      "memberId": "AETNA987654321",
+      "groupNumber": "GRP002",
+      "effectiveDate": "2024-01-01",
+      "expirationDate": "2024-12-31"
+    },
+    "pipFlag": false,
+    "emergencyContact": {
+      "name": "Sarah Wilson",
+      "relationship": "Spouse",
+      "phone": "(305) 555-2002"
+    },
+    "medicalHistory": ["Sports injuries", "Previous knee surgery"],
+    "allergies": ["None known"],
+    "medications": ["Ibuprofen as needed"],
+    "preferredLanguage": "English",
+    "createdAt": "2024-01-02T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "patient-003",
+    "name": "Isabella Santos",
+    "dob": "1992-11-08",
+    "phone": "(305) 555-3001",
+    "email": "isabella.santos@email.com",
+    "address": {
+      "street": "789 South Beach Blvd",
+      "city": "Miami Beach",
+      "state": "FL",
+      "zip": "33139",
+      "country": "USA"
+    },
+    "insurance": {
+      "provider": "Cigna",
+      "memberId": "CIGNA456789123",
+      "groupNumber": "GRP003",
+      "effectiveDate": "2024-01-01",
+      "expirationDate": "2024-12-31"
+    },
+    "pipFlag": true,
+    "emergencyContact": {
+      "name": "Miguel Santos",
+      "relationship": "Father",
+      "phone": "(305) 555-3002"
+    },
+    "medicalHistory": ["Asthma", "Seasonal allergies"],
+    "allergies": ["Dust", "Pollen", "Latex"],
+    "medications": ["Albuterol inhaler", "Fluticasone"],
+    "preferredLanguage": "English",
+    "createdAt": "2024-01-03T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "patient-004",
+    "name": "Robert Johnson",
+    "dob": "1965-12-03",
+    "phone": "(305) 555-4001",
+    "email": "robert.johnson@email.com",
+    "address": {
+      "street": "321 Hialeah Gardens Dr",
+      "city": "Hialeah",
+      "state": "FL",
+      "zip": "33010",
+      "country": "USA"
+    },
+    "insurance": {
+      "provider": "Medicare",
+      "memberId": "MEDICARE111222333",
+      "groupNumber": "GRP004",
+      "effectiveDate": "2024-01-01",
+      "expirationDate": "2024-12-31"
+    },
+    "pipFlag": false,
+    "emergencyContact": {
+      "name": "Linda Johnson",
+      "relationship": "Daughter",
+      "phone": "(305) 555-4002"
+    },
+    "medicalHistory": ["Heart disease", "High cholesterol", "Arthritis"],
+    "allergies": ["Sulfa drugs"],
+    "medications": ["Atorvastatin", "Metoprolol", "Aspirin"],
+    "preferredLanguage": "English",
+    "createdAt": "2024-01-04T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "patient-005",
+    "name": "Ana Martinez",
+    "dob": "1988-05-18",
+    "phone": "(305) 555-5001",
+    "email": "ana.martinez@email.com",
+    "address": {
+      "street": "654 Coral Way",
+      "city": "Coral Gables",
+      "state": "FL",
+      "zip": "33134",
+      "country": "USA"
+    },
+    "insurance": {
+      "provider": "Humana",
+      "memberId": "HUMANA555666777",
+      "groupNumber": "GRP005",
+      "effectiveDate": "2024-01-01",
+      "expirationDate": "2024-12-31"
+    },
+    "pipFlag": true,
+    "emergencyContact": {
+      "name": "Jose Martinez",
+      "relationship": "Brother",
+      "phone": "(305) 555-5002"
+    },
+    "medicalHistory": ["Migraines", "Anxiety"],
+    "allergies": ["Codeine", "Aspirin"],
+    "medications": ["Sumatriptan", "Sertraline"],
+    "preferredLanguage": "Spanish",
+    "createdAt": "2024-01-05T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "patient-006",
+    "name": "David Thompson",
+    "dob": "1973-09-14",
+    "phone": "(305) 555-6001",
+    "email": "david.thompson@email.com",
+    "address": {
+      "street": "987 Kendall Dr",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33176",
+      "country": "USA"
+    },
+    "insurance": {
+      "provider": "UnitedHealth",
+      "memberId": "UNITED888999000",
+      "groupNumber": "GRP006",
+      "effectiveDate": "2024-01-01",
+      "expirationDate": "2024-12-31"
+    },
+    "pipFlag": false,
+    "emergencyContact": {
+      "name": "Jennifer Thompson",
+      "relationship": "Wife",
+      "phone": "(305) 555-6002"
+    },
+    "medicalHistory": ["Back pain", "Previous spine surgery"],
+    "allergies": ["None known"],
+    "medications": ["Gabapentin", "Meloxicam"],
+    "preferredLanguage": "English",
+    "createdAt": "2024-01-06T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "patient-007",
+    "name": "Sofia Hernandez",
+    "dob": "2015-02-25",
+    "phone": "(305) 555-7001",
+    "email": "sofia.hernandez@email.com",
+    "address": {
+      "street": "147 Children's Hospital Way",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33155",
+      "country": "USA"
+    },
+    "insurance": {
+      "provider": "Medicaid",
+      "memberId": "MEDICAID777888999",
+      "groupNumber": "GRP007",
+      "effectiveDate": "2024-01-01",
+      "expirationDate": "2024-12-31"
+    },
+    "pipFlag": false,
+    "emergencyContact": {
+      "name": "Elena Hernandez",
+      "relationship": "Mother",
+      "phone": "(305) 555-7002"
+    },
+    "medicalHistory": ["Developmental delay", "Seizure disorder"],
+    "allergies": ["Peanuts", "Tree nuts"],
+    "medications": ["Levetiracetam", "Valproic acid"],
+    "preferredLanguage": "Spanish",
+    "createdAt": "2024-01-07T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "patient-008",
+    "name": "Michael Chen",
+    "dob": "1982-04-12",
+    "phone": "(305) 555-8001",
+    "email": "michael.chen@email.com",
+    "address": {
+      "street": "258 Heart Center Blvd",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33143",
+      "country": "USA"
+    },
+    "insurance": {
+      "provider": "Blue Cross Blue Shield",
+      "memberId": "BCBS222333444",
+      "groupNumber": "GRP008",
+      "effectiveDate": "2024-01-01",
+      "expirationDate": "2024-12-31"
+    },
+    "pipFlag": false,
+    "emergencyContact": {
+      "name": "Lisa Chen",
+      "relationship": "Wife",
+      "phone": "(305) 555-8002"
+    },
+    "medicalHistory": ["Hypertension", "Family history of heart disease"],
+    "allergies": ["Shellfish", "Iodine"],
+    "medications": ["Amlodipine", "Metoprolol"],
+    "preferredLanguage": "English",
+    "createdAt": "2024-01-08T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "patient-009",
+    "name": "Carmen Lopez",
+    "dob": "1976-08-30",
+    "phone": "(305) 555-9001",
+    "email": "carmen.lopez@email.com",
+    "address": {
+      "street": "369 Women's Health Plaza",
+      "city": "Miami",
+      "state": "FL",
+      "zip": "33133",
+      "country": "USA"
+    },
+    "insurance": {
+      "provider": "Aetna",
+      "memberId": "AETNA333444555",
+      "groupNumber": "GRP009",
+      "effectiveDate": "2024-01-01",
+      "expirationDate": "2024-12-31"
+    },
+    "pipFlag": false,
+    "emergencyContact": {
+      "name": "Rafael Lopez",
+      "relationship": "Husband",
+      "phone": "(305) 555-9002"
+    },
+    "medicalHistory": ["Breast cancer survivor", "Osteoporosis"],
+    "allergies": ["None known"],
+    "medications": ["Tamoxifen", "Calcium", "Vitamin D"],
+    "preferredLanguage": "Spanish",
+    "createdAt": "2024-01-09T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "patient-010",
+    "name": "Thomas Anderson",
+    "dob": "1990-01-20",
+    "phone": "(305) 555-0101",
+    "email": "thomas.anderson@email.com",
+    "address": {
+      "street": "741 Sports Medicine Dr",
+      "city": "Miami Beach",
+      "state": "FL",
+      "zip": "33139",
+      "country": "USA"
+    },
+    "insurance": {
+      "provider": "Cigna",
+      "memberId": "CIGNA444555666",
+      "groupNumber": "GRP010",
+      "effectiveDate": "2024-01-01",
+      "expirationDate": "2024-12-31"
+    },
+    "pipFlag": true,
+    "emergencyContact": {
+      "name": "Emily Anderson",
+      "relationship": "Girlfriend",
+      "phone": "(305) 555-0102"
+    },
+    "medicalHistory": ["ACL tear", "Previous knee surgery"],
+    "allergies": ["None known"],
+    "medications": ["Ibuprofen as needed"],
+    "preferredLanguage": "English",
+    "createdAt": "2024-01-10T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  }
+]

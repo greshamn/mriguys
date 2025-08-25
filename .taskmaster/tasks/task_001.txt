@@ -1,0 +1,149 @@
+# Task ID: 1
+# Title: Project Scaffolding and Theme Setup
+# Status: done
+# Dependencies: None
+# Priority: high
+# Description: Initialize the project with Vite, React, Tailwind CSS, and shadcn/ui. Set up the theme variables and implement the Theme Switcher. Complete the routing structure with role-based guards and admin role switching functionality.
+# Details:
+Completed:
+1. Created a new Vite project with React and TypeScript
+2. Installed and configured Tailwind CSS v3
+3. Set up shadcn/ui components
+4. Created a themes folder with JSON theme snapshots
+5. Imported theme variables into CSS for light/dark modes
+6. Implemented Theme Switcher component with light/dark toggle
+7. Configured CSS variables in globals.css for all theme tokens
+
+Remaining:
+1. Set up comprehensive routing structure with React Router
+2. Create role-based route guards with dual-role context system
+3. Implement admin role switcher dropdown in TopMenu
+4. Maintain existing shadcn components with tweakcn CSS styles
+
+Implemented Theme Switcher:
+```tsx
+// src/components/ThemeSwitcher.tsx
+import { useState, useEffect } from 'react';
+import { Button } from './ui/button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
+import { Sun, Moon } from 'lucide-react';
+
+const themes = {
+  light: 'Light',
+  dark: 'Dark'
+};
+
+export function ThemeSwitcher() {
+  const [theme, setTheme] = useState('light');
+  
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon">
+          {theme === 'light' ? <Sun /> : <Moon />}
+          <span className="sr-only">Toggle theme</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        {Object.entries(themes).map(([key, name]) => (
+          <DropdownMenuItem key={key} onClick={() => setTheme(key)}>
+            {name}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+```
+
+# Test Strategy:
+1. Verify that the project builds successfully with `pnpm dev`
+2. Test theme switching between light and dark modes
+3. Confirm that CSS variables are properly applied to components
+4. Validate that route guards correctly redirect based on role
+5. Test the dual-role context system (primary role + viewing role)
+6. Verify admin role switcher dropdown functionality in TopMenu
+7. Ensure responsive layout works on different screen sizes
+
+# Subtasks:
+## 1. Vite + React setup with TypeScript [completed]
+### Dependencies: None
+### Description: 
+### Details:
+
+
+## 2. Tailwind CSS v3 configuration [completed]
+### Dependencies: None
+### Description: 
+### Details:
+
+
+## 3. shadcn/ui components installation [completed]
+### Dependencies: None
+### Description: 
+### Details:
+
+
+## 4. Theme variables and CSS setup [completed]
+### Dependencies: None
+### Description: 
+### Details:
+
+
+## 5. Light/Dark theme switcher implementation [completed]
+### Dependencies: None
+### Description: 
+### Details:
+
+
+## 6. Set up comprehensive routing structure with React Router [done]
+### Dependencies: None
+### Description: Implement the complete routing structure for the application using React Router.
+### Details:
+1. Install and configure React Router v6
+2. Create route definitions for all major sections
+3. Set up nested routes for complex sections
+4. Implement route parameters for dynamic pages
+5. Add 404 page and error boundaries
+
+## 7. Create role-based route guards with dual-role context [done]
+### Dependencies: 1.6
+### Description: Implement a dual-role context system with primary role and viewing role capabilities.
+### Details:
+1. Create a RoleContext with primary role and viewing role states
+2. Implement ProtectedRoute component that checks permissions
+3. Set up route configuration with role requirements
+4. Create redirect logic for unauthorized access
+5. Implement role-based content rendering within components
+
+## 8. Implement admin role switcher dropdown in TopMenu [done]
+### Dependencies: 1.7
+### Description: Create a dropdown in the TopMenu that allows admins to switch their viewing role.
+### Details:
+1. Create RoleSwitcher component using shadcn/ui dropdown
+2. Connect to the dual-role context system
+3. Show available roles for switching
+4. Implement role switching logic
+5. Add visual indicator of current viewing role
+
+## 9. Maintain shadcn components with tweakcn CSS styles [done]
+### Dependencies: 1.4, 1.5
+### Description: Ensure all shadcn components work with the theme system and apply tweakcn CSS styles.
+### Details:
+1. Review all shadcn components for theme compatibility
+2. Apply tweakcn CSS styles to enhance component appearance
+3. Ensure consistent styling across all components
+4. Test components in both light and dark modes
+<info added on 2025-08-21T10:28:14.146Z>
+Task 1.9 has been completed successfully. All shadcn components have been properly integrated with the tweakcn CSS theme system. The components display consistent styling across the application and function correctly in both light and dark modes. Theme-aware behavior has been implemented, ensuring proper CSS variable usage throughout the component library. User testing has verified the frontend appearance and confirmed that everything looks good.
+</info added on 2025-08-21T10:28:14.146Z>
+

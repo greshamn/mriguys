@@ -1,0 +1,268 @@
+# Task ID: 11
+# Title: Case Packet and Lien Ledger Components
+# Status: pending
+# Dependencies: 3, 7
+# Priority: medium
+# Description: Implement the Case Packet preview and Lien Ledger components for the Attorney workspace.
+# Details:
+1. Create the Case Packet preview component that compiles:
+   - Records
+   - Bills
+   - Images placeholder
+   - Radiology report
+
+2. Implement the Lien Ledger component with:
+   - Interest calculation
+   - Adjustments
+   - Settlement disbursement splits
+
+3. Add PDF export functionality (simulated)
+
+Example Case Packet Preview:
+```tsx
+// src/components/PacketPreview.tsx
+import { useEffect, useState } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { FileText, Image, DollarSign, FileCheck } from 'lucide-react';
+import { useStore } from '@/store';
+
+interface PacketPreviewProps {
+  caseId: string;
+}
+
+export function PacketPreview({ caseId }: PacketPreviewProps) {
+  const [loading, setLoading] = useState(true);
+  const [packetData, setPacketData] = useState(null);
+  const { fetchCasePacket } = useStore();
+  
+  useEffect(() => {
+    fetchCasePacket(caseId)
+      .then(data => {
+        setPacketData(data);
+        setLoading(false);
+      });
+  }, [caseId, fetchCasePacket]);
+  
+  if (loading) {
+    return (
+      <div className="h-64 animate-pulse bg-muted rounded" />
+    );
+  }
+  
+  return (
+    <div>
+      <Tabs defaultValue="records">
+        <TabsList className="mb-4">
+          <TabsTrigger value="records">
+            <FileText className="h-4 w-4 mr-2" />
+            Records
+          </TabsTrigger>
+          <TabsTrigger value="bills">
+            <DollarSign className="h-4 w-4 mr-2" />
+            Bills
+          </TabsTrigger>
+          <TabsTrigger value="images">
+            <Image className="h-4 w-4 mr-2" />
+            Images
+          </TabsTrigger>
+          <TabsTrigger value="report">
+            <FileCheck className="h-4 w-4 mr-2" />
+            Report
+          </TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="records">
+          <Card>
+            <CardContent className="p-4">
+              <div className="space-y-2">
+                {packetData.records.map(record => (
+                  <div key={record.id} className="flex justify-between items-center p-2 border-b border-border">
+                    <div>
+                      <div className="font-medium">{record.title}</div>
+                      <div className="text-sm text-muted-foreground">{record.date}</div>
+                    </div>
+                    <Button variant="ghost" size="sm">View</Button>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="bills">
+          <Card>
+            <CardContent className="p-4">
+              <div className="space-y-2">
+                {packetData.bills.map(bill => (
+                  <div key={bill.id} className="flex justify-between items-center p-2 border-b border-border">
+                    <div>
+                      <div className="font-medium">{bill.provider}</div>
+                      <div className="text-sm text-muted-foreground">${bill.amount.toLocaleString()} - {bill.date}</div>
+                    </div>
+                    <Button variant="ghost" size="sm">View</Button>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        {/* Similar content for other tabs */}
+      </Tabs>
+    </div>
+  );
+}
+```
+
+Example Lien Ledger:
+```tsx
+// src/components/LienLedger.tsx
+import { useState } from 'react';
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from '@/components/ui/table';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Plus } from 'lucide-react';
+
+interface LienLedgerProps {
+  lien: {
+    id: string;
+    principal: number;
+    rateApr: number;
+    accrualBasis: string;
+    ledger: Array<{
+      date: string;
+      description: string;
+      amount: number;
+      balance: number;
+    }>;
+  };
+  onUpdate: (ledger: any) => void;
+}
+
+export function LienLedger({ lien, onUpdate }: LienLedgerProps) {
+  const [newEntry, setNewEntry] = useState({
+    date: new Date().toISOString().split('T')[0],
+    description: '',
+    amount: 0
+  });
+  
+  const calculateInterest = (principal, rateApr, days) => {
+    const dailyRate = rateApr / 365;
+    return principal * dailyRate * days / 100;
+  };
+  
+  const addEntry = () => {
+    const lastEntry = lien.ledger[lien.ledger.length - 1];
+    const newBalance = lastEntry.balance + newEntry.amount;
+    
+    const updatedLedger = [
+      ...lien.ledger,
+      {
+        ...newEntry,
+        balance: newBalance
+      }
+    ];
+    
+    onUpdate({
+      ...lien,
+      ledger: updatedLedger
+    });
+    
+    setNewEntry({
+      date: new Date().toISOString().split('T')[0],
+      description: '',
+      amount: 0
+    });
+  };
+  
+  return (
+    <div>
+      <div className="mb-4">
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <p className="text-sm font-medium mb-1">Principal</p>
+            <p className="text-lg font-bold">${lien.principal.toLocaleString()}</p>
+          </div>
+          <div>
+            <p className="text-sm font-medium mb-1">Rate (APR)</p>
+            <p className="text-lg font-bold">{lien.rateApr}%</p>
+          </div>
+          <div>
+            <p className="text-sm font-medium mb-1">Accrual Basis</p>
+            <p className="text-lg font-bold">{lien.accrualBasis}</p>
+          </div>
+          <div>
+            <p className="text-sm font-medium mb-1">Current Balance</p>
+            <p className="text-lg font-bold">
+              ${lien.ledger[lien.ledger.length - 1].balance.toLocaleString()}
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Date</TableHead>
+            <TableHead>Description</TableHead>
+            <TableHead>Amount</TableHead>
+            <TableHead>Balance</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {lien.ledger.map((entry, i) => (
+            <TableRow key={i}>
+              <TableCell>{entry.date}</TableCell>
+              <TableCell>{entry.description}</TableCell>
+              <TableCell>${entry.amount.toLocaleString()}</TableCell>
+              <TableCell>${entry.balance.toLocaleString()}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      
+      <div className="mt-4 grid grid-cols-12 gap-4 items-end">
+        <div className="col-span-3">
+          <label className="text-sm font-medium mb-1 block">Date</label>
+          <Input
+            type="date"
+            value={newEntry.date}
+            onChange={e => setNewEntry({ ...newEntry, date: e.target.value })}
+          />
+        </div>
+        <div className="col-span-5">
+          <label className="text-sm font-medium mb-1 block">Description</label>
+          <Input
+            value={newEntry.description}
+            onChange={e => setNewEntry({ ...newEntry, description: e.target.value })}
+            placeholder="Interest accrual, adjustment, etc."
+          />
+        </div>
+        <div className="col-span-3">
+          <label className="text-sm font-medium mb-1 block">Amount</label>
+          <Input
+            type="number"
+            value={newEntry.amount}
+            onChange={e => setNewEntry({ ...newEntry, amount: parseFloat(e.target.value) || 0 })}
+          />
+        </div>
+        <div className="col-span-1">
+          <Button onClick={addEntry}>
+            <Plus className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+```
+
+# Test Strategy:
+1. Test the Case Packet preview in all theme modes
+2. Verify that packet documents display correctly
+3. Test the Lien Ledger calculations
+4. Validate that new entries can be added to the ledger
+5. Test PDF export functionality
+6. Test responsive layout on different screen sizes

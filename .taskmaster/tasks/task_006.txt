@@ -1,0 +1,130 @@
+# Task ID: 6
+# Title: Referral Wizard and Slot Picker
+# Status: pending
+# Dependencies: 3, 4
+# Priority: high
+# Description: Implement the multi-step Referral Wizard and Slot Picker components for the referral creation flow.
+# Details:
+1. Create a multi-step wizard with the following steps:
+   - Patient information
+   - Exam details (modality, body part)
+   - Clinical notes
+   - Attachments (simulated)
+   - Center selection
+   - Review and submit
+
+2. Implement the Slot Picker component with:
+   - Calendar view of available slots
+   - Safety questions that must be completed
+   - Slot selection and booking functionality
+
+3. Add validation for each step
+4. Implement AI center recommendation in the right rail
+
+Example Wizard Component:
+```tsx
+// src/components/ReferralWizard.tsx
+import { useState } from 'react';
+import { Button } from './ui/button';
+import { PatientStep } from './wizard/PatientStep';
+import { ExamStep } from './wizard/ExamStep';
+import { ClinicalNotesStep } from './wizard/ClinicalNotesStep';
+import { AttachmentsStep } from './wizard/AttachmentsStep';
+import { CenterStep } from './wizard/CenterStep';
+import { ReviewStep } from './wizard/ReviewStep';
+import { AIRecommendation } from './AIRecommendation';
+
+const steps = [
+  'Patient',
+  'Exam',
+  'Clinical Notes',
+  'Attachments',
+  'Center',
+  'Review'
+];
+
+export function ReferralWizard() {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [formData, setFormData] = useState({
+    patient: {},
+    exam: {},
+    clinicalNotes: '',
+    attachments: [],
+    center: null,
+    safetyAnswers: {}
+  });
+  
+  const updateFormData = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+  
+  const nextStep = () => setCurrentStep(prev => Math.min(prev + 1, steps.length - 1));
+  const prevStep = () => setCurrentStep(prev => Math.max(prev - 1, 0));
+  
+  const renderStep = () => {
+    switch (currentStep) {
+      case 0:
+        return <PatientStep data={formData.patient} updateData={(value) => updateFormData('patient', value)} />;
+      case 1:
+        return <ExamStep data={formData.exam} updateData={(value) => updateFormData('exam', value)} />;
+      case 2:
+        return <ClinicalNotesStep data={formData.clinicalNotes} updateData={(value) => updateFormData('clinicalNotes', value)} />;
+      case 3:
+        return <AttachmentsStep data={formData.attachments} updateData={(value) => updateFormData('attachments', value)} />;
+      case 4:
+        return <CenterStep data={formData.center} safetyAnswers={formData.safetyAnswers} updateData={(value) => updateFormData('center', value)} updateSafetyAnswers={(value) => updateFormData('safetyAnswers', value)} />;
+      case 5:
+        return <ReviewStep formData={formData} />;
+      default:
+        return null;
+    }
+  };
+  
+  return (
+    <div className="grid grid-cols-12 gap-6">
+      <div className="col-span-12 mb-6">
+        <div className="flex justify-between items-center">
+          {steps.map((step, index) => (
+            <div key={step} className="flex items-center">
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center ${index === currentStep ? 'bg-primary text-primary-foreground' : index < currentStep ? 'bg-primary/20' : 'bg-muted'}`}>
+                {index + 1}
+              </div>
+              {index < steps.length - 1 && (
+                <div className={`h-1 w-full ${index < currentStep ? 'bg-primary/20' : 'bg-muted'}`} />
+              )}
+              <span className="ml-2">{step}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      <div className="col-span-12 lg:col-span-8">
+        {renderStep()}
+      </div>
+      
+      <div className="col-span-12 lg:col-span-4">
+        <AIRecommendation formData={formData} currentStep={currentStep} />
+      </div>
+      
+      <div className="col-span-12 flex justify-between mt-6">
+        <Button variant="outline" onClick={prevStep} disabled={currentStep === 0}>
+          Previous
+        </Button>
+        {currentStep < steps.length - 1 ? (
+          <Button onClick={nextStep}>Next</Button>
+        ) : (
+          <Button onClick={() => console.log('Submit', formData)}>Submit Referral</Button>
+        )}
+      </div>
+    </div>
+  );
+}
+```
+
+# Test Strategy:
+1. Test each step of the wizard for validation
+2. Verify that the slot picker correctly displays available slots
+3. Test safety questions validation
+4. Ensure the AI recommendation component displays correctly
+5. Validate form submission and error handling
+6. Test the entire flow end-to-end

@@ -1,0 +1,219 @@
+[
+  {
+    "id": "radiologist-001",
+    "name": "Dr. Alexander Kim",
+    "type": "Radiologist",
+    "specialties": ["Cardiac Imaging", "Vascular Imaging"],
+    "subspecialties": ["Cardiac CT", "Cardiac MRI", "Vascular CT"],
+    "certifications": ["ABR", "FACR"],
+    "license": "ME123500",
+    "phone": "(305) 555-3001",
+    "email": "dr.kim@cardiacvascularimaging.com",
+    "centerId": "center-007",
+    "experience": 18,
+    "education": {
+      "medicalSchool": "Johns Hopkins University School of Medicine",
+      "graduationYear": 2005,
+      "residency": "Johns Hopkins Hospital",
+      "fellowship": "Cardiovascular Imaging Fellowship"
+    },
+    "languages": ["English", "Korean"],
+    "availability": {
+      "monday": ["7:00 AM - 6:00 PM"],
+      "tuesday": ["7:00 AM - 6:00 PM"],
+      "wednesday": ["7:00 AM - 6:00 PM"],
+      "thursday": ["7:00 AM - 6:00 PM"],
+      "friday": ["7:00 AM - 6:00 PM"],
+      "saturday": ["Closed"],
+      "sunday": ["Closed"]
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "radiologist-002",
+    "name": "Dr. Emily Rodriguez",
+    "type": "Radiologist",
+    "specialties": ["Musculoskeletal Imaging"],
+    "subspecialties": ["Spine Imaging", "Sports Medicine Imaging"],
+    "certifications": ["ABR", "FACR"],
+    "license": "ME123501",
+    "phone": "(305) 555-3002",
+    "email": "dr.rodriguez@coastaldiagnostics.com",
+    "centerId": "center-002",
+    "experience": 12,
+    "education": {
+      "medicalSchool": "University of Miami Miller School of Medicine",
+      "graduationYear": 2011",
+      "residency": "Jackson Memorial Hospital",
+      "fellowship": "Musculoskeletal Imaging Fellowship"
+    },
+    "languages": ["English", "Spanish"],
+    "availability": {
+      "monday": ["9:00 AM - 6:00 PM"],
+      "tuesday": ["9:00 AM - 6:00 PM"],
+      "wednesday": ["9:00 AM - 6:00 PM"],
+      "thursday": ["9:00 AM - 6:00 PM"],
+      "friday": ["9:00 AM - 6:00 PM"],
+      "saturday": ["9:00 AM - 1:00 PM"],
+      "sunday": ["Closed"]
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "radiologist-003",
+    "name": "Dr. Michael Chen",
+    "type": "Radiologist",
+    "specialties": ["Neuroradiology"],
+    "subspecialties": ["Brain Imaging", "Spine Imaging"],
+    "certifications": ["ABR", "FACR"],
+    "license": "ME123502",
+    "phone": "(305) 555-3003",
+    "email": "dr.chen@advancedimaging.com",
+    "centerId": "center-001",
+    "experience": 15,
+    "education": {
+      "medicalSchool": "Stanford University School of Medicine",
+      "graduationYear": 2008",
+      "residency": "Stanford Hospital",
+      "fellowship": "Neuroradiology Fellowship"
+    },
+    "languages": ["English", "Mandarin"],
+    "availability": {
+      "monday": ["8:00 AM - 5:00 PM"],
+      "tuesday": ["8:00 AM - 5:00 PM"],
+      "wednesday": ["8:00 AM - 5:00 PM"],
+      "thursday": ["8:00 AM - 5:00 PM"],
+      "friday": ["8:00 AM - 5:00 PM"],
+      "saturday": ["Closed"],
+      "sunday": ["Closed"]
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "radiologist-004",
+    "name": "Dr. Sarah Williams",
+    "type": "Radiologist",
+    "specialties": ["General Radiology"],
+    "subspecialties": ["Chest Imaging", "Abdominal Imaging"],
+    "certifications": ["ABR", "FACR"],
+    "license": "ME123503",
+    "phone": "(305) 555-3004",
+    "email": "dr.williams@hialeahdiagnostics.com",
+    "centerId": "center-004",
+    "experience": 10,
+    "education": {
+      "medicalSchool": "University of Florida College of Medicine",
+      "graduationYear": 2013",
+      "residency": "Shands Hospital",
+      "fellowship": null
+    },
+    "languages": ["English", "Spanish"],
+    "availability": {
+      "monday": ["8:00 AM - 5:00 PM"],
+      "tuesday": ["8:00 AM - 5:00 PM"],
+      "wednesday": ["8:00 AM - 5:00 PM"],
+      "thursday": ["8:00 AM - 5:00 PM"],
+      "friday": ["8:00 AM - 5:00 PM"],
+      "saturday": ["Closed"],
+      "sunday": ["Closed"]
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "radiologist-005",
+    "name": "Dr. David Thompson",
+    "type": "Radiologist",
+    "specialties": ["Breast Imaging"],
+    "subspecialties": ["Mammography", "Breast MRI", "Breast Ultrasound"],
+    "certifications": ["ABR", "FACR"],
+    "license": "ME123504",
+    "phone": "(305) 555-3005",
+    "email": "dr.thompson@womensimagingdoral.com",
+    "centerId": "center-008",
+    "experience": 14,
+    "education": {
+      "medicalSchool": "University of Pennsylvania Perelman School of Medicine",
+      "graduationYear": 2009",
+      "residency": "Hospital of the University of Pennsylvania",
+      "fellowship": "Breast Imaging Fellowship"
+    },
+    "languages": ["English"],
+    "availability": {
+      "monday": ["8:00 AM - 5:00 PM"],
+      "tuesday": ["8:00 AM - 5:00 PM"],
+      "wednesday": ["8:00 AM - 5:00 PM"],
+      "thursday": ["8:00 AM - 5:00 PM"],
+      "friday": ["8:00 AM - 5:00 PM"],
+      "saturday": ["Closed"],
+      "sunday": ["Closed"]
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "radiologist-006",
+    "name": "Dr. Lisa Anderson",
+    "type": "Radiologist",
+    "specialties": ["Musculoskeletal Imaging"],
+    "subspecialties": ["Sports Medicine Imaging", "Joint Imaging"],
+    "certifications": ["ABR", "FACR"],
+    "license": "ME123505",
+    "phone": "(305) 555-3006",
+    "email": "dr.anderson@sportsimaging.com",
+    "centerId": "center-003",
+    "experience": 11,
+    "education": {
+      "medicalSchool": "University of Michigan Medical School",
+      "graduationYear": 2012",
+      "residency": "University of Michigan Hospital",
+      "fellowship": "Musculoskeletal Imaging Fellowship"
+    },
+    "languages": ["English"],
+    "availability": {
+      "monday": ["7:00 AM - 7:00 PM"],
+      "tuesday": ["7:00 AM - 7:00 PM"],
+      "wednesday": ["7:00 AM - 7:00 PM"],
+      "thursday": ["7:00 AM - 7:00 PM"],
+      "friday": ["7:00 AM - 7:00 PM"],
+      "saturday": ["8:00 AM - 12:00 PM"],
+      "sunday": ["Closed"]
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  },
+  {
+    "id": "radiologist-007",
+    "name": "Dr. Robert Martinez",
+    "type": "Radiologist",
+    "specialties": ["Pediatric Radiology"],
+    "subspecialties": ["Pediatric Neuroradiology", "Pediatric Body Imaging"],
+    "certifications": ["ABR", "FACR"],
+    "license": "ME123506",
+    "phone": "(305) 555-3007",
+    "email": "dr.martinez@pediatricimagingmiami.com",
+    "centerId": "center-006",
+    "experience": 16,
+    "education": {
+      "medicalSchool": "Harvard Medical School",
+      "graduationYear": "2007",
+      "residency": "Boston Children's Hospital",
+      "fellowship": "Pediatric Radiology Fellowship"
+    },
+    "languages": ["English", "Spanish"],
+    "availability": {
+      "monday": ["8:00 AM - 5:00 PM"],
+      "tuesday": ["8:00 AM - 5:00 PM"],
+      "wednesday": ["8:00 AM - 5:00 PM"],
+      "thursday": ["8:00 AM - 5:00 PM"],
+      "friday": ["8:00 AM - 5:00 PM"],
+      "saturday": ["Closed"],
+      "sunday": ["Closed"]
+    },
+    "createdAt": "2024-01-01T00:00:00Z",
+    "updatedAt": "2024-01-15T00:00:00Z"
+  }
+]
