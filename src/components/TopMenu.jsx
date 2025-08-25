@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Sun, Moon, Maximize2, Minimize2, Menu } from 'lucide-react';
+import { Sun, Moon, Maximize2, Minimize2, Menu, Lightbulb, Search, Bell } from 'lucide-react';
 import { RoleSwitcher } from './RoleSwitcher';
+import { CommandModal } from './CommandModal';
 
-const TopMenu = ({ onThemeChange, onSidebarToggle }) => {
+const TopMenu = ({ onThemeChange, onSidebarToggle, onAIToggle, aiDrawerOpen }) => {
   const [isDark, setIsDark] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [commandModalOpen, setCommandModalOpen] = useState(false);
 
   // Check initial theme preference
   useEffect(() => {
@@ -63,6 +65,19 @@ const TopMenu = ({ onThemeChange, onSidebarToggle }) => {
     return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
   }, []);
 
+  // Listen for Command-K shortcut
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setCommandModalOpen(true);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   return (
     <div className="bg-card border-b border-border px-4 py-3 flex items-center justify-between">
       {/* Left side - Logo and Title */}
@@ -77,18 +92,78 @@ const TopMenu = ({ onThemeChange, onSidebarToggle }) => {
         
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-sm">N4M</span>
+            <span className="text-primary-foreground font-bold text-sm">MG</span>
           </div>
           <h1 className="text-lg font-semibold text-foreground hidden sm:block">
-            N4M React
+            MRIGuys Platform
           </h1>
         </div>
       </div>
 
-      {/* Right side - Role Switcher, Theme, and Fullscreen buttons */}
+      {/* Center - Global Search Input */}
+      <div className="hidden md:flex flex-1 max-w-md mx-4">
+        <div className="relative w-full">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <input
+            type="text"
+            placeholder="Search patients, cases, reports..."
+            className="w-full pl-10 pr-4 py-2 bg-muted/50 text-foreground placeholder-muted-foreground rounded-lg text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+          />
+        </div>
+      </div>
+
+      {/* Right side - Role Switcher, AI Toggle, Command-K, Theme, and Fullscreen buttons */}
       <div className="flex items-center gap-2">
         {/* Role Switcher - Only visible to admins */}
         <RoleSwitcher />
+        
+        {/* Notifications Bell */}
+        <button
+          className="p-2 rounded-lg hover:bg-muted transition-colors relative group"
+          aria-label="Notifications"
+        >
+          <Bell className="w-5 h-5 text-foreground" />
+          
+          {/* Notification Badge */}
+          <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-background"></div>
+          
+          {/* Tooltip */}
+          <div className="absolute top-full right-0 mt-2 px-2 py-1 text-xs text-white bg-primary rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
+            3 new notifications
+          </div>
+        </button>
+        
+        {/* AI Insights Toggle */}
+        <button
+          onClick={onAIToggle}
+          className={`p-2 rounded-lg transition-colors relative group ${
+            aiDrawerOpen 
+              ? 'bg-primary text-primary-foreground' 
+              : 'hover:bg-muted text-foreground'
+          }`}
+          aria-label="Toggle AI insights"
+        >
+          <Lightbulb className="w-5 h-5" />
+          
+          {/* Tooltip */}
+          <div className="absolute top-full right-0 mt-2 px-2 py-1 text-xs text-white bg-primary rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
+            {aiDrawerOpen ? 'Hide' : 'Show'} AI insights
+          </div>
+        </button>
+
+        {/* Command-K Button */}
+        <button
+          onClick={() => setCommandModalOpen(true)}
+          className="p-2 rounded-lg hover:bg-muted transition-colors relative group"
+          aria-label="Open command palette"
+        >
+          <Search className="w-5 h-5 text-foreground" />
+          
+          {/* Tooltip */}
+          <div className="absolute top-full right-0 mt-2 px-2 py-1 text-xs text-white bg-primary rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
+            Quick actions (⌘K)
+          </div>
+        </button>
         
         {/* Theme Toggle */}
         <button
@@ -103,7 +178,7 @@ const TopMenu = ({ onThemeChange, onSidebarToggle }) => {
           )}
           
           {/* Tooltip */}
-          <div className="absolute bottom-full right-0 mb-2 px-2 py-1 text-xs text-white bg-primary rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+          <div className="absolute top-full right-0 mt-2 px-2 py-1 text-xs text-white bg-primary rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
             Toggle {isDark ? 'light' : 'dark'} mode
           </div>
         </button>
@@ -121,11 +196,17 @@ const TopMenu = ({ onThemeChange, onSidebarToggle }) => {
           )}
           
           {/* Tooltip */}
-          <div className="absolute bottom-full right-0 mb-2 px-2 py-1 text-xs text-white bg-primary rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
+          <div className="absolute top-full right-0 mt-2 px-2 py-1 text-xs text-white bg-primary rounded-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
             {isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
           </div>
         </button>
       </div>
+      
+      {/* Command Modal */}
+      <CommandModal 
+        isOpen={commandModalOpen}
+        onClose={() => setCommandModalOpen(false)}
+      />
     </div>
   );
 };
