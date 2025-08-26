@@ -87,3 +87,4 @@ Once you're satisfied with the landing page design:
 ## 📞 Support
 
 For questions about the landing page or integration help, refer to your development team or the project documentation.
+

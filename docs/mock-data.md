@@ -89,20 +89,44 @@ Liens    Settlements  Bills    Safety Qs
 
 ## Entity Documentation
 
-### 1. Centers (`centers.json`)
+### 1. Centers (`centers.json`) ⭐ **ENHANCED FOR TASK 16**
 **Purpose:** Imaging center facilities with capabilities and features
 
 **Key Fields:**
 - `id`: Unique identifier (e.g., "center-001")
 - `name`: Center name and branding
 - `address`: Full address with geo coordinates
+- `geo`: Latitude and longitude for mapping
 - `modalities`: Available imaging types (MRI, CT, X-Ray, etc.)
+- `bodyParts`: Available body part specializations
 - `magnetStrength`: MRI magnet strength (1.5T, 3T, etc.)
-- `specialties`: Body part specializations
-- `accreditations`: Medical certifications
+- `openUpright`: Whether open/Upright MRI available
+- `sedationAvailable`: Whether sedation services available
+- `languages`: Supported languages for patient communication
+- `ADA`: ADA compliance status
+- `parking`: Parking information
+- `accreditations`: Medical certifications and accreditations
+- `phone`: Contact phone number
+- `email`: Contact email address
+- `website`: Center website URL
 - `hours`: Operating hours and availability
-- `features`: Amenities (parking, ADA, languages, etc.)
 - `rating`: Center rating (1-5 scale)
+- `reviewCount`: Number of reviews
+- `avgTat`: Average turnaround time in days
+- `utilization`: Center utilization percentage
+- `noShowRate`: Patient no-show rate percentage
+- `satisfactionScore`: Patient satisfaction score percentage
+- `specialties`: Medical specialties and focus areas
+- `insuranceAccepted`: Accepted insurance providers
+- `description`: Detailed center description
+- `features`: Amenities and special features
+- `adaCompliant`: ADA compliance status (standardized field)
+
+**Enhanced Fields for Public Finder:**
+- **Performance Metrics**: avgTat, utilization, noShowRate, satisfactionScore
+- **Compliance**: adaCompliant, languages, bodyParts
+- **Enhanced Features**: magnetStrength, openUpright, sedationAvailable
+- **Rich Metadata**: accreditations, specialties, insuranceAccepted, features
 
 **Sample Record Count:** 8 centers
 **Relationships:** Referenced by slots, appointments, reports
@@ -2062,11 +2086,198 @@ This mock data and MSW implementation provides a robust foundation for frontend 
 
 **New in Task 3.8**: Complete Zustand store implementation with comprehensive state management for all business entities, including centers, slots, referrals, appointments, reports, patients, providers, insurers, bills, liens, settlements, claims, body parts, safety questions, attorneys, technologists, radiologists, system, and admin. The store provides API integration, optimistic updates, advanced filtering, pagination, selectors, and persistent state management with devtools support.
 
+**New in Task 4**: **AI SIMULATION REQUIREMENTS FOR DEMO APP** - All AI functionality must be completely mocked and simulated using predefined rules and mock data. NO real AI services, APIs, or machine learning models should be required. This ensures the demo app can run completely offline while providing a convincing AI experience through rule-based logic and clever use of existing mock data structures.
+
+**Updated in Tasks 5-17**: **ALL FUTURE TASKS NOW INCLUDE AI SIMULATION REQUIREMENTS** - Every task that contains AI functionality has been updated to emphasize the demo app requirements. This includes Imaging Center Dashboard, Referral Wizard, Attorney/Funder Dashboards, Ops Dashboard, AI Insight Drawer, Public Finder, and Email Intake systems.
+
+**Enhanced in Task 16**: **COMPREHENSIVE NAVIGATION & USER ACCESS DOCUMENTATION** - Task 16 now includes detailed navigation integration requirements, user journey flows, and access patterns to ensure perfect alignment between implementation and user experience design.
+
+**Updated in Task 16**: **SHADCN/UI COMPONENT REQUIREMENTS** - All UI components in Task 16 must use shadcn/ui components with proper cn() utility styling for consistent theming and responsive design. This includes Input, Select, Checkbox, DateRangePicker, Card, Dialog, Badge, Button, Skeleton, Pagination, and Separator components.
+
+**Enhanced Mock Data for Task 16**: The centers.json mock data has been enhanced with comprehensive fields required for the Public Finder implementation:
+- Performance metrics: avgTat (average turnaround time), utilization, noShowRate, satisfactionScore
+- Compliance: adaCompliant, languages, bodyParts
+- Enhanced features: magnetStrength, openUpright, sedationAvailable
+- Rich metadata: accreditations, specialties, insuranceAccepted, features
+
+---
+
+## AI Simulation Implementation for Demo App
+
+### Overview
+
+Since this is a **DEMO APP**, all AI functionality must be completely simulated using predefined rules, mock data, and rule-based logic. The goal is to create a believable AI experience without requiring any external AI services or APIs.
+
+### Core Principles
+
+1. **Complete Offline Operation**: The demo app must run without internet connectivity
+2. **Deterministic Responses**: All AI responses should be predictable and based on mock data
+3. **Believable Intelligence**: Use clever heuristics and rule-based logic to simulate AI behavior
+4. **No External Dependencies**: No real AI services, APIs, or machine learning models
+5. **Mock Data Integration**: Leverage existing mock data structures for AI simulation
+
+### AI Simulation Strategy
+
+#### Patient Dashboard AI Tips
+- **Appointment-based Advice**: Use predefined rules based on modality, body part, and appointment time
+- **Preparation Instructions**: Generate contextual prep lists based on imaging type
+- **Safety Reminders**: Use rule-based logic to identify relevant safety concerns
+
+#### Referrer Dashboard AI Suggestions
+- **Center Recommendations**: Mock scoring algorithm = distance weight + TAT weight + rating
+- **Risk Assessment**: Use predefined thresholds and mock data for patient risk scoring
+- **Workflow Optimization**: Rule-based suggestions for improving referral processes
+
+#### AI Insight Drawer
+- **Context-Aware Suggestions**: Generate tips based on current page, user role, and data context
+- **Predictive Insights**: Use mock data patterns to simulate predictive analytics
+- **Personalized Advice**: Apply role-specific rules and user preference settings
+
+### Implementation Requirements
+
+#### Mock AI Endpoints
+```javascript
+// Example mock AI endpoint structure
+POST /api/ai/suggest
+{
+  "context": "patient_dashboard",
+  "patientId": "patient-001",
+  "appointmentType": "MRI",
+  "bodyPart": "Head"
+}
+
+// Returns predefined suggestions based on context
+{
+  "suggestions": [
+    "Arrive 15 minutes early for your MRI appointment",
+    "Remove all metal objects before the scan",
+    "Wear comfortable, loose-fitting clothing"
+  ],
+  "source": "mock_ai_simulation",
+  "confidence": 0.95
+}
+```
+
+#### Rule-Based Logic Examples
+```javascript
+// Example: AI Tip generation for patient appointments
+function generateAITip(appointment, patient) {
+  const tips = [];
+  
+  // Rule 1: Modality-specific advice
+  if (appointment.modality === 'MRI') {
+    tips.push('Remove all metal objects before your MRI scan');
+    tips.push('Arrive 15 minutes early for safety screening');
+  }
+  
+  // Rule 2: Body part-specific preparation
+  if (appointment.bodyPart === 'Head') {
+    tips.push('Avoid hair products that contain metal');
+    tips.push('Bring a list of current medications');
+  }
+  
+  // Rule 3: Patient history considerations
+  if (patient.pipFlag) {
+    tips.push('Bring your attorney contact information');
+    tips.push('Document any changes in symptoms');
+  }
+  
+  return tips;
+}
+```
+
+#### Mock AI Service Layer
+```javascript
+// Example: Mock AI service for center recommendations
+class MockAIService {
+  recommendCenters(referral, patient) {
+    const centers = this.getAvailableCenters(referral.modality, referral.bodyPart);
+    
+    return centers.map(center => ({
+      ...center,
+      aiScore: this.calculateMockScore(center, referral, patient),
+      aiReasoning: this.generateMockReasoning(center, referral, patient)
+    })).sort((a, b) => b.aiScore - a.aiScore);
+  }
+  
+  calculateMockScore(center, referral, patient) {
+    // Mock scoring algorithm using existing data
+    const distanceScore = this.calculateDistanceScore(center, patient);
+    const tatScore = this.calculateTATScore(center);
+    const ratingScore = center.rating / 5;
+    
+    return (distanceScore * 0.3) + (tatScore * 0.4) + (ratingScore * 0.3);
+  }
+}
+```
+
+### Testing AI Simulation
+
+#### Validation Checklist
+- [ ] All AI responses are deterministic and repeatable
+- [ ] AI functionality works without internet connectivity
+- [ ] Mock AI endpoints return realistic responses
+- [ ] AI suggestions change appropriately with context
+- [ ] No external AI service calls are made
+- [ ] AI simulation appears intelligent and helpful
+
+#### Test Scenarios
+1. **Patient Dashboard**: Verify AI tips change based on appointment type and body part
+2. **Referrer Dashboard**: Test center recommendations with different referral parameters
+3. **AI Insight Drawer**: Validate context-aware suggestions across different pages
+4. **Offline Mode**: Ensure all AI functionality works without network connectivity
+
+### Future Considerations
+
+When transitioning to production:
+1. **Replace mock AI services** with real AI APIs
+2. **Implement proper AI model integration** for machine learning features
+3. **Add real-time AI processing** for dynamic suggestions
+4. **Implement AI model training** and continuous improvement
+5. **Add AI performance monitoring** and analytics
+
+For now, focus on creating a **convincing demo experience** that showcases the intended AI functionality without external dependencies.
+
+---
+
 For questions or issues, refer to the troubleshooting section or check the browser console for detailed error messages. The enhanced `/msw-test` page provides an interactive way to validate all endpoints and data relationships. The new `/zustand-test` page provides comprehensive testing of the Zustand store implementation.
 
 ---
 
-**Document Version:** 2.6  
+## Task Implementation Status
+
+### Completed Tasks
+- **Task 3.1**: ✅ **COMPLETED** - Created comprehensive mock data fixtures for all 17 core entities
+- **Task 3.2**: ✅ **COMPLETED** - Implemented MSW handlers for all API endpoints with proper error handling
+- **Task 3.3**: ✅ **COMPLETED** - Created Zustand store slices for all entities with proper state management
+- **Task 3.4**: ✅ **COMPLETED** - Implemented comprehensive testing interfaces for MSW and Zustand
+- **Task 3.5**: ✅ **COMPLETED** - Enhanced error handling and edge case testing for all endpoints
+- **Task 3.6**: ✅ **COMPLETED** - Added advanced filtering, pagination, and sorting capabilities
+- **Task 3.7**: ✅ **COMPLETED** - Implemented optimistic updates and webhook simulation
+- **Task 3.8**: ✅ **COMPLETED** - Added AI simulation endpoints and enhanced testing interfaces
+- **Task 3**: ✅ **COMPLETED** - All subtasks completed, main task marked as done
+
+### Current Task
+- **Task 16**: 🔄 **IN PROGRESS** - Public Finder Implementation with Map and List Views
+  - **16.1**: ✅ **COMPLETED** - Search filter components using shadcn/ui components
+  - **16.2**: ⏳ **PENDING** - Search results views (list and map)
+  - **16.3**: ⏳ **PENDING** - Center Profile modal
+  - **16.4**: ⏳ **PENDING** - Deep-linking functionality
+  - **16.5**: ⏳ **PENDING** - Responsive design adaptations
+  - **16.6**: ⏳ **PENDING** - Integration with existing components and mock APIs
+  - **16.7**: ⏳ **PENDING** - Mocked AI center recommendations
+  - **16.8**: ⏳ **PENDING** - Deterministic search suggestions
+  - **16.9**: ⏳ **PENDING** - Intelligent filtering heuristics
+  - **16.10**: ⏳ **PENDING** - Public access route at /centers
+  - **16.11**: ⏳ **PENDING** - Navigation entry points for different user roles
+  - **16.12**: ⏳ **PENDING** - User journey flows for different user types
+  - **16.13**: ⏳ **PENDING** - Integration points with other application features
+
+**Task 16 Requirements**: All UI components must use shadcn/ui components with proper cn() utility styling for consistent theming and responsive design. Mock data has been enhanced to support all required functionality.
+
+---
+
+**Document Version:** 2.8  
 **Last Updated:** December 19, 2024  
 **Maintained By:** Development Team  
 **Next Review:** September 25, 2024

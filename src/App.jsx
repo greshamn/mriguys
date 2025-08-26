@@ -5,12 +5,16 @@ import { Layout } from './components/Layout';
 import { Dashboard } from './components/Dashboard';
 import MSWTest from './pages/MSWTest';
 import ZustandTest from './pages/ZustandTest';
+import PublicFinder from './pages/PublicFinder';
 
 function App() {
   return (
     <RoleProvider>
       <Router>
         <Routes>
+          {/* Public Finder route - standalone for public access */}
+          <Route path="/centers" element={<PublicFinder />} />
+          
           {/* MSW Test route - standalone for development testing */}
           <Route path="/msw-test" element={<MSWTest />} />
           

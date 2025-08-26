@@ -1,0 +1,21 @@
+{
+	"meta": {
+		"generatedAt": "2025-08-25T14:20:22.127Z",
+		"tasksAnalyzed": 1,
+		"totalTasks": 20,
+		"analysisCount": 1,
+		"thresholdScore": 5,
+		"projectName": "Taskmaster",
+		"usedResearch": true
+	},
+	"complexityAnalysis": [
+		{
+			"taskId": 4,
+			"taskTitle": "Patient and Referrer Dashboards",
+			"complexityScore": 7,
+			"recommendedSubtasks": 8,
+			"expansionPrompt": "Break down the implementation of Patient and Referrer Dashboards into subtasks, including separate components for each dashboard, data visualization charts, AI integration, responsive layout implementation, state management, loading states, and testing. For each subtask, provide a clear description, implementation details, dependencies, and test strategy.",
+			"reasoning": "This task involves creating two complex dashboards with multiple interactive components, data visualization charts, and AI integration. The complexity comes from implementing responsive layouts, skeleton loaders, data fetching logic, and ensuring proper state management across multiple components. The task requires integration with existing systems (AI Insights, store) and implementing various UI patterns (cards, charts, tables). The 8 subtasks already defined cover the core implementation needs including separate dashboard components, charts, AI integration, and testing."
+		}
+	]
+}

@@ -17,6 +17,20 @@ export const centersSlice = (set, get) => ({
     limit: 20,
     total: 0,
   },
+  
+  // Static data for UI components
+  modalityOptions: [
+    { value: 'mri', label: 'MRI' },
+    { value: 'ct', label: 'CT' },
+    { value: 'xray', label: 'X-Ray' },
+    { value: 'ultrasound', label: 'Ultrasound' },
+    { value: 'pet', label: 'PET' },
+    { value: 'nuclear', label: 'Nuclear Medicine' },
+    { value: 'fluoroscopy', label: 'Fluoroscopy' },
+    { value: 'mammography', label: 'Mammography' },
+    { value: 'bone-density', label: 'Bone Density' },
+    { value: 'angiography', label: 'Angiography' }
+  ],
 
   // Actions
   setCenters: (centers) => set({ centers }),

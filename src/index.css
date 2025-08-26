@@ -16,7 +16,7 @@
   --popover-foreground: hsl(243 14% 27%);
   
   /* Primary Colors - Beautiful Purple */
-  --primary: hsl(260 23% 57%);
+  --primary: hsl(178.8350 63.1902% 31.9608%);
   --primary-foreground: hsl(260 23% 97%);
   
   /* Secondary Colors */
@@ -28,7 +28,7 @@
   --muted-foreground: hsl(248 10% 45%);
   
   /* Accent Colors - Pink/Red */
-  --accent: hsl(342 57% 77%);
+  --accent: hsl(20.5970 57.2650% 77.0588%);
   --accent-foreground: hsl(343 24% 24%);
   
   /* Destructive Colors */

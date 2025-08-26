@@ -100,8 +100,8 @@ const TopMenu = ({ onThemeChange, onSidebarToggle, onAIToggle, aiDrawerOpen }) =
         </div>
       </div>
 
-      {/* Center - Global Search Input */}
-      <div className="hidden md:flex flex-1 max-w-md mx-4">
+      {/* Center - Global Search Input and Find Centers */}
+      <div className="hidden md:flex flex-1 max-w-md mx-4 items-center gap-4">
         <div className="relative w-full">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <input
@@ -110,6 +110,14 @@ const TopMenu = ({ onThemeChange, onSidebarToggle, onAIToggle, aiDrawerOpen }) =
             className="w-full pl-10 pr-4 py-2 bg-muted/50 text-foreground placeholder-muted-foreground rounded-lg text-sm border border-border focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
           />
         </div>
+        
+        {/* Find Centers Quick Access */}
+        <a
+          href="/centers"
+          className="px-3 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors text-sm font-medium flex items-center gap-2 whitespace-nowrap"
+        >
+          🗺️ Find Centers
+        </a>
       </div>
 
       {/* Right side - Role Switcher, AI Toggle, Command-K, Theme, and Fullscreen buttons */}

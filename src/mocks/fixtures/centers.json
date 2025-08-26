@@ -14,6 +14,7 @@
       "lng": -80.1918
     },
     "modalities": ["MRI", "CT", "X-Ray", "Ultrasound"],
+    "bodyParts": ["Head", "Spine", "Chest", "Abdomen", "Pelvis", "Extremities"],
     "magnetStrength": "3T",
     "openUpright": true,
     "sedationAvailable": true,
@@ -35,10 +36,16 @@
     },
     "rating": 4.8,
     "reviewCount": 127,
+    "avgTat": 2.5,
+    "utilization": 85,
+    "noShowRate": 12,
+    "satisfactionScore": 92,
     "specialties": ["Neurological", "Spine", "Orthopedic"],
     "insuranceAccepted": ["Blue Cross", "Aetna", "Cigna", "Medicare", "Medicaid"],
     "description": "State-of-the-art imaging center in the heart of downtown Miami. Specializing in advanced neurological and spine imaging with 3T MRI technology.",
-    "features": ["Free WiFi", "Complimentary Coffee", "Child Care Area", "Wheelchair Accessible"]
+    "features": ["Free WiFi", "Complimentary Coffee", "Child Care Area", "Wheelchair Accessible"],
+    "adaCompliant": true,
+    "languages": ["English", "Spanish", "Creole"]
   },
   {
     "id": "center-002",
@@ -55,6 +62,7 @@
       "lng": -80.2683
     },
     "modalities": ["MRI", "CT", "X-Ray", "Mammography"],
+    "bodyParts": ["Head", "Chest", "Breast", "Abdomen", "Pelvis", "Extremities"],
     "magnetStrength": "1.5T",
     "openUpright": false,
     "sedationAvailable": false,
@@ -76,10 +84,16 @@
     },
     "rating": 4.6,
     "reviewCount": 89,
+    "avgTat": 3.2,
+    "utilization": 78,
+    "noShowRate": 8,
+    "satisfactionScore": 89,
     "specialties": ["Breast Imaging", "General Radiology", "Cardiac"],
     "insuranceAccepted": ["Blue Cross", "Aetna", "Humana", "Medicare"],
     "description": "Comprehensive radiology services in beautiful Coral Gables. Known for exceptional breast imaging and cardiac CT services.",
-    "features": ["Comfortable Waiting Area", "Reading Material", "Refreshments"]
+    "features": ["Comfortable Waiting Area", "Reading Material", "Refreshments"],
+    "adaCompliant": true,
+    "languages": ["English", "Spanish"]
   },
   {
     "id": "center-003",
@@ -96,6 +110,7 @@
       "lng": -80.1300
     },
     "modalities": ["MRI", "CT", "X-Ray", "Ultrasound", "Nuclear Medicine"],
+    "bodyParts": ["Head", "Spine", "Chest", "Abdomen", "Pelvis", "Extremities", "Cardiac"],
     "magnetStrength": "3T",
     "openUpright": true,
     "sedationAvailable": true,
@@ -117,10 +132,16 @@
     },
     "rating": 4.9,
     "reviewCount": 203,
+    "avgTat": 1.8,
+    "utilization": 92,
+    "noShowRate": 5,
+    "satisfactionScore": 95,
     "specialties": ["Sports Medicine", "Orthopedic", "Cardiac", "Oncological"],
     "insuranceAccepted": ["Blue Cross", "Aetna", "Cigna", "UnitedHealth", "Medicare", "Medicaid"],
     "description": "Premium imaging center serving Miami Beach and surrounding areas. Extended hours and luxury amenities for discerning patients.",
-    "features": ["Luxury Waiting Area", "Concierge Service", "Beach View", "Premium Refreshments", "Valet Parking"]
+    "features": ["Luxury Waiting Area", "Concierge Service", "Beach View", "Premium Refreshments", "Valet Parking"],
+    "adaCompliant": true,
+    "bodyParts": ["Head", "Spine", "Chest", "Abdomen", "Pelvis", "Extremities", "Cardiac"]
   },
   {
     "id": "center-004",
@@ -137,6 +158,7 @@
       "lng": -80.2781
     },
     "modalities": ["X-Ray", "Ultrasound", "CT", "MRI"],
+    "bodyParts": ["Head", "Chest", "Abdomen", "Pelvis", "Extremities"],
     "magnetStrength": "1.5T",
     "openUpright": false,
     "sedationAvailable": false,
@@ -158,10 +180,16 @@
     },
     "rating": 4.3,
     "reviewCount": 67,
+    "avgTat": 4.1,
+    "utilization": 65,
+    "noShowRate": 18,
+    "satisfactionScore": 82,
     "specialties": ["General Radiology", "Pediatric", "Emergency"],
     "insuranceAccepted": ["Medicare", "Medicaid", "Blue Cross", "Aetna"],
     "description": "Affordable imaging services for the Hialeah community. Focused on providing quality care at accessible prices.",
-    "features": ["Family-Friendly", "Short Wait Times", "Affordable Pricing"]
+    "features": ["Family-Friendly", "Short Wait Times", "Affordable Pricing"],
+    "adaCompliant": true,
+    "bodyParts": ["Head", "Chest", "Abdomen", "Pelvis", "Extremities"]
   },
   {
     "id": "center-005",
@@ -178,6 +206,7 @@
       "lng": -80.3568
     },
     "modalities": ["MRI", "CT", "X-Ray", "Ultrasound"],
+    "bodyParts": ["Spine", "Extremities", "Joints", "Head", "Chest"],
     "magnetStrength": "3T",
     "openUpright": true,
     "sedationAvailable": true,
@@ -199,10 +228,16 @@
     },
     "rating": 4.7,
     "reviewCount": 156,
+    "avgTat": 2.1,
+    "utilization": 88,
+    "noShowRate": 9,
+    "satisfactionScore": 91,
     "specialties": ["Spine", "Joint", "Sports Medicine", "Pain Management"],
     "insuranceAccepted": ["Blue Cross", "Aetna", "Cigna", "Medicare", "Workers Comp"],
     "description": "Specialized imaging center focused exclusively on spine and joint imaging. Advanced protocols for sports injuries and chronic pain.",
-    "features": ["Spine-Specific Equipment", "Sports Medicine Focus", "Pain Management Support", "Extended Hours"]
+    "features": ["Spine-Specific Equipment", "Sports Medicine Focus", "Pain Management Support", "Extended Hours"],
+    "adaCompliant": true,
+    "bodyParts": ["Spine", "Extremities", "Joints", "Head", "Chest"]
   },
   {
     "id": "center-006",
@@ -219,6 +254,7 @@
       "lng": -80.3247
     },
     "modalities": ["MRI", "CT", "X-Ray", "Ultrasound"],
+    "bodyParts": ["Head", "Chest", "Abdomen", "Pelvis", "Extremities", "Spine"],
     "magnetStrength": "1.5T",
     "openUpright": false,
     "sedationAvailable": true,
@@ -240,10 +276,16 @@
     },
     "rating": 4.9,
     "reviewCount": 234,
+    "avgTat": 2.8,
+    "utilization": 82,
+    "noShowRate": 6,
+    "satisfactionScore": 96,
     "specialties": ["Pediatric", "Neonatal", "Developmental"],
     "insuranceAccepted": ["Medicaid", "Medicare", "Blue Cross", "Aetna", "Children's Health"],
     "description": "Child-friendly imaging center designed specifically for pediatric patients. Colorful decor, child life specialists, and family-centered care.",
-    "features": ["Child Life Specialists", "Family Waiting Areas", "Child-Friendly Decor", "Educational Materials", "Parent Support"]
+    "features": ["Child Life Specialists", "Family Waiting Areas", "Child-Friendly Decor", "Educational Materials", "Parent Support"],
+    "adaCompliant": true,
+    "bodyParts": ["Head", "Chest", "Abdomen", "Pelvis", "Extremities", "Spine"]
   },
   {
     "id": "center-007",
@@ -260,6 +302,7 @@
       "lng": -80.2703
     },
     "modalities": ["CT", "MRI", "Nuclear Medicine", "Echocardiography"],
+    "bodyParts": ["Chest", "Cardiac", "Vascular", "Thoracic"],
     "magnetStrength": "3T",
     "openUpright": false,
     "sedationAvailable": true,
@@ -281,10 +324,16 @@
     },
     "rating": 4.8,
     "reviewCount": 178,
+    "avgTat": 1.5,
+    "utilization": 95,
+    "noShowRate": 3,
+    "satisfactionScore": 94,
     "specialties": ["Cardiac", "Vascular", "Thoracic"],
     "insuranceAccepted": ["Blue Cross", "Aetna", "Cigna", "Medicare", "Medicaid"],
     "description": "Specialized cardiac imaging center with advanced protocols for heart disease detection and monitoring.",
-    "features": ["Cardiac-Specific Protocols", "Vascular Imaging", "Stress Testing", "Cardiologist Consultation"]
+    "features": ["Cardiac-Specific Protocols", "Vascular Imaging", "Stress Testing", "Cardiologist Consultation"],
+    "adaCompliant": true,
+    "bodyParts": ["Chest", "Cardiac", "Vascular", "Thoracic"]
   },
   {
     "id": "center-008",
@@ -301,6 +350,7 @@
       "lng": -80.1918
     },
     "modalities": ["Mammography", "Ultrasound", "MRI", "CT", "X-Ray"],
+    "bodyParts": ["Breast", "Pelvis", "Abdomen", "Chest"],
     "magnetStrength": "3T",
     "openUpright": false,
     "sedationAvailable": false,
@@ -322,9 +372,15 @@
     },
     "rating": 4.7,
     "reviewCount": 145,
+    "avgTat": 2.3,
+    "utilization": 79,
+    "noShowRate": 11,
+    "satisfactionScore": 90,
     "specialties": ["Breast Imaging", "Gynecological", "Obstetrical"],
     "insuranceAccepted": ["Blue Cross", "Aetna", "Cigna", "Medicare", "Medicaid"],
     "description": "Comprehensive women's imaging center with specialized breast imaging and gynecological ultrasound services.",
-    "features": ["Women-Only Staff", "Private Changing Areas", "Comfortable Robes", "Educational Resources", "Support Groups"]
+    "features": ["Women-Only Staff", "Private Changing Areas", "Comfortable Robes", "Educational Resources", "Support Groups"],
+    "adaCompliant": true,
+    "bodyParts": ["Breast", "Pelvis", "Abdomen", "Chest"]
   }
 ]

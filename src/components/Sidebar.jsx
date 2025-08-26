@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   RefreshCw, 
@@ -99,6 +99,12 @@ const Sidebar = ({ isOpen, onToggle, collapsed = false, onCollapse }) => {
   };
 
   const navigationItems = getNavigationItems();
+  const navigate = useNavigate();
+
+  // Common navigation items that appear for all roles
+  const commonItems = [
+    { icon: Search, label: 'Find Centers', path: '/centers', active: location.pathname === '/centers' }
+  ];
 
   const bottomItems = [
     { icon: Settings, label: 'Settings', path: '/settings' },
@@ -106,9 +112,7 @@ const Sidebar = ({ isOpen, onToggle, collapsed = false, onCollapse }) => {
   ];
 
   const handleNavigationClick = (path) => {
-    // For now, just log the navigation
-    console.log(`Navigate to: ${path}`);
-    // In a real app, you'd use navigate(path) from react-router-dom
+    navigate(path);
   };
 
   // Helper function to get quick action label based on current role
@@ -143,7 +147,7 @@ const Sidebar = ({ isOpen, onToggle, collapsed = false, onCollapse }) => {
       
       {/* Sidebar */}
       <aside className={`
-        fixed top-0 left-0 z-50 h-full bg-sidebar border-r border-sidebar-border
+        fixed top-0 left-0 z-50 h-full bg-card border-r border-border
         transform transition-all duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         lg:translate-x-0 lg:static lg:z-auto
@@ -151,26 +155,26 @@ const Sidebar = ({ isOpen, onToggle, collapsed = false, onCollapse }) => {
       `}>
         <div className="flex flex-col h-full">
           {/* Logo and Quick Create */}
-          <div className={`border-b border-sidebar-border ${collapsed ? 'p-2' : 'p-6'}`}>
+          <div className={`border-b border-border ${collapsed ? 'p-2' : 'p-6'}`}>
             <div className={`flex items-center ${collapsed ? 'justify-center' : 'justify-between'} ${collapsed ? 'mb-6' : 'mb-4'}`}>
-              {!collapsed && <h1 className="text-xl font-bold text-sidebar-foreground">MRIGuys</h1>}
-              {collapsed && <h1 className="text-lg font-bold text-sidebar-foreground">MG</h1>}
+              {!collapsed && <h1 className="text-xl font-bold text-card-foreground">MRIGuys</h1>}
+              {collapsed && <h1 className="text-lg font-bold text-card-foreground">MG</h1>}
               
               {/* Collapse Toggle Button - Only show on desktop when expanded */}
               {!collapsed && (
                 <button
                   onClick={onCollapse}
-                  className="p-1 rounded hover:bg-sidebar-accent transition-colors lg:block hidden"
+                  className="p-1 rounded hover:bg-accent transition-colors lg:block hidden"
                   aria-label="Collapse sidebar"
                 >
-                  <ChevronLeft className="w-4 h-4 text-sidebar-foreground" />
+                  <ChevronLeft className="w-4 h-4 text-card-foreground" />
                 </button>
               )}
             </div>
             
             {/* Quick Action Button */}
             <button 
-              className={`bg-sidebar-primary text-sidebar-primary-foreground rounded-lg flex items-center justify-center gap-2 hover:bg-sidebar-primary/90 transition-colors ${
+              className={`bg-primary text-primary-foreground rounded-lg flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors ${
                 collapsed ? 'w-12 h-12' : 'w-full px-4 py-2'
               }`}
               title={collapsed ? getQuickActionLabel() : undefined}
@@ -183,14 +187,40 @@ const Sidebar = ({ isOpen, onToggle, collapsed = false, onCollapse }) => {
           {/* Navigation */}
           <nav className={`flex-1 ${collapsed ? 'p-2' : 'p-4'}`}>
             <ul className="space-y-2">
+              {/* Common items for all roles */}
+              {commonItems.map((item) => (
+                <li key={item.label}>
+                  <button
+                    onClick={() => handleNavigationClick(item.path)}
+                    className={`w-full text-left flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                      item.active
+                        ? 'bg-primary text-primary-foreground'
+                        : 'text-card-foreground hover:bg-accent hover:text-accent-foreground'
+                    } ${collapsed ? 'justify-center' : ''}`}
+                    title={collapsed ? item.label : undefined}
+                  >
+                    <item.icon className={`${collapsed ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
+                    {!collapsed && item.label}
+                  </button>
+                </li>
+              ))}
+              
+              {/* Separator */}
+              {!collapsed && (
+                <li className="py-2">
+                  <div className="border-t border-border"></div>
+                </li>
+              )}
+              
+              {/* Role-specific items */}
               {navigationItems.map((item) => (
                 <li key={item.label}>
                   <button
                     onClick={() => handleNavigationClick(item.path)}
                     className={`w-full text-left flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
                       item.active
-                        ? 'bg-sidebar-primary text-sidebar-primary-foreground'
-                        : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
+                        ? 'bg-primary text-primary-foreground'
+                        : 'text-card-foreground hover:bg-accent hover:text-accent-foreground'
                     } ${collapsed ? 'justify-center' : ''}`}
                     title={collapsed ? item.label : undefined}
                   >
@@ -203,12 +233,12 @@ const Sidebar = ({ isOpen, onToggle, collapsed = false, onCollapse }) => {
           </nav>
 
           {/* Bottom Section */}
-          <div className={`border-t border-sidebar-border space-y-2 ${collapsed ? 'p-2' : 'p-4'}`}>
+          <div className={`border-t border-border space-y-2 ${collapsed ? 'p-2' : 'p-4'}`}>
             {bottomItems.map((item) => (
               <button
                 key={item.label}
                 onClick={() => handleNavigationClick(item.path)}
-                className={`w-full text-left flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors ${
+                className={`w-full text-left flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-card-foreground hover:bg-accent hover:text-accent-foreground transition-colors ${
                   collapsed ? 'justify-center' : ''
                 }`}
                 title={collapsed ? item.label : undefined}
@@ -221,31 +251,31 @@ const Sidebar = ({ isOpen, onToggle, collapsed = false, onCollapse }) => {
             {/* Search - Hide when collapsed */}
             {!collapsed && (
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-sidebar-foreground/50" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
                   type="text"
                   placeholder="Search..."
-                  className="w-full pl-10 pr-3 py-2 bg-sidebar-accent/50 text-sidebar-foreground placeholder-sidebar-foreground/50 rounded-lg text-sm border border-sidebar-border focus:outline-none focus:ring-2 focus:ring-sidebar-ring"
+                  className="w-full pl-10 pr-3 py-2 bg-muted/50 text-card-foreground placeholder-muted-foreground rounded-lg text-sm border border-border focus:outline-none focus:ring-2 focus:ring-ring"
                 />
               </div>
             )}
 
             {/* User Profile */}
-            <div className={`flex items-center gap-3 p-3 rounded-lg hover:bg-sidebar-accent transition-colors cursor-pointer ${
+            <div className={`flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-colors cursor-pointer ${
               collapsed ? 'justify-center' : ''
             }`}>
-              <div className={`bg-sidebar-primary text-sidebar-primary-foreground rounded-full flex items-center justify-center font-medium ${
+              <div className={`bg-primary text-primary-foreground rounded-full flex items-center justify-center font-medium ${
                 collapsed ? 'w-6 h-6 text-xs' : 'w-8 h-8 text-sm'
               }`}>
                 MG
               </div>
               {!collapsed && (
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-sidebar-foreground truncate">N4Mative</p>
-                  <p className="text-xs text-sidebar-foreground/70 truncate">admin@n4mative.com</p>
+                  <p className="text-sm font-medium text-card-foreground truncate">N4Mative</p>
+                  <p className="text-xs text-muted-foreground truncate">admin@n4mative.com</p>
                 </div>
               )}
-              {!collapsed && <ChevronDown className="w-4 h-4 text-sidebar-foreground/50" />}
+              {!collapsed && <ChevronDown className="w-4 h-4 text-muted-foreground" />}
             </div>
           </div>
         </div>
@@ -255,10 +285,10 @@ const Sidebar = ({ isOpen, onToggle, collapsed = false, onCollapse }) => {
       {collapsed && (
         <button
           onClick={onCollapse}
-          className="fixed left-16 top-20 z-50 p-1.5 bg-sidebar border border-sidebar-border rounded-md shadow-lg hover:bg-sidebar-accent transition-colors lg:block hidden"
+          className="fixed left-16 top-20 z-50 p-1.5 bg-card border border-border rounded-md shadow-lg hover:bg-accent transition-colors lg:block hidden"
           aria-label="Expand sidebar"
         >
-          <ChevronRight className="w-3 h-3 text-sidebar-foreground" />
+          <ChevronRight className="w-3 h-3 text-card-foreground" />
         </button>
       )}
     </>
