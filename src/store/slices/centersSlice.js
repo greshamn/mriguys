@@ -20,16 +20,16 @@ export const centersSlice = (set, get) => ({
   
   // Static data for UI components
   modalityOptions: [
-    { value: 'mri', label: 'MRI' },
-    { value: 'ct', label: 'CT' },
-    { value: 'xray', label: 'X-Ray' },
-    { value: 'ultrasound', label: 'Ultrasound' },
-    { value: 'pet', label: 'PET' },
-    { value: 'nuclear', label: 'Nuclear Medicine' },
-    { value: 'fluoroscopy', label: 'Fluoroscopy' },
-    { value: 'mammography', label: 'Mammography' },
-    { value: 'bone-density', label: 'Bone Density' },
-    { value: 'angiography', label: 'Angiography' }
+    { value: 'MRI', label: 'MRI' },
+    { value: 'CT', label: 'CT' },
+    { value: 'X-Ray', label: 'X-Ray' },
+    { value: 'Ultrasound', label: 'Ultrasound' },
+    { value: 'PET', label: 'PET' },
+    { value: 'Nuclear Medicine', label: 'Nuclear Medicine' },
+    { value: 'Fluoroscopy', label: 'Fluoroscopy' },
+    { value: 'Mammography', label: 'Mammography' },
+    { value: 'Bone Density', label: 'Bone Density' },
+    { value: 'Angiography', label: 'Angiography' }
   ],
 
   // Actions
@@ -69,11 +69,13 @@ export const centersSlice = (set, get) => ({
     
     try {
       const response = await fetch(`/api/centers?${queryParams}`);
+      
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       
       const data = await response.json();
+      
       set({
         centers: data.data || data,
         pagination: {

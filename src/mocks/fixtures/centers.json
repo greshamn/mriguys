@@ -13,6 +13,7 @@
       "lat": 25.7617,
       "lng": -80.1918
     },
+    "distance": 2.3,
     "modalities": ["MRI", "CT", "X-Ray", "Ultrasound"],
     "bodyParts": ["Head", "Spine", "Chest", "Abdomen", "Pelvis", "Extremities"],
     "magnetStrength": "3T",
@@ -61,6 +62,7 @@
       "lat": 25.7215,
       "lng": -80.2683
     },
+    "distance": 3.1,
     "modalities": ["MRI", "CT", "X-Ray", "Mammography"],
     "bodyParts": ["Head", "Chest", "Breast", "Abdomen", "Pelvis", "Extremities"],
     "magnetStrength": "1.5T",
@@ -109,6 +111,7 @@
       "lat": 25.7907,
       "lng": -80.1300
     },
+    "distance": 1.2,
     "modalities": ["MRI", "CT", "X-Ray", "Ultrasound", "Nuclear Medicine"],
     "bodyParts": ["Head", "Spine", "Chest", "Abdomen", "Pelvis", "Extremities", "Cardiac"],
     "magnetStrength": "3T",
@@ -157,6 +160,7 @@
       "lat": 25.8576,
       "lng": -80.2781
     },
+    "distance": 4.5,
     "modalities": ["X-Ray", "Ultrasound", "CT", "MRI"],
     "bodyParts": ["Head", "Chest", "Abdomen", "Pelvis", "Extremities"],
     "magnetStrength": "1.5T",
@@ -205,6 +209,7 @@
       "lat": 25.6586,
       "lng": -80.3568
     },
+    "distance": 2.8,
     "modalities": ["MRI", "CT", "X-Ray", "Ultrasound"],
     "bodyParts": ["Spine", "Extremities", "Joints", "Head", "Chest"],
     "magnetStrength": "3T",
@@ -253,6 +258,7 @@
       "lat": 25.8139,
       "lng": -80.3247
     },
+    "distance": 1.9,
     "modalities": ["MRI", "CT", "X-Ray", "Ultrasound"],
     "bodyParts": ["Head", "Chest", "Abdomen", "Pelvis", "Extremities", "Spine"],
     "magnetStrength": "1.5T",
@@ -301,6 +307,7 @@
       "lat": 25.7001,
       "lng": -80.2703
     },
+    "distance": 2.1,
     "modalities": ["CT", "MRI", "Nuclear Medicine", "Echocardiography"],
     "bodyParts": ["Chest", "Cardiac", "Vascular", "Thoracic"],
     "magnetStrength": "3T",
@@ -349,6 +356,7 @@
       "lat": 25.7617,
       "lng": -80.1918
     },
+    "distance": 2.3,
     "modalities": ["Mammography", "Ultrasound", "MRI", "CT", "X-Ray"],
     "bodyParts": ["Breast", "Pelvis", "Abdomen", "Chest"],
     "magnetStrength": "3T",

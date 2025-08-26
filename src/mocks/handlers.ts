@@ -209,7 +209,7 @@ const applyAdvancedFilters = (data: any[], filters: any) => {
 }
 
 // Public API endpoints (no authentication required) - ENHANCED for Task 3.3
-const publicHandlers = [
+export const publicHandlers = [
   // GET /api/centers - List imaging centers with advanced filtering, sorting, and pagination
   http.get('/api/centers', async ({ request }) => {
     await simulateLatency()
@@ -690,8 +690,8 @@ const publicHandlers = [
   })
 ]
 
-// Referral and booking endpoints
-const referralHandlers = [
+// Referral and booking endpoints - ENHANCED for Task 3.4
+export const referralHandlers = [
   // POST /api/referrals - Create new referral
   http.post('/api/referrals', async ({ request }) => {
     await simulateLatency()
@@ -1239,8 +1239,8 @@ const referralHandlers = [
   })
 ]
 
-// Reports and images endpoints - ENHANCED
-const reportHandlers = [
+// Reports and Images endpoints - ENHANCED for Task 3.5
+export const reportHandlers = [
   // GET /api/reports/:id - Get specific report with related data
   http.get('/api/reports/:id', async ({ params }) => {
     await simulateLatency()
@@ -1706,7 +1706,7 @@ const reportHandlers = [
 ]
 
 // Attorney and funder endpoints - ENHANCED
-const attorneyHandlers = [
+export const attorneyHandlers = [
   // GET /api/liens - Get liens with advanced filtering, pagination, and sorting
   http.get('/api/liens', async ({ request }) => {
     await simulateLatency()
@@ -2410,7 +2410,7 @@ const attorneyHandlers = [
 ]
 
 // System and admin endpoints
-const systemHandlers = [
+export const systemHandlers = [
   // POST /api/webhooks/test - Test webhook delivery (simulate center callback)
   http.post('/api/webhooks/test', async ({ request }) => {
     await simulateLatency()
