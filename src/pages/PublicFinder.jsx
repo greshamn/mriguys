@@ -272,89 +272,77 @@ const PublicFinder = () => {
     handleSearch(searchParams);
   };
 
-  return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-card border-b border-border">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">Find Imaging Centers</h1>
-              <p className="text-muted-foreground text-sm">
-                Discover and compare imaging centers near you
-              </p>
-              {/* Subtle welcome back hint */}
-              {getLastSearch() && (
-                <div className="mt-1">
-                  <button 
-                    onClick={() => handleRestoreFromHistory(getLastSearch().params)}
-                    className="text-xs text-primary hover:text-primary/80 underline flex items-center gap-1"
-                  >
-                    👋 Restore last search
-                  </button>
-                </div>
-              )}
-            </div>
-            <div className="flex items-center gap-3">
-              {/* Favorites */}
-              <Favorites 
-                onRestoreSearch={handleRestoreFromHistory}
-                onCenterClick={handleCenterModalOpen}
-              />
-              
-              {/* Bookmarks */}
-              <Bookmarks onRestoreSearch={handleRestoreSearch} />
-              
-              {/* Share Dropdown */}
-              <ShareDropdown 
-                searchParams={searchParams}
-                searchResults={searchResults}
-                onBookmark={handleBookmark}
-              />
-              
-              <a 
-                href="/dashboard" 
-                className="px-3 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/90 transition-colors text-sm"
-              >
-                🏠 Dashboard
-              </a>
-            </div>
-          </div>
-        </div>
-      </header>
+  console.log('🔄 PublicFinder: Component rendering...', { centers: centers.length, searchResults: searchResults.length });
 
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Search Filters Sidebar */}
-          <div className="lg:col-span-1">
-            <SearchFilters 
-              onSearch={handleSearch} 
-              bodyParts={bodyParts} 
-              modalityOptions={modalityOptions}
-              initialValues={searchParams}
-            />
+  return (
+    <>
+      {/* Page Header */}
+      <div className="col-span-12">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">Find Imaging Centers</h1>
+            <p className="text-muted-foreground text-sm">
+              Discover and compare imaging centers near you
+            </p>
+            {/* Subtle welcome back hint */}
+            {getLastSearch() && (
+              <div className="mt-1">
+                <button 
+                  onClick={() => handleRestoreFromHistory(getLastSearch().params)}
+                  className="text-xs text-primary hover:text-primary/80 underline flex items-center gap-1"
+                >
+                  👋 Restore last search
+                </button>
+              </div>
+            )}
           </div>
-          
-          {/* Search Results */}
-          <div className="lg:col-span-3">
-            <SearchResults 
-              key={`search-${JSON.stringify(searchParams)}`}
-              results={searchResults}
-              loading={loading}
-              viewMode={viewMode}
+          <div className="flex items-center gap-3">
+            {/* Favorites */}
+            <Favorites 
+              onRestoreSearch={handleRestoreFromHistory}
+              onCenterClick={handleCenterModalOpen}
+            />
+            
+            {/* Bookmarks */}
+            <Bookmarks onRestoreSearch={handleRestoreSearch} />
+            
+            {/* Share Dropdown */}
+            <ShareDropdown 
               searchParams={searchParams}
-              onCenterClick={handleCenterClick}
-              aiInsightsButton={
-                <AIInsightsButton 
-                  onClick={() => setAiDrawerOpen(true)}
-                  recommendationsCount={aiRecommendations.length}
-                />
-              }
+              searchResults={searchResults}
+              onBookmark={handleBookmark}
             />
           </div>
         </div>
-      </main>
+      </div>
+
+      {/* Search Filters Sidebar */}
+      <div className="col-span-12 lg:col-span-3">
+        <SearchFilters 
+          onSearch={handleSearch} 
+          bodyParts={bodyParts} 
+          modalityOptions={modalityOptions}
+          initialValues={searchParams}
+        />
+      </div>
+      
+      {/* Search Results */}
+      <div className="col-span-12 lg:col-span-9">
+        <SearchResults 
+          key={`search-${JSON.stringify(searchParams)}`}
+          results={searchResults}
+          loading={loading}
+          viewMode={viewMode}
+          searchParams={searchParams}
+          onCenterClick={handleCenterClick}
+          aiInsightsButton={
+            <AIInsightsButton 
+              onClick={() => setAiDrawerOpen(true)}
+              recommendationsCount={aiRecommendations.length}
+            />
+          }
+        />
+      </div>
 
       {/* AI Insights Floating Drawer */}
       <AIInsightsDrawer 
@@ -378,7 +366,7 @@ const PublicFinder = () => {
           searchContext={searchParams}
         />
       )}
-    </div>
+    </>
   );
 };
 

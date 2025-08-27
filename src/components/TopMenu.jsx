@@ -95,7 +95,7 @@ const TopMenu = ({ onThemeChange, onSidebarToggle, onAIToggle, aiDrawerOpen }) =
             <span className="text-primary-foreground font-bold text-sm">MG</span>
           </div>
           <h1 className="text-lg font-semibold text-foreground hidden sm:block">
-            MRIGuys Platform
+            MRIGuys
           </h1>
         </div>
       </div>
