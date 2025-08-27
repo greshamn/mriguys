@@ -1,14 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { SearchFilters } from '../components/public/SearchFilters';
 import { SearchResults } from '../components/public/SearchResults';
+import { ShareDropdown } from '../components/public/ShareDropdown';
+import { Bookmarks } from '../components/public/Bookmarks';
 import { useStore } from '../store';
+import { 
+  parseURLParams, 
+  updateBrowserURL, 
+  shareSearchResults,
+  generateCenterURL 
+} from '../lib/deepLinking';
 
 const PublicFinder = () => {
   const [searchParams, setSearchParams] = useState({
     location: '',
     bodyPart: '',
     modalities: [],
-    dateRange: null
+    dateRange: null,
+    sortBy: '',
+    centerId: ''
   });
   
   const [searchResults, setSearchResults] = useState([]);
@@ -16,15 +27,59 @@ const PublicFinder = () => {
   const [viewMode, setViewMode] = useState('list'); // 'list' or 'map'
   
   const { centers, fetchCenters, bodyParts, fetchBodyParts, modalityOptions } = useStore();
+  const [urlSearchParams, setUrlSearchParams] = useSearchParams();
+  const navigate = useNavigate();
+
+  // Add debugging to see store values
+  console.log('PublicFinder - bodyParts from store:', bodyParts);
+  console.log('PublicFinder - modalityOptions from store:', modalityOptions);
+
+  // Initialize search state from URL parameters on component mount
+  useEffect(() => {
+    const urlParams = parseURLParams(urlSearchParams);
+    console.log('🔄 PublicFinder: Initializing from URL params:', urlParams);
+    
+    // Update local state with URL parameters
+    setSearchParams(prevParams => ({
+      ...prevParams,
+      ...urlParams
+    }));
+
+    // If we have meaningful URL parameters, execute the search automatically
+    const hasMeaningfulParams = urlParams.location?.trim() || urlParams.bodyPart || urlParams.modalities?.length > 0;
+    if (hasMeaningfulParams) {
+      console.log('🔍 PublicFinder: Auto-executing search from URL params');
+      // Execute search with URL parameters after a short delay to ensure data is loaded
+      setTimeout(() => {
+        handleSearch(urlParams);
+      }, 100);
+    }
+  }, []); // Only run once on mount
 
   useEffect(() => {
-    // Fetch centers data when component mounts
-    fetchCenters();
-    // Fetch body parts data when component mounts
-    fetchBodyParts();
+    // Add a small delay to ensure MSW is fully initialized
+    const initializeData = async () => {
+      try {
+        // Wait a bit for MSW to be ready
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        console.log('🔄 PublicFinder: Starting data initialization...');
+        
+        // Fetch centers data when component mounts
+        await fetchCenters();
+        console.log('✅ PublicFinder: Centers fetched successfully');
+        
+        // Fetch body parts data when component mounts
+        await fetchBodyParts();
+        console.log('✅ PublicFinder: Body parts fetched successfully');
+        
+      } catch (error) {
+        console.error('❌ PublicFinder: Failed to initialize data:', error);
+      }
+    };
+    
+    initializeData();
   }, [fetchCenters, fetchBodyParts]);
-
-
 
   // Show all centers initially when centers data is loaded
   useEffect(() => {
@@ -33,10 +88,24 @@ const PublicFinder = () => {
     }
   }, [centers, searchResults.length]);
 
+  // Handle direct center access from URL
+  useEffect(() => {
+    if (searchParams.centerId && centers.length > 0) {
+      const center = centers.find(c => c.id === searchParams.centerId);
+      if (center) {
+        console.log('🎯 PublicFinder: Direct center access for:', center.name);
+        // Filter results to show only this center
+        setSearchResults([center]);
+        // Update URL to remove centerId after processing
+        const { centerId, ...otherParams } = searchParams;
+        updateBrowserURL(otherParams, true);
+        setSearchParams(otherParams);
+      }
+    }
+  }, [searchParams.centerId, centers]);
+
   const handleSearch = async (params) => {
-    console.log('🔍 Search called with:', params);
-    console.log('🔍 bodyParts available:', bodyParts?.length);
-    console.log('🔍 centers available:', centers.length);
+    console.log('🔍 PublicFinder: Handling search with params:', params);
     
     // Prevent search if no meaningful filters are applied
     const hasMeaningfulFilters = params.location?.trim() || params.bodyPart || params.modalities?.length > 0;
@@ -45,11 +114,16 @@ const PublicFinder = () => {
     if (!hasMeaningfulFilters) {
       setSearchResults(centers);
       setSearchParams(params);
+      // Update URL to reflect cleared search
+      updateBrowserURL(params);
       return;
     }
     
     setLoading(true);
     setSearchParams(params);
+    
+    // Update browser URL with search parameters
+    updateBrowserURL(params);
     
     // Simulate search delay
     await new Promise(resolve => setTimeout(resolve, 300));
@@ -63,49 +137,72 @@ const PublicFinder = () => {
         center.address.city.toLowerCase().includes(params.location.trim().toLowerCase()) ||
         center.address.zip.includes(params.location.trim())
       );
-      console.log('🔍 After location filter:', filtered.length);
     }
     
     if (params.bodyPart && bodyParts) {
       // Get the body part name from the ID
       const bodyPartName = bodyParts.find(part => part.id === params.bodyPart)?.name;
-      console.log('🔍 Body part ID:', params.bodyPart, 'Name found:', bodyPartName);
       if (bodyPartName) {
         filtered = filtered.filter(center => 
           center.bodyParts.includes(bodyPartName)
         );
-        console.log('🔍 After body part filter:', filtered.length);
       }
     }
     
     if (params.modalities?.length > 0) {
-      console.log('🔍 Filtering by modalities:', params.modalities);
-      console.log('🔍 Sample center modalities:', filtered[0]?.modalities);
-      
       filtered = filtered.filter(center => 
         params.modalities.some(modality => 
           center.modalities.includes(modality)
         )
       );
-      console.log('🔍 After modality filter:', filtered.length);
     }
     
-    console.log('🔍 Final filtered results:', filtered.length);
     setSearchResults(filtered);
     setLoading(false);
   };
 
   const handleClearSearch = () => {
-    setSearchResults(centers); // Show all centers when clearing
-    setSearchParams({
+    console.log('🧹 PublicFinder: Clearing search');
+    const clearedParams = {
       location: '',
       bodyPart: '',
       modalities: [],
-      dateRange: null
-    });
-    // Don't call handleSearch again - just update the state directly
+      dateRange: null,
+      sortBy: '',
+      centerId: ''
+    };
+    
+    setSearchResults(centers); // Show all centers when clearing
+    setSearchParams(clearedParams);
+    
+    // Update URL to reflect cleared search
+    updateBrowserURL(clearedParams);
   };
 
+  const handleBookmark = (bookmarkData, isAdded) => {
+    console.log(`🔖 Bookmark ${isAdded ? 'added' : 'removed'}:`, bookmarkData);
+    // You could show a toast notification here
+  };
+
+  const handleRestoreSearch = (bookmarkParams) => {
+    console.log('🔄 Restoring search from bookmark:', bookmarkParams);
+    handleSearch(bookmarkParams);
+  };
+
+
+
+  const handleCenterClick = (center) => {
+    console.log('🎯 PublicFinder: Center clicked:', center.name);
+    // Generate deep link for this center with current search context
+    const centerURL = generateCenterURL(center.id, searchParams);
+    console.log('🔗 Generated center URL:', centerURL);
+    
+    // Update URL to include center context
+    updateBrowserURL({
+      ...searchParams,
+      centerId: center.id
+    });
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -120,6 +217,16 @@ const PublicFinder = () => {
               </p>
             </div>
             <div className="flex items-center gap-4">
+              {/* Bookmarks */}
+              <Bookmarks onRestoreSearch={handleRestoreSearch} />
+              
+              {/* Share Dropdown */}
+              <ShareDropdown 
+                searchParams={searchParams}
+                searchResults={searchResults}
+                onBookmark={handleBookmark}
+              />
+              
               <a 
                 href="/dashboard" 
                 className="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/90 transition-colors"
@@ -136,7 +243,12 @@ const PublicFinder = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Search Filters Sidebar */}
           <div className="lg:col-span-1">
-            <SearchFilters onSearch={handleSearch} bodyParts={bodyParts} modalityOptions={modalityOptions} />
+            <SearchFilters 
+              onSearch={handleSearch} 
+              bodyParts={bodyParts} 
+              modalityOptions={modalityOptions}
+              initialValues={searchParams}
+            />
           </div>
           
           {/* Search Results */}
@@ -147,6 +259,7 @@ const PublicFinder = () => {
               loading={loading}
               viewMode={viewMode}
               searchParams={searchParams}
+              onCenterClick={handleCenterClick}
             />
           </div>
         </div>

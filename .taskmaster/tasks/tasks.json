@@ -838,7 +838,7 @@
             "id": 3,
             "title": "Build Center Profile modal",
             "description": "Create comprehensive center profile modal using shadcn/ui Dialog components. Display detailed center information with proper styling and responsive design.",
-            "status": "pending",
+            "status": "done",
             "dependencies": [
               2
             ],
@@ -849,7 +849,7 @@
             "id": 4,
             "title": "Implement deep-linking functionality",
             "description": "Create deep-linking system for center selection and search parameters. Implement URL generation and parameter handling for seamless navigation.",
-            "status": "pending",
+            "status": "done",
             "dependencies": [
               3
             ],
@@ -1017,7 +1017,7 @@
     ],
     "metadata": {
       "created": "2025-08-21T09:56:18.034Z",
-      "updated": "2025-08-26T09:54:27.335Z",
+      "updated": "2025-08-27T08:54:10.872Z",
       "description": "Tasks for master context"
     }
   }
