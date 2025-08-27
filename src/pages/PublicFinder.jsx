@@ -4,7 +4,11 @@ import { SearchFilters } from '../components/public/SearchFilters';
 import { SearchResults } from '../components/public/SearchResults';
 import { ShareDropdown } from '../components/public/ShareDropdown';
 import { Bookmarks } from '../components/public/Bookmarks';
+import { AIInsightsDrawer } from '../components/public/AIInsightsDrawer';
+import { AIInsightsButton } from '../components/public/AIInsightsButton';
+import { CenterProfileModal } from '../components/public/CenterProfileModal';
 import { useStore } from '../store';
+import { mockAIService } from '../lib/MockAIService';
 import { 
   parseURLParams, 
   updateBrowserURL, 
@@ -23,8 +27,13 @@ const PublicFinder = () => {
   });
   
   const [searchResults, setSearchResults] = useState([]);
+  const [aiRecommendations, setAiRecommendations] = useState([]);
+  const [popularSearches, setPopularSearches] = useState([]);
   const [loading, setLoading] = useState(false);
   const [viewMode, setViewMode] = useState('list'); // 'list' or 'map'
+  const [aiDrawerOpen, setAiDrawerOpen] = useState(false);
+  const [selectedCenter, setSelectedCenter] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   
   const { centers, fetchCenters, bodyParts, fetchBodyParts, modalityOptions } = useStore();
   const [urlSearchParams, setUrlSearchParams] = useSearchParams();
@@ -85,6 +94,16 @@ const PublicFinder = () => {
   useEffect(() => {
     if (centers.length > 0 && searchResults.length === 0) {
       setSearchResults(centers);
+      
+      // Generate initial AI recommendations for all centers
+      const recommendations = mockAIService.generateRecommendations(centers, {});
+      setAiRecommendations(recommendations);
+      console.log('🤖 Initial AI recommendations generated for', recommendations.length, 'centers');
+      
+      // Generate popular searches based on center data
+      const popular = mockAIService.getPopularSearches(centers);
+      setPopularSearches(popular);
+      console.log('🔥 Popular searches generated:', popular.length, 'combinations');
     }
   }, [centers, searchResults.length]);
 
@@ -157,6 +176,13 @@ const PublicFinder = () => {
       );
     }
     
+    // Generate AI recommendations for the filtered results
+    const recommendations = mockAIService.generateRecommendations(filtered, params);
+    setAiRecommendations(recommendations);
+    
+    console.log('✅ PublicFinder: Search completed, found', filtered.length, 'centers');
+    console.log('🤖 AI Recommendations generated for', recommendations.length, 'centers');
+    
     setSearchResults(filtered);
     setLoading(false);
   };
@@ -173,6 +199,11 @@ const PublicFinder = () => {
     };
     
     setSearchResults(centers); // Show all centers when clearing
+    
+    // Generate AI recommendations for all centers
+    const recommendations = mockAIService.generateRecommendations(centers, {});
+    setAiRecommendations(recommendations);
+    
     setSearchParams(clearedParams);
     
     // Update URL to reflect cleared search
@@ -202,6 +233,31 @@ const PublicFinder = () => {
       ...searchParams,
       centerId: center.id
     });
+  };
+
+  const handleCenterModalOpen = (center) => {
+    console.log('🎯 PublicFinder: Opening center modal for:', center.name);
+    // This will be handled by the SearchResults component
+    // We just need to pass the center to trigger the modal
+    setSelectedCenter(center);
+    setShowModal(true);
+  };
+
+  const handlePopularSearchClick = (popularSearch) => {
+    console.log('🔥 PublicFinder: Popular search clicked:', popularSearch);
+    
+    // Create search parameters from popular search
+    const searchParams = {
+      location: '',
+      bodyPart: popularSearch.bodyPart,
+      modalities: popularSearch.modalities,
+      dateRange: null,
+      sortBy: '',
+      centerId: ''
+    };
+    
+    // Execute the search
+    handleSearch(searchParams);
   };
 
   return (
@@ -260,10 +316,39 @@ const PublicFinder = () => {
               viewMode={viewMode}
               searchParams={searchParams}
               onCenterClick={handleCenterClick}
+              aiInsightsButton={
+                <AIInsightsButton 
+                  onClick={() => setAiDrawerOpen(true)}
+                  recommendationsCount={aiRecommendations.length}
+                />
+              }
             />
           </div>
         </div>
       </main>
+
+      {/* AI Insights Floating Drawer */}
+      <AIInsightsDrawer 
+        recommendations={aiRecommendations}
+        searchCriteria={searchParams}
+        popularSearches={popularSearches}
+        onPopularSearchClick={handlePopularSearchClick}
+        isOpen={aiDrawerOpen}
+        onToggle={setAiDrawerOpen}
+        onCenterClick={handleCenterModalOpen}
+      />
+
+      {/* Center Profile Modal */}
+      {showModal && selectedCenter && (
+        <CenterProfileModal
+          center={selectedCenter}
+          onClose={() => {
+            setShowModal(false);
+            setSelectedCenter(null);
+          }}
+          searchContext={searchParams}
+        />
+      )}
     </div>
   );
 };
