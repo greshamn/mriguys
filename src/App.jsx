@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { RoleProvider } from './context/RoleContext';
+import { FavoritesProvider } from './context/FavoritesContext';
 import { Layout } from './components/Layout';
 import { Dashboard } from './components/Dashboard';
 import MSWTest from './pages/MSWTest';
@@ -10,7 +11,8 @@ import PublicFinder from './pages/PublicFinder';
 function App() {
   return (
     <RoleProvider>
-      <Router>
+      <FavoritesProvider>
+        <Router>
         <Routes>
           {/* Public Finder route - standalone for public access */}
           <Route path="/centers" element={<PublicFinder />} />
@@ -47,7 +49,8 @@ function App() {
             </Layout>
           } />
         </Routes>
-      </Router>
+        </Router>
+      </FavoritesProvider>
     </RoleProvider>
   );
 }

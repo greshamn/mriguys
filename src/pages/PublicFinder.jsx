@@ -7,8 +7,10 @@ import { Bookmarks } from '../components/public/Bookmarks';
 import { AIInsightsDrawer } from '../components/public/AIInsightsDrawer';
 import { AIInsightsButton } from '../components/public/AIInsightsButton';
 import { CenterProfileModal } from '../components/public/CenterProfileModal';
+import { Favorites } from '../components/public/Favorites';
 import { useStore } from '../store';
 import { mockAIService } from '../lib/MockAIService';
+import { useFavorites } from '../context/FavoritesContext';
 import { 
   parseURLParams, 
   updateBrowserURL, 
@@ -38,6 +40,7 @@ const PublicFinder = () => {
   const { centers, fetchCenters, bodyParts, fetchBodyParts, modalityOptions } = useStore();
   const [urlSearchParams, setUrlSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { addSearchToHistory, updateSearchResultCount, getLastSearch } = useFavorites();
 
   // Add debugging to see store values
   console.log('PublicFinder - bodyParts from store:', bodyParts);
@@ -180,6 +183,10 @@ const PublicFinder = () => {
     const recommendations = mockAIService.generateRecommendations(filtered, params);
     setAiRecommendations(recommendations);
     
+    // Add search to history and update result count
+    addSearchToHistory(params);
+    updateSearchResultCount(params, filtered.length);
+    
     console.log('✅ PublicFinder: Search completed, found', filtered.length, 'centers');
     console.log('🤖 AI Recommendations generated for', recommendations.length, 'centers');
     
@@ -218,6 +225,11 @@ const PublicFinder = () => {
   const handleRestoreSearch = (bookmarkParams) => {
     console.log('🔄 Restoring search from bookmark:', bookmarkParams);
     handleSearch(bookmarkParams);
+  };
+
+  const handleRestoreFromHistory = (searchParams) => {
+    console.log('🔄 Restoring search from history:', searchParams);
+    handleSearch(searchParams);
   };
 
 
@@ -264,15 +276,32 @@ const PublicFinder = () => {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="bg-card border-b border-border">
-        <div className="container mx-auto px-4 py-6">
+        <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-foreground">Find Imaging Centers</h1>
-              <p className="text-muted-foreground mt-2">
+              <h1 className="text-2xl font-bold text-foreground">Find Imaging Centers</h1>
+              <p className="text-muted-foreground text-sm">
                 Discover and compare imaging centers near you
               </p>
+              {/* Subtle welcome back hint */}
+              {getLastSearch() && (
+                <div className="mt-1">
+                  <button 
+                    onClick={() => handleRestoreFromHistory(getLastSearch().params)}
+                    className="text-xs text-primary hover:text-primary/80 underline flex items-center gap-1"
+                  >
+                    👋 Restore last search
+                  </button>
+                </div>
+              )}
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
+              {/* Favorites */}
+              <Favorites 
+                onRestoreSearch={handleRestoreFromHistory}
+                onCenterClick={handleCenterModalOpen}
+              />
+              
               {/* Bookmarks */}
               <Bookmarks onRestoreSearch={handleRestoreSearch} />
               
@@ -285,7 +314,7 @@ const PublicFinder = () => {
               
               <a 
                 href="/dashboard" 
-                className="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/90 transition-colors"
+                className="px-3 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/90 transition-colors text-sm"
               >
                 🏠 Dashboard
               </a>
