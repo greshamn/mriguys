@@ -4,14 +4,21 @@ import './index.css';
 import App from './App';
 import { startMSW } from './mocks';
 
-// Start MSW in development mode
-if (process.env.NODE_ENV === 'development') {
-  startMSW();
-}
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+
+// Start MSW in development mode and wait for it to be ready
+if (process.env.NODE_ENV === 'development') {
+  startMSW().then(() => {
+    root.render(
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    );
+  });
+} else {
+  root.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
+}

@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Sun, Moon, Maximize2, Minimize2, Menu, Lightbulb, Search, Bell } from 'lucide-react';
 import { RoleSwitcher } from './RoleSwitcher';
+import { PatientSelector } from './PatientSelector';
 import { CommandModal } from './CommandModal';
+import { useRole } from '../context/RoleContext';
 
 const TopMenu = ({ onThemeChange, onSidebarToggle, onAIToggle, aiDrawerOpen }) => {
   const [isDark, setIsDark] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [commandModalOpen, setCommandModalOpen] = useState(false);
+  const { viewingAsRole } = useRole();
 
   // Check initial theme preference
   useEffect(() => {
@@ -124,6 +127,9 @@ const TopMenu = ({ onThemeChange, onSidebarToggle, onAIToggle, aiDrawerOpen }) =
       <div className="flex items-center gap-2">
         {/* Role Switcher - Only visible to admins */}
         <RoleSwitcher />
+        
+        {/* Patient Selector - Only visible when role is Patient */}
+        {viewingAsRole === 'patient' && <PatientSelector />}
         
         {/* Notifications Bell */}
         <button

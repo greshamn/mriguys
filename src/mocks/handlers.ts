@@ -583,6 +583,41 @@ export const publicHandlers = [
     return response
   }),
 
+  // GET /api/patients - Get patients with search and filtering
+  http.get('/api/patients', async ({ request }) => {
+    await simulateLatency()
+    
+    const url = new URL(request.url)
+    const searchTerm = url.searchParams.get('search') || ''
+    const pipOnly = url.searchParams.get('pipOnly') === 'true'
+    const page = parseInt(url.searchParams.get('page') || '1')
+    const limit = parseInt(url.searchParams.get('limit') || '20')
+    
+    let filteredPatients = [...patientData]
+    
+    // Apply search filter
+    if (searchTerm) {
+      const term = searchTerm.toLowerCase()
+      filteredPatients = filteredPatients.filter(patient =>
+        patient.name.toLowerCase().includes(term) ||
+        patient.id.toLowerCase().includes(term) ||
+        patient.email.toLowerCase().includes(term) ||
+        patient.phone.includes(term)
+      )
+    }
+    
+    // Apply PIP filter
+    if (pipOnly) {
+      filteredPatients = filteredPatients.filter(patient => patient.pipFlag)
+    }
+    
+    return createPaginatedResponse(filteredPatients, page, limit, undefined, 'asc', {
+      search: searchTerm,
+      pipOnly,
+      total: filteredPatients.length
+    })
+  }),
+
   // GET /api/safety-questions - Get safety questions with advanced filtering and validation
   http.get('/api/safety-questions', async ({ request }) => {
     await simulateLatency()

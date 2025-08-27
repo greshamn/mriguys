@@ -272,7 +272,7 @@ const PublicFinder = () => {
     handleSearch(searchParams);
   };
 
-  console.log('🔄 PublicFinder: Component rendering...', { centers: centers.length, searchResults: searchResults.length });
+
 
   return (
     <>

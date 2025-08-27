@@ -333,7 +333,7 @@
             "description": "Create the Patient Dashboard with hero card showing next appointment details, timeline component, and responsive layout",
             "dependencies": [],
             "details": "Develop the PatientDashboard.tsx component with the following elements: 1) Hero Card showing next appointment details with date, center, and preparation checklist, 2) Timeline component visualizing the patient journey from Referral → Booking → Scan → Report Ready, 3) Implement skeleton loaders for all dashboard components, 4) Ensure responsive layout using the 12-column grid system\n<info added on 2025-08-25T14:27:44.937Z>\nAll AI functionality must be mocked/simulated for the demo app. The AI Tips component should:\n\n1. Use predefined rules based on appointment type, body part, and modality to generate contextual advice\n2. Implement deterministic AI responses using only mock data\n3. Avoid integration with any real AI APIs or services\n4. Create a believable AI experience through rule-based logic and existing mock data structures\n\nThe implementation should focus on simulating realistic AI interactions by using simple heuristics and predefined content that changes based on patient context variables. All AI-like features should be self-contained within the frontend application with no external AI service dependencies.\n</info added on 2025-08-25T14:27:44.937Z>",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Test the dashboard in all theme modes (light/dark), verify responsive layout on mobile, tablet and desktop screen sizes, test loading states and skeleton loaders, validate that appointment data displays correctly"
           },
           {
@@ -344,7 +344,7 @@
               "4.1"
             ],
             "details": "Extend the PatientDashboard.tsx with: 1) AI Tip card showing contextual advice based on appointment type and patient history, 2) CTA buttons for 'View Results' and 'Message Center', 3) Connect the AI Tip component to the AI Insight system, 4) Implement proper disabled states for unavailable actions\n<info added on 2025-08-25T14:28:29.297Z>\nIMPORTANT: All AI functionality must be mocked/simulated for the demo app. The AI Tips and CTAs should use mock data and simple heuristics rather than real AI services, including:\n\n1. AI Tips should use predefined rules based on appointment type, body part, and modality\n2. All AI responses should be deterministic and based on mock data\n3. No real AI APIs or services should be required\n4. The goal is to create a believable AI experience using mock data and rule-based logic\n\nImplementation should focus on creating realistic AI simulation using the existing mock data structure. When connecting the AI Tip component to the AI Insight system, use a mock service layer that returns predefined responses based on patient attributes. Ensure the simulation appears intelligent while operating on simple conditional logic and predefined content.\n</info added on 2025-08-25T14:28:29.297Z>",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Verify AI Tips display correctly based on patient context, test CTA buttons trigger appropriate actions, ensure proper state handling for disabled actions"
           },
           {
@@ -1035,7 +1035,7 @@
     ],
     "metadata": {
       "created": "2025-08-21T09:56:18.034Z",
-      "updated": "2025-08-27T13:17:27.236Z",
+      "updated": "2025-08-27T18:07:40.465Z",
       "description": "Tasks for master context"
     }
   }
