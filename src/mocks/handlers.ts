@@ -722,6 +722,127 @@ export const publicHandlers = [
     )
     
     return response
+  }),
+
+  // GET /api/providers - Get healthcare providers with filtering and pagination
+  http.get('/api/providers', async ({ request }) => {
+    await simulateLatency()
+    
+    const url = new URL(request.url)
+    
+    // Extract and validate query parameters
+    const queryParams = {
+      name: url.searchParams.get('name'),
+      specialty: url.searchParams.get('specialty'),
+      npi: url.searchParams.get('npi'),
+      status: url.searchParams.get('status'),
+      page: url.searchParams.get('page'),
+      limit: url.searchParams.get('limit'),
+      sortBy: url.searchParams.get('sortBy'),
+      sortOrder: url.searchParams.get('sortOrder') as 'asc' | 'desc'
+    }
+    
+    // Validate parameters
+    const validators = {
+      page: { type: 'number', min: 1, max: 100 },
+      limit: { type: 'number', min: 1, max: 100 },
+      sortOrder: { type: 'enum', values: ['asc', 'desc'] }
+    }
+    
+    const validation = validateQueryParams(queryParams, validators)
+    if (validation.errors.length > 0) {
+      return createErrorResponse(400, 'Invalid query parameters', { 
+        errors: validation.errors 
+      })
+    }
+    
+    // Apply filters
+    let filteredProviders = providerData
+    
+    if (queryParams.name) {
+      filteredProviders = filteredProviders.filter(p => 
+        p.name.toLowerCase().includes(queryParams.name!.toLowerCase())
+      )
+    }
+    
+    if (queryParams.specialty) {
+      filteredProviders = filteredProviders.filter(p => 
+        p.specialty.toLowerCase().includes(queryParams.specialty!.toLowerCase())
+      )
+    }
+    
+    if (queryParams.npi) {
+      filteredProviders = filteredProviders.filter(p => 
+        p.npi.includes(queryParams.npi!)
+      )
+    }
+    
+    if (queryParams.status) {
+      filteredProviders = filteredProviders.filter(p => 
+        p.acceptingPatients === (queryParams.status === 'accepting')
+      )
+    }
+    
+    // Apply pagination and sorting
+    const page = Number(queryParams.page) || 1
+    const limit = Number(queryParams.limit) || 20
+    const sortBy = queryParams.sortBy || 'name'
+    const sortOrder = queryParams.sortOrder || 'asc'
+    
+    // Create response with provider metadata
+    const response = createPaginatedResponse(
+      filteredProviders, 
+      page, 
+      limit, 
+      sortBy, 
+      sortOrder,
+      {
+        specialties: [...new Set(providerData.map(p => p.specialty))],
+        totalProviders: providerData.length,
+        acceptingPatients: providerData.filter(p => p.acceptingPatients).length,
+        appliedFilters: {
+          name: queryParams.name,
+          specialty: queryParams.specialty,
+          npi: queryParams.npi,
+          status: queryParams.status
+        }
+      }
+    )
+    
+    return response
+  }),
+
+  // GET /api/providers/:id - Get specific provider details
+  http.get('/api/providers/:id', async ({ params }) => {
+    await simulateLatency()
+    
+    const { id } = params
+    
+    // Validate ID format
+    if (!id || !id.startsWith('provider-')) {
+      return createErrorResponse(400, 'Invalid provider ID format. Expected format: provider-XXX', {
+        suggestions: ['provider-001', 'provider-002', 'provider-003'],
+        availableIds: providerData.map(p => p.id)
+      })
+    }
+    
+    const provider = providerData.find(p => p.id === id)
+    
+    if (!provider) {
+      return createErrorResponse(404, 'Provider not found', {
+        requestedId: id,
+        availableIds: providerData.map(p => p.id),
+        suggestions: providerData.map(p => ({ id: p.id, name: p.name }))
+      })
+    }
+    
+    return Response.json({
+      success: true,
+      data: provider,
+      metadata: {
+        lastUpdated: provider.updatedAt
+      }
+    })
   })
 ]
 

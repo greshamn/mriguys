@@ -7,6 +7,7 @@ import { Dashboard } from './components/Dashboard';
 import MSWTest from './pages/MSWTest';
 import ZustandTest from './pages/ZustandTest';
 import PublicFinder from './pages/PublicFinder';
+import ReferralsIndex from './pages/referrals/ReferralsIndex';
 
 function App() {
   return (
@@ -30,6 +31,8 @@ function App() {
             
             {/* Public Finder route - integrated with Layout */}
             <Route path="centers" element={<PublicFinder />} />
+            {/* Referrer Worklist */}
+            <Route path="referrals" element={<ReferralsIndex />} />
             
             {/* Add more routes here as needed */}
             <Route path="referral" element={<div className="p-6">Referral Wizard - Coming Soon</div>} />

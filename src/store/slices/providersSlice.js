@@ -4,6 +4,7 @@ export const providersSlice = (set, get) => ({
   // State
   providers: [],
   selectedProvider: null,
+  selectedReferrerId: localStorage.getItem('selectedReferrerId') || 'provider-001',
   loading: false,
   error: null,
   filters: {
@@ -22,6 +23,11 @@ export const providersSlice = (set, get) => ({
   setProviders: (providers) => set({ providers }),
   
   setSelectedProvider: (provider) => set({ selectedProvider: provider }),
+  
+  setSelectedReferrer: (referrerId) => {
+    localStorage.setItem('selectedReferrerId', referrerId);
+    set({ selectedReferrerId: referrerId });
+  },
   
   setLoading: (loading) => set({ loading }),
   

@@ -356,7 +356,7 @@ export const PatientDashboard = () => {
                   <Calendar className="h-4 w-4 mr-2" />
                   Schedule Appointment
                 </Button>
-              </div>
+            </div>
             )}
           </CardContent>
         </Card>
@@ -379,7 +379,7 @@ export const PatientDashboard = () => {
                     <Skeleton className="h-3 w-16 mt-2" />
                   </div>
                 ))}
-              </div>
+            </div>
             ) : (
               <Timeline currentStep={currentTimelineStep} />
             )}
@@ -585,7 +585,7 @@ export const PatientDashboard = () => {
                         Cancel Appointment
                       </Button>
                     </div>
-                  </div>
+            </div>
                 </DialogContent>
               </Dialog>
             ) : null}
