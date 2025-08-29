@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import { SearchFilters } from '@/components/public/SearchFilters';
-import { SearchResults } from '@/components/public/SearchResults';
-import { ShareDropdown } from '@/components/public/ShareDropdown';
-import { Bookmarks } from '@/components/public/Bookmarks';
-import { AIInsightsDrawer } from '@/components/public/AIInsightsDrawer';
-import { AIInsightsButton } from '@/components/public/AIInsightsButton';
-import { CenterProfileModal } from '@/components/public/CenterProfileModal';
-import { Favorites } from '@/components/public/Favorites';
-import { useStore } from '@/store';
-import { mockAIService } from '@/lib/MockAIService';
-import { useFavorites } from '@/context/FavoritesContext';
+import { SearchFilters } from '@/components/public/SearchFilters.jsx';
+import { SearchResults } from '@/components/public/SearchResults.jsx';
+import { ShareDropdown } from '@/components/public/ShareDropdown.jsx';
+import { Bookmarks } from '@/components/public/Bookmarks.jsx';
+import { AIInsightsDrawer } from '@/components/public/AIInsightsDrawer.jsx';
+import { AIInsightsButton } from '@/components/public/AIInsightsButton.jsx';
+import { CenterProfileModal } from '@/components/public/CenterProfileModal.jsx';
+import { Favorites } from '@/components/public/Favorites.jsx';
+import { useStore } from '@/store/index.js';
+import { mockAIService } from '@/lib/MockAIService.js';
+import { useFavorites } from '@/context/FavoritesContext.jsx';
 import { 
   parseURLParams, 
   updateBrowserURL, 
   shareSearchResults,
   generateCenterURL 
-} from '@/lib/deepLinking';
+} from '@/lib/deepLinking.js';
 
 const PublicFinder = () => {
   const [searchParams, setSearchParams] = useState({
