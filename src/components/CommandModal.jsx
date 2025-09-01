@@ -55,7 +55,8 @@ export const CommandModal = ({ isOpen, onClose }) => {
       case 'imaging-center':
         return [
           { id: 'worklist', label: 'View Worklist', icon: Clock, action: () => navigate('/worklist') },
-          { id: 'slot-manager', label: 'Slot Manager', icon: Settings, action: () => console.log('Slot Manager') }
+          { id: 'slot-manager', label: 'Slot Manager', icon: Settings, action: () => navigate('/slots') },
+          { id: 'billing', label: 'Billing Management', icon: DollarSign, action: () => navigate('/billing') }
         ];
       
       case 'attorney':

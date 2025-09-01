@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from './ui/button';
-import { Plus, FileText, Download, Send, CheckCircle, Clock, Search, Settings } from 'lucide-react';
+import { Plus, FileText, Download, Send, CheckCircle, Clock, Search, Settings, Edit, DollarSign } from 'lucide-react';
 import { useRole } from '../context/RoleContext';
 import { useLocation } from 'react-router-dom';
 
@@ -26,6 +26,34 @@ export const ActionBar = () => {
       }
     }
     
+    // Slots actions
+    if (path === '/slots') {
+      switch (viewingAsRole) {
+        case 'imaging-center':
+          return [
+            { label: 'Add Slot', icon: Plus, variant: 'default', action: () => console.log('Add Slot') },
+            { label: 'Export Schedule', icon: Download, variant: 'outline', action: () => console.log('Export Schedule') },
+            { label: 'Bulk Edit', icon: Edit, variant: 'outline', action: () => console.log('Bulk Edit') }
+          ];
+        default:
+          return [];
+      }
+    }
+    
+    // Billing actions
+    if (path === '/billing') {
+      switch (viewingAsRole) {
+        case 'imaging-center':
+          return [
+            { label: 'Create Bill', icon: Plus, variant: 'default', action: () => console.log('Create Bill') },
+            { label: 'Export Reports', icon: Download, variant: 'outline', action: () => console.log('Export Reports') },
+            { label: 'Send Reminders', icon: Send, variant: 'outline', action: () => console.log('Send Reminders') }
+          ];
+        default:
+          return [];
+      }
+    }
+    
     // Dashboard actions
     if (path === '/dashboard') {
       switch (viewingAsRole) {
@@ -44,7 +72,9 @@ export const ActionBar = () => {
         case 'imaging-center':
           return [
             { label: 'Upload Report', icon: FileText, variant: 'default', action: () => console.log('Upload Report') },
-            { label: 'Manage Slots', icon: Clock, variant: 'outline', action: () => console.log('Manage Slots') }
+            { label: 'Manage Slots', icon: Clock, variant: 'outline', action: () => window.location.href = '/slots' },
+            { label: 'View Worklist', icon: Clock, variant: 'outline', action: () => window.location.href = '/worklist' },
+            { label: 'Billing', icon: DollarSign, variant: 'outline', action: () => window.location.href = '/billing' }
           ];
         
         case 'attorney':
