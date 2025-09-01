@@ -12,6 +12,7 @@ import ReferralsIndex from './pages/referrals/ReferralsIndex';
 import Results from './pages/Results';
 import Appointments from './pages/Appointments';
 import Patients from './pages/Patients';
+import Worklist from './pages/Worklist';
 
 function App() {
   return (
@@ -43,6 +44,9 @@ function App() {
             <Route path="results" element={<Results />} />
             {/* Patient Appointments */}
             <Route path="appointments" element={<Appointments />} />
+            
+            {/* Imaging Center Worklist */}
+            <Route path="worklist" element={<Worklist />} />
             
             {/* Add more routes here as needed */}
             <Route path="referral" element={<ReferralWizard />} />

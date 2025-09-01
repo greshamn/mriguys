@@ -3,14 +3,9 @@ import { useRole } from '../context/RoleContext';
 import { AdminDashboard } from '../pages/dashboards/AdminDashboard';
 import { PatientDashboard } from '../pages/dashboards/PatientDashboard';
 import { ReferrerDashboard } from '../pages/dashboards/ReferrerDashboard';
+import { ImagingCenterDashboard } from '../pages/dashboards/ImagingCenterDashboard';
 
 // Placeholder components for other roles (you can expand these later)
-const ImagingCenterDashboard = () => (
-  <div className="p-6">
-    <h1 className="text-3xl font-bold text-foreground">Imaging Center Dashboard</h1>
-    <p className="text-muted-foreground">Worklist and scheduling management</p>
-  </div>
-);
 
 const AttorneyDashboard = () => (
   <div className="p-6">

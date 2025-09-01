@@ -54,7 +54,7 @@ export const CommandModal = ({ isOpen, onClose }) => {
       
       case 'imaging-center':
         return [
-          { id: 'worklist', label: 'View Worklist', icon: Clock, action: () => console.log('Worklist') },
+          { id: 'worklist', label: 'View Worklist', icon: Clock, action: () => navigate('/worklist') },
           { id: 'slot-manager', label: 'Slot Manager', icon: Settings, action: () => console.log('Slot Manager') }
         ];
       

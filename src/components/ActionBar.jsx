@@ -12,6 +12,20 @@ export const ActionBar = () => {
   const getActionButtons = () => {
     const path = location.pathname;
     
+    // Worklist actions
+    if (path === '/worklist') {
+      switch (viewingAsRole) {
+        case 'imaging-center':
+          return [
+            { label: 'Add Appointment', icon: Plus, variant: 'default', action: () => console.log('Add Appointment') },
+            { label: 'Export Data', icon: Download, variant: 'outline', action: () => console.log('Export Data') },
+            { label: 'Upload Report', icon: FileText, variant: 'outline', action: () => console.log('Upload Report') }
+          ];
+        default:
+          return [];
+      }
+    }
+    
     // Dashboard actions
     if (path === '/dashboard') {
       switch (viewingAsRole) {
