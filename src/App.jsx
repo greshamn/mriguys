@@ -15,6 +15,7 @@ import Patients from './pages/Patients';
 import Worklist from './pages/Worklist';
 import Slots from './pages/Slots';
 import Billing from './pages/Billing';
+import Cases from './pages/Cases';
 
 
 function App() {
@@ -61,7 +62,7 @@ function App() {
             
             {/* Add more routes here as needed */}
             <Route path="referral" element={<ReferralWizard />} />
-            <Route path="cases" element={<div className="p-6">Case Management - Coming Soon</div>} />
+            <Route path="cases" element={<Cases />} />
             <Route path="settings" element={<div className="p-6">Settings - Coming Soon</div>} />
             
             {/* 404 route */}

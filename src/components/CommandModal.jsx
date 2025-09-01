@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Command, X, ArrowRight, FileText, Users, Settings, Building2, BarChart3, Plus, Download, Clock, DollarSign, Scale, Gavel } from 'lucide-react';
+import { Search, Command, X, ArrowRight, FileText, Users, Settings, Building2, BarChart3, Plus, Download, Clock, DollarSign, Scale, Gavel, Briefcase } from 'lucide-react';
 import { useRole } from '../context/RoleContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -61,6 +61,8 @@ export const CommandModal = ({ isOpen, onClose }) => {
       
       case 'attorney':
         return [
+          { id: 'attorney-dashboard', label: 'Attorney Dashboard', icon: Gavel, action: () => navigate('/dashboard') },
+          { id: 'cases', label: 'Cases', icon: Briefcase, action: () => navigate('/cases') },
           { id: 'case-packet', label: 'Generate Case Packet', icon: Download, action: () => console.log('Case Packet') },
           { id: 'lien-ledger', label: 'Lien Ledger', icon: Scale, action: () => console.log('Lien Ledger') }
         ];
