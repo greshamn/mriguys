@@ -178,6 +178,7 @@ const Sidebar = ({ isOpen, onToggle, collapsed = false, onCollapse }) => {
                 collapsed ? 'w-12 h-12' : 'w-full px-4 py-2'
               }`}
               title={collapsed ? getQuickActionLabel() : undefined}
+              onClick={() => handleNavigationClick(viewingAsRole === 'referrer' ? '/referral' : (viewingAsRole === 'imaging-center' ? '/upload' : '/dashboard'))}
             >
               <Plus className={`${collapsed ? 'w-3.5 h-3.5' : 'w-4 h-4'}`} />
               {!collapsed && getQuickActionLabel()}

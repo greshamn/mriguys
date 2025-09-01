@@ -2,7 +2,8 @@ import { worker } from './browser'
 
 // Function to start MSW in development mode
 export const startMSW = async () => {
-  if (process.env.NODE_ENV === 'development') {
+  const isViteDev = typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.DEV;
+  if (isViteDev) {
     try {
       // Start the worker
       await worker.start({

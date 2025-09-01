@@ -4,6 +4,7 @@ import { RoleProvider } from './context/RoleContext';
 import { FavoritesProvider } from './context/FavoritesContext';
 import { Layout } from './components/Layout';
 import { Dashboard } from './components/Dashboard';
+import ReferralWizard from './pages/referrals/Wizard';
 import MSWTest from './pages/MSWTest';
 import ZustandTest from './pages/ZustandTest';
 import PublicFinder from './pages/PublicFinder';
@@ -41,7 +42,7 @@ function App() {
             <Route path="appointments" element={<Appointments />} />
             
             {/* Add more routes here as needed */}
-            <Route path="referral" element={<div className="p-6">Referral Wizard - Coming Soon</div>} />
+            <Route path="referral" element={<ReferralWizard />} />
             <Route path="cases" element={<div className="p-6">Case Management - Coming Soon</div>} />
             <Route path="settings" element={<div className="p-6">Settings - Coming Soon</div>} />
             
