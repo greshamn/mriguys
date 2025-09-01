@@ -11,6 +11,7 @@ import PublicFinder from './pages/PublicFinder';
 import ReferralsIndex from './pages/referrals/ReferralsIndex';
 import Results from './pages/Results';
 import Appointments from './pages/Appointments';
+import Patients from './pages/Patients';
 
 function App() {
   return (
@@ -36,6 +37,8 @@ function App() {
             <Route path="centers" element={<PublicFinder />} />
             {/* Referrer Worklist */}
             <Route path="referrals" element={<ReferralsIndex />} />
+            {/* Referrer Patients */}
+            <Route path="patients" element={<Patients />} />
             {/* Patient Results */}
             <Route path="results" element={<Results />} />
             {/* Patient Appointments */}
