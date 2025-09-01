@@ -16,6 +16,7 @@
     "technique": "Multiplanar T1 and T2 weighted images of the cervical spine were obtained.",
     "comparison": "No prior studies available for comparison.",
     "attachments": ["cervical_mri_001.pdf"],
+    "reportPdfUrl": "/files/cervical_mri_001.pdf",
     "createdAt": "2024-01-20T11:30:00Z",
     "updatedAt": "2024-01-20T16:00:00Z",
     "finalizedAt": "2024-01-20T16:00:00Z"
@@ -37,6 +38,7 @@
     "technique": "Cardiac CT angiography with contrast enhancement was performed.",
     "comparison": "No prior studies available for comparison.",
     "attachments": ["cardiac_ct_003.pdf"],
+    "reportPdfUrl": "/files/cardiac_ct_003.pdf",
     "createdAt": "2024-01-18T08:45:00Z",
     "updatedAt": "2024-01-18T12:00:00Z",
     "finalizedAt": "2024-01-18T12:00:00Z"
@@ -58,6 +60,7 @@
     "technique": "Non-contrast head CT was performed.",
     "comparison": "No prior studies available for comparison.",
     "attachments": ["head_ct_004.pdf"],
+    "reportPdfUrl": "/files/head_ct_004.pdf",
     "createdAt": "2024-01-16T16:45:00Z",
     "updatedAt": "2024-01-16T18:00:00Z",
     "finalizedAt": "2024-01-16T18:00:00Z"
@@ -79,6 +82,7 @@
     "technique": "Multiplanar T1 and T2 weighted images of the lumbar spine were obtained.",
     "comparison": "No prior studies available for comparison.",
     "attachments": ["lumbar_mri_006.pdf"],
+    "reportPdfUrl": "/files/lumbar_mri_006.pdf",
     "createdAt": "2024-01-22T14:30:00Z",
     "updatedAt": "2024-01-22T18:00:00Z",
     "finalizedAt": "2024-01-22T18:00:00Z"
@@ -100,6 +104,7 @@
     "technique": "Multiplanar T1 and T2 weighted images of the brain were obtained.",
     "comparison": "No prior studies available for comparison.",
     "attachments": ["pediatric_brain_mri_007.pdf"],
+    "reportPdfUrl": "/files/pediatric_brain_mri_007.pdf",
     "createdAt": "2024-01-19T16:15:00Z",
     "updatedAt": "2024-01-19T18:00:00Z",
     "finalizedAt": "2024-01-19T18:00:00Z"
@@ -121,6 +126,7 @@
     "technique": "Cardiac CT angiography with contrast enhancement was performed.",
     "comparison": "No prior studies available for comparison.",
     "attachments": ["cardiac_ct_008.pdf"],
+    "reportPdfUrl": "/files/cardiac_ct_008.pdf",
     "createdAt": "2024-01-17T10:45:00Z",
     "updatedAt": "2024-01-17T12:00:00Z",
     "finalizedAt": "2024-01-17T12:00:00Z"
@@ -142,6 +148,7 @@
     "technique": "Standard shoulder X-ray views were obtained.",
     "comparison": "No prior studies available for comparison.",
     "attachments": ["shoulder_xray_010.pdf"],
+    "reportPdfUrl": "/files/shoulder_xray_010.pdf",
     "createdAt": "2024-01-21T16:45:00Z",
     "updatedAt": "2024-01-21T18:00:00Z",
     "finalizedAt": "2024-01-21T18:00:00Z"
@@ -163,6 +170,7 @@
     "technique": "CTA chest with contrast.",
     "comparison": "",
     "attachments": ["cta_chest_2025_08_24.pdf"],
+    "reportPdfUrl": "/files/cta_chest_2025_08_24.pdf",
     "createdAt": "2025-08-24T14:30:00Z",
     "updatedAt": "2025-08-24T18:00:00Z",
     "finalizedAt": "2025-08-24T18:00:00Z"
@@ -184,6 +192,7 @@
     "technique": "Standard shoulder views.",
     "comparison": "",
     "attachments": ["shoulder_xray_2025_08_27.pdf"],
+    "reportPdfUrl": "/files/shoulder_xray_2025_08_27.pdf",
     "createdAt": "2025-08-27T16:20:00Z",
     "updatedAt": "2025-08-27T18:00:00Z",
     "finalizedAt": "2025-08-27T18:00:00Z"
@@ -206,6 +215,7 @@
     "technique": "Knee MRI.",
     "comparison": "",
     "attachments": ["knee_mri_2025_08_19.pdf"],
+    "reportPdfUrl": "/files/knee_mri_2025_08_19.pdf",
     "createdAt": "2025-08-19T14:45:00Z",
     "updatedAt": "2025-08-19T18:00:00Z",
     "finalizedAt": "2025-08-19T18:00:00Z"
@@ -227,6 +237,7 @@
     "technique": "Shoulder X-ray.",
     "comparison": "",
     "attachments": ["shoulder_xray_2025_08_27.pdf"],
+    "reportPdfUrl": "/files/shoulder_xray_2025_08_27.pdf",
     "createdAt": "2025-08-27T17:20:00Z",
     "updatedAt": "2025-08-27T19:00:00Z",
     "finalizedAt": "2025-08-27T19:00:00Z"
@@ -248,6 +259,7 @@
     "technique": "CTA chest.",
     "comparison": "",
     "attachments": ["cta_chest_2025_08_21.pdf"],
+    "reportPdfUrl": "/files/cta_chest_2025_08_21.pdf",
     "createdAt": "2025-08-21T10:30:00Z",
     "updatedAt": "2025-08-21T14:00:00Z",
     "finalizedAt": "2025-08-21T14:00:00Z"
@@ -269,6 +281,7 @@
     "technique": "Lumbar MRI.",
     "comparison": "",
     "attachments": ["lumbar_mri_2025_08_25.pdf"],
+    "reportPdfUrl": "/files/lumbar_mri_2025_08_25.pdf",
     "createdAt": "2025-08-25T12:00:00Z",
     "updatedAt": "2025-08-25T18:00:00Z",
     "finalizedAt": "2025-08-25T18:00:00Z"
@@ -290,6 +303,7 @@
     "technique": "Cardiac CT.",
     "comparison": "",
     "attachments": ["cardiac_ct_2025_08_28.pdf"],
+    "reportPdfUrl": "/files/cardiac_ct_2025_08_28.pdf",
     "createdAt": "2025-08-28T14:30:00Z",
     "updatedAt": "2025-08-28T18:00:00Z",
     "finalizedAt": "2025-08-28T18:00:00Z"

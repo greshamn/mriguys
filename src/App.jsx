@@ -8,6 +8,8 @@ import MSWTest from './pages/MSWTest';
 import ZustandTest from './pages/ZustandTest';
 import PublicFinder from './pages/PublicFinder';
 import ReferralsIndex from './pages/referrals/ReferralsIndex';
+import Results from './pages/Results';
+import Appointments from './pages/Appointments';
 
 function App() {
   return (
@@ -33,6 +35,10 @@ function App() {
             <Route path="centers" element={<PublicFinder />} />
             {/* Referrer Worklist */}
             <Route path="referrals" element={<ReferralsIndex />} />
+            {/* Patient Results */}
+            <Route path="results" element={<Results />} />
+            {/* Patient Appointments */}
+            <Route path="appointments" element={<Appointments />} />
             
             {/* Add more routes here as needed */}
             <Route path="referral" element={<div className="p-6">Referral Wizard - Coming Soon</div>} />

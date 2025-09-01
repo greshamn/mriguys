@@ -178,6 +178,32 @@ export const appointmentsSlice = (set, get) => ({
     });
   },
 
+  // Local-only helpers for demo UX
+  rescheduleAppointmentLocal: (id, newStartIso) => {
+    set((state) => ({
+      appointments: state.appointments.map((a) =>
+        a.id === id
+          ? { ...a, appointmentDate: newStartIso, startTime: newStartIso, updatedAt: new Date().toISOString() }
+          : a
+      ),
+      selectedAppointment: state.selectedAppointment?.id === id
+        ? { ...state.selectedAppointment, appointmentDate: newStartIso, startTime: newStartIso, updatedAt: new Date().toISOString() }
+        : state.selectedAppointment,
+    }));
+  },
+  cancelAppointmentLocal: (id, reason) => {
+    set((state) => ({
+      appointments: state.appointments.map((a) =>
+        a.id === id
+          ? { ...a, status: 'cancelled', cancellationReason: reason || 'Patient requested', cancelledAt: new Date().toISOString() }
+          : a
+      ),
+      selectedAppointment: state.selectedAppointment?.id === id
+        ? { ...state.selectedAppointment, status: 'cancelled', cancellationReason: reason || 'Patient requested', cancelledAt: new Date().toISOString() }
+        : state.selectedAppointment,
+    }));
+  },
+
   // Optimistic Updates
   addAppointment: (appointment) => {
     const newAppointment = { ...appointment, id: `temp-${Date.now()}` };
