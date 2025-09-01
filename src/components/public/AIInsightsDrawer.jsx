@@ -11,19 +11,9 @@ export function AIInsightsDrawer({ recommendations = [], searchCriteria = {}, po
     }
   };
 
+  // If there are no recommendations, do not render the left-floating overlay
   if (!recommendations || recommendations.length === 0) {
-    return (
-      <div className="fixed left-4 top-1/2 transform -translate-y-1/2 z-50">
-        <Button
-          onClick={toggleDrawer}
-          className="bg-purple-600 hover:bg-purple-700 text-white shadow-lg rounded-r-full rounded-l-none px-3 py-4 h-auto"
-          title="Open AI Insights"
-        >
-          <Sparkles className="h-5 w-5 mr-2" />
-          <span className="hidden sm:inline">AI Insights</span>
-        </Button>
-      </div>
-    );
+    return null;
   }
 
   const topRecommendations = recommendations.slice(0, 3);

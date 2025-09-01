@@ -6,8 +6,9 @@ import { startMSW } from './mocks';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-// Start MSW in development mode and wait for it to be ready
-if (process.env.NODE_ENV === 'development') {
+// Start MSW in development mode or when explicitly enabled via Vite env flag
+const enableMSW = process.env.NODE_ENV === 'development' || (import.meta && import.meta.env && import.meta.env.VITE_ENABLE_MSW === 'true');
+if (enableMSW) {
   startMSW().then(() => {
     root.render(
       <React.StrictMode>
