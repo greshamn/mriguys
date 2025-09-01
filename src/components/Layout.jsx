@@ -49,7 +49,7 @@ export function Layout() {
         {/* Main Content Area */}
         <div className="flex flex-1 overflow-hidden">
           <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
-            <div className="grid grid-cols-1 sm:grid-cols-6 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8">
+            <div className="w-full">
               <Outlet />
             </div>
           </main>

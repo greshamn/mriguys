@@ -4,15 +4,9 @@ import { AdminDashboard } from '../pages/dashboards/AdminDashboard';
 import { PatientDashboard } from '../pages/dashboards/PatientDashboard';
 import { ReferrerDashboard } from '../pages/dashboards/ReferrerDashboard';
 import { ImagingCenterDashboard } from '../pages/dashboards/ImagingCenterDashboard';
+import { AttorneyDashboard } from '../pages/dashboards/AttorneyDashboard';
 
 // Placeholder components for other roles (you can expand these later)
-
-const AttorneyDashboard = () => (
-  <div className="p-6">
-    <h1 className="text-3xl font-bold text-foreground">Attorney Dashboard</h1>
-    <p className="text-muted-foreground">Case management and lien tracking</p>
-  </div>
-);
 
 const FunderDashboard = () => (
   <div className="p-6">

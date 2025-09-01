@@ -69,19 +69,20 @@ export const ActionBar = () => {
             { label: 'View Reports', icon: FileText, variant: 'outline', action: () => console.log('View Reports') }
           ];
         
-        case 'imaging-center':
-          return [
-            { label: 'Upload Report', icon: FileText, variant: 'default', action: () => console.log('Upload Report') },
-            { label: 'Manage Slots', icon: Clock, variant: 'outline', action: () => window.location.href = '/slots' },
-            { label: 'View Worklist', icon: Clock, variant: 'outline', action: () => window.location.href = '/worklist' },
-            { label: 'Billing', icon: DollarSign, variant: 'outline', action: () => window.location.href = '/billing' }
-          ];
-        
-        case 'attorney':
-          return [
-            { label: 'Generate Packet', icon: Download, variant: 'default', action: () => console.log('Generate Packet') },
-            { label: 'Manage Liens', icon: Settings, variant: 'outline', action: () => console.log('Manage Liens') }
-          ];
+                    case 'imaging-center':
+              return [
+                { label: 'Upload Report', icon: FileText, variant: 'default', action: () => console.log('Upload Report') },
+                { label: 'Manage Slots', icon: Clock, variant: 'outline', action: () => window.location.href = '/slots' },
+                { label: 'View Worklist', icon: Clock, variant: 'outline', action: () => window.location.href = '/worklist' },
+                { label: 'Billing', icon: DollarSign, variant: 'outline', action: () => window.location.href = '/billing' }
+              ];
+            case 'attorney':
+              return [
+                { label: 'New Case', icon: Plus, variant: 'default', action: () => console.log('New Case') },
+                { label: 'Case Packet', icon: Download, variant: 'outline', action: () => console.log('Case Packet') },
+                { label: 'Lien Ledger', icon: DollarSign, variant: 'outline', action: () => console.log('Lien Ledger') },
+                { label: 'Export Report', icon: FileText, variant: 'outline', action: () => console.log('Export Report') }
+              ];
         
         case 'funder':
           return [

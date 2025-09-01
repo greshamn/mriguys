@@ -16,6 +16,7 @@ import Worklist from './pages/Worklist';
 import Slots from './pages/Slots';
 import Billing from './pages/Billing';
 
+
 function App() {
   return (
     <RoleProvider>
@@ -55,6 +56,8 @@ function App() {
             
             {/* Imaging Center Billing */}
             <Route path="billing" element={<Billing />} />
+            
+
             
             {/* Add more routes here as needed */}
             <Route path="referral" element={<ReferralWizard />} />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Command, X, ArrowRight, FileText, Users, Settings, Building2, BarChart3, Plus, Download, Clock, DollarSign, Scale } from 'lucide-react';
+import { Search, Command, X, ArrowRight, FileText, Users, Settings, Building2, BarChart3, Plus, Download, Clock, DollarSign, Scale, Gavel } from 'lucide-react';
 import { useRole } from '../context/RoleContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -56,7 +56,7 @@ export const CommandModal = ({ isOpen, onClose }) => {
         return [
           { id: 'worklist', label: 'View Worklist', icon: Clock, action: () => navigate('/worklist') },
           { id: 'slot-manager', label: 'Slot Manager', icon: Settings, action: () => navigate('/slots') },
-          { id: 'billing', label: 'Billing Management', icon: DollarSign, action: () => navigate('/billing') }
+                      { id: 'billing', label: 'Billing Management', icon: DollarSign, action: () => navigate('/billing') }
         ];
       
       case 'attorney':
