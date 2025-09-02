@@ -17,6 +17,7 @@ import Slots from './pages/Slots';
 import Billing from './pages/Billing';
 import Cases from './pages/Cases';
 import CasePacket from './pages/CasePacket';
+import LienLedger from './pages/LienLedger';
 
 
 function App() {
@@ -65,6 +66,7 @@ function App() {
             <Route path="referral" element={<ReferralWizard />} />
             <Route path="cases" element={<Cases />} />
             <Route path="case-packet" element={<CasePacket />} />
+            <Route path="lien" element={<LienLedger />} />
             <Route path="settings" element={<div className="p-6">Settings - Coming Soon</div>} />
             
             {/* 404 route */}
