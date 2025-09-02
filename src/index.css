@@ -95,17 +95,17 @@
   --popover: hsl(251 20% 16%);
   --popover-foreground: hsl(250 36% 90%);
   
-  --primary: hsl(263 33% 69%);
-  --primary-foreground: hsl(251 19% 12%);
+  --primary: hsl(178.8350 63.1902% 31.9608%);
+  --primary-foreground: hsl(250.9091 18.6441% 11.5686%);
   
-  --secondary: hsl(254 15% 38%);
-  --secondary-foreground: hsl(250 36% 90%);
+  --secondary: hsl(26.9767 58.9041% 42.9412%);
+  --secondary-foreground: hsl(250.0000 36.0000% 90.1961%);
   
   --muted: hsl(254 21% 16%);
   --muted-foreground: hsl(259 10% 64%);
   
-  --accent: hsl(272 16% 21%);
-  --accent-foreground: hsl(346 69% 84%);
+  --accent: hsl(217.7778 15.0838% 35.0980%);
+  --accent-foreground: hsl(191.7857 68.2927% 83.9216%);
   
   --destructive: hsl(0 69% 67%);
   --destructive-foreground: hsl(251 19% 12%);
@@ -156,83 +156,80 @@ body {
 
 
 
-/* Grid System Utilities */
-.grid-cols-1 { grid-column: span 1 / span 1; }
-.grid-cols-2 { grid-column: span 2 / span 2; }
-.grid-cols-3 { grid-column: span 3 / span 3; }
-.grid-cols-4 { grid-column: span 4 / span 4; }
-.grid-cols-5 { grid-column: span 5 / span 5; }
-.grid-cols-6 { grid-column: span 6 / span 6; }
-.grid-cols-7 { grid-column: span 7 / span 7; }
-.grid-cols-8 { grid-column: span 8 / span 8; }
-.grid-cols-9 { grid-column: span 9 / span 9; }
-.grid-cols-10 { grid-column: span 10 / span 10; }
-.grid-cols-11 { grid-column: span 11 / span 11; }
-.grid-cols-12 { grid-column: span 12 / span 12; }
+/* Custom prefixed grid utilities (non-conflicting). If you need manual grid helpers,
+   use these mriguys- prefixed classes instead of Tailwind's built-ins. */
+.mriguys-grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.mriguys-grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.mriguys-grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.mriguys-grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.mriguys-grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.mriguys-grid-cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.mriguys-grid-cols-7 { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+.mriguys-grid-cols-8 { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+.mriguys-grid-cols-9 { grid-template-columns: repeat(9, minmax(0, 1fr)); }
+.mriguys-grid-cols-10 { grid-template-columns: repeat(10, minmax(0, 1fr)); }
+.mriguys-grid-cols-11 { grid-template-columns: repeat(11, minmax(0, 1fr)); }
+.mriguys-grid-cols-12 { grid-template-columns: repeat(12, minmax(0, 1fr)); }
 
-/* Responsive Grid Utilities */
 @media (min-width: 640px) {
-  .sm\:grid-cols-1 { grid-column: span 1 / span 1; }
-  .sm\:grid-cols-2 { grid-column: span 2 / span 2; }
-  .sm\:grid-cols-3 { grid-column: span 3 / span 3; }
-  .sm\:grid-cols-4 { grid-column: span 4 / span 4; }
-  .sm\:grid-cols-5 { grid-column: span 5 / span 5; }
-  .sm\:grid-cols-6 { grid-column: span 6 / span 6; }
+  .sm\:mriguys-grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+  .sm\:mriguys-grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sm\:mriguys-grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .sm\:mriguys-grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .sm\:mriguys-grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .sm\:mriguys-grid-cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 }
 
 @media (min-width: 1024px) {
-  .lg\:grid-cols-1 { grid-column: span 1 / span 1; }
-  .lg\:grid-cols-2 { grid-column: span 2 / span 2; }
-  .lg\:grid-cols-3 { grid-column: span 3 / span 3; }
-  .lg\:grid-cols-4 { grid-column: span 4 / span 4; }
-  .lg\:grid-cols-5 { grid-column: span 5 / span 5; }
-  .lg\:grid-cols-6 { grid-column: span 6 / span 6; }
-  .lg\:grid-cols-7 { grid-column: span 7 / span 7; }
-  .lg\:grid-cols-8 { grid-column: span 8 / span 8; }
-  .lg\:grid-cols-9 { grid-column: span 9 / span 9; }
-  .lg\:grid-cols-10 { grid-column: span 10 / span 10; }
-  .lg\:grid-cols-11 { grid-column: span 11 / span 11; }
-  .lg\:grid-cols-12 { grid-column: span 12 / span 12; }
+  .lg\:mriguys-grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+  .lg\:mriguys-grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lg\:mriguys-grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .lg\:mriguys-grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .lg\:mriguys-grid-cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .lg\:mriguys-grid-cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .lg\:mriguys-grid-cols-7 { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+  .lg\:mriguys-grid-cols-8 { grid-template-columns: repeat(8, minmax(0, 1fr)); }
+  .lg\:mriguys-grid-cols-9 { grid-template-columns: repeat(9, minmax(0, 1fr)); }
+  .lg\:mriguys-grid-cols-10 { grid-template-columns: repeat(10, minmax(0, 1fr)); }
+  .lg\:mriguys-grid-cols-11 { grid-template-columns: repeat(11, minmax(0, 1fr)); }
+  .lg\:mriguys-grid-cols-12 { grid-template-columns: repeat(12, minmax(0, 1fr)); }
 }
 
-/* Grid Row Utilities */
-.grid-rows-1 { grid-row: span 1 / span 1; }
-.grid-rows-2 { grid-row: span 2 / span 2; }
-.grid-rows-3 { grid-row: span 3 / span 3; }
-.grid-rows-4 { grid-row: span 4 / span 4; }
-.grid-rows-5 { grid-row: span 5 / span 5; }
-.grid-rows-6 { grid-row: span 6 / span 6; }
+.mriguys-grid-rows-1 { grid-template-rows: repeat(1, minmax(0, 1fr)); }
+.mriguys-grid-rows-2 { grid-template-rows: repeat(2, minmax(0, 1fr)); }
+.mriguys-grid-rows-3 { grid-template-rows: repeat(3, minmax(0, 1fr)); }
+.mriguys-grid-rows-4 { grid-template-rows: repeat(4, minmax(0, 1fr)); }
+.mriguys-grid-rows-5 { grid-template-rows: repeat(5, minmax(0, 1fr)); }
+.mriguys-grid-rows-6 { grid-template-rows: repeat(6, minmax(0, 1fr)); }
 
-/* Grid Gap Utilities */
-.gap-1 { gap: 0.25rem; }
-.gap-2 { gap: 0.5rem; }
-.gap-3 { gap: 0.75rem; }
-.gap-4 { gap: 1rem; }
-.gap-5 { gap: 1.25rem; }
-.gap-6 { gap: 1.5rem; }
-.gap-8 { gap: 2rem; }
-.gap-10 { gap: 2.5rem; }
-.gap-12 { gap: 3rem; }
+.mriguys-gap-1 { gap: 0.25rem; }
+.mriguys-gap-2 { gap: 0.5rem; }
+.mriguys-gap-3 { gap: 0.75rem; }
+.mriguys-gap-4 { gap: 1rem; }
+.mriguys-gap-5 { gap: 1.25rem; }
+.mriguys-gap-6 { gap: 1.5rem; }
+.mriguys-gap-8 { gap: 2rem; }
+.mriguys-gap-10 { gap: 2.5rem; }
+.mriguys-gap-12 { gap: 3rem; }
 
-/* Responsive Gap Utilities */
 @media (min-width: 640px) {
-  .sm\:gap-1 { gap: 0.25rem; }
-  .sm\:gap-2 { gap: 0.5rem; }
-  .sm\:gap-3 { gap: 0.75rem; }
-  .sm\:gap-4 { gap: 1rem; }
-  .sm\:gap-5 { gap: 1.25rem; }
-  .sm\:gap-6 { gap: 1.5rem; }
-  .sm\:gap-8 { gap: 2rem; }
+  .sm\:mriguys-gap-1 { gap: 0.25rem; }
+  .sm\:mriguys-gap-2 { gap: 0.5rem; }
+  .sm\:mriguys-gap-3 { gap: 0.75rem; }
+  .sm\:mriguys-gap-4 { gap: 1rem; }
+  .sm\:mriguys-gap-5 { gap: 1.25rem; }
+  .sm\:mriguys-gap-6 { gap: 1.5rem; }
+  .sm\:mriguys-gap-8 { gap: 2rem; }
 }
 
 @media (min-width: 1024px) {
-  .lg\:gap-1 { gap: 0.25rem; }
-  .lg\:gap-2 { gap: 0.5rem; }
-  .lg\:gap-3 { gap: 0.75rem; }
-  .lg\:gap-4 { gap: 1rem; }
-  .lg\:gap-5 { gap: 1.25rem; }
-  .lg\:gap-6 { gap: 1.5rem; }
-  .lg\:gap-8 { gap: 2rem; }
-  .lg\:gap-10 { gap: 2.5rem; }
-  .lg\:gap-12 { gap: 3rem; }
+  .lg\:mriguys-gap-1 { gap: 0.25rem; }
+  .lg\:mriguys-gap-2 { gap: 0.5rem; }
+  .lg\:mriguys-gap-3 { gap: 0.75rem; }
+  .lg\:mriguys-gap-4 { gap: 1rem; }
+  .lg\:mriguys-gap-5 { gap: 1.25rem; }
+  .lg\:mriguys-gap-6 { gap: 1.5rem; }
+  .lg\:mriguys-gap-8 { gap: 2rem; }
+  .lg\:mriguys-gap-10 { gap: 2.5rem; }
+  .lg\:mriguys-gap-12 { gap: 3rem; }
 }

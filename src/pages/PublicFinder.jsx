@@ -276,72 +276,74 @@ const PublicFinder = () => {
 
   return (
     <>
-      {/* Page Header */}
-      <div className="col-span-12">
-        <div className="flex items-center justify-between mb-6">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">Find Imaging Centers</h1>
-            <p className="text-muted-foreground text-sm">
-              Discover and compare imaging centers near you
-            </p>
-            {/* Subtle welcome back hint */}
-            {getLastSearch() && (
-              <div className="mt-1">
-                <button 
-                  onClick={() => handleRestoreFromHistory(getLastSearch().params)}
-                  className="text-xs text-primary hover:text-primary/80 underline flex items-center gap-1"
-                >
-                  👋 Restore last search
-                </button>
-              </div>
-            )}
-          </div>
-          <div className="flex items-center gap-3">
-            {/* Favorites */}
-            <Favorites 
-              onRestoreSearch={handleRestoreFromHistory}
-              onCenterClick={handleCenterModalOpen}
-            />
-            
-            {/* Bookmarks */}
-            <Bookmarks onRestoreSearch={handleRestoreSearch} />
-            
-            {/* Share Dropdown */}
-            <ShareDropdown 
-              searchParams={searchParams}
-              searchResults={searchResults}
-              onBookmark={handleBookmark}
-            />
+      <div className="grid grid-cols-12 gap-6">
+        {/* Page Header */}
+        <div className="col-span-12">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">Find Imaging Centers</h1>
+              <p className="text-muted-foreground text-sm">
+                Discover and compare imaging centers near you
+              </p>
+              {/* Subtle welcome back hint */}
+              {getLastSearch() && (
+                <div className="mt-1">
+                  <button 
+                    onClick={() => handleRestoreFromHistory(getLastSearch().params)}
+                    className="text-xs text-primary hover:text-primary/80 underline flex items-center gap-1"
+                  >
+                    👋 Restore last search
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className="flex items-center gap-3">
+              {/* Favorites */}
+              <Favorites 
+                onRestoreSearch={handleRestoreFromHistory}
+                onCenterClick={handleCenterModalOpen}
+              />
+              
+              {/* Bookmarks */}
+              <Bookmarks onRestoreSearch={handleRestoreSearch} />
+              
+              {/* Share Dropdown */}
+              <ShareDropdown 
+                searchParams={searchParams}
+                searchResults={searchResults}
+                onBookmark={handleBookmark}
+              />
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* Search Filters Sidebar */}
-      <div className="col-span-12 lg:col-span-3">
-        <SearchFilters 
-          onSearch={handleSearch} 
-          bodyParts={bodyParts} 
-          modalityOptions={modalityOptions}
-          initialValues={searchParams}
-        />
-      </div>
-      
-      {/* Search Results */}
-      <div className="col-span-12 lg:col-span-9">
-        <SearchResults 
-          key={`search-${JSON.stringify(searchParams)}`}
-          results={searchResults}
-          loading={loading}
-          viewMode={viewMode}
-          searchParams={searchParams}
-          onCenterClick={handleCenterClick}
-          aiInsightsButton={
-            <AIInsightsButton 
-              onClick={() => setAiDrawerOpen(true)}
-              recommendationsCount={aiRecommendations.length}
-            />
-          }
-        />
+        {/* Search Filters Sidebar */}
+        <div className="col-span-12 lg:col-span-3">
+          <SearchFilters 
+            onSearch={handleSearch} 
+            bodyParts={bodyParts} 
+            modalityOptions={modalityOptions}
+            initialValues={searchParams}
+          />
+        </div>
+        
+        {/* Search Results */}
+        <div className="col-span-12 lg:col-span-9">
+          <SearchResults 
+            key={`search-${JSON.stringify(searchParams)}`}
+            results={searchResults}
+            loading={loading}
+            viewMode={viewMode}
+            searchParams={searchParams}
+            onCenterClick={handleCenterClick}
+            aiInsightsButton={
+              <AIInsightsButton 
+                onClick={() => setAiDrawerOpen(true)}
+                recommendationsCount={aiRecommendations.length}
+              />
+            }
+          />
+        </div>
       </div>
 
       {/* AI Insights Floating Drawer */}

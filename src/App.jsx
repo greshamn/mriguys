@@ -19,6 +19,7 @@ import Cases from './pages/Cases';
 import CasePacket from './pages/CasePacket';
 import LienLedger from './pages/LienLedger';
 import Clients from './pages/Clients';
+import FunderPipeline from './pages/funder/Pipeline';
 
 
 function App() {
@@ -69,6 +70,8 @@ function App() {
             <Route path="case-packet" element={<CasePacket />} />
             <Route path="lien" element={<LienLedger />} />
             <Route path="clients" element={<Clients />} />
+            {/* Funder */}
+            <Route path="pipeline" element={<FunderPipeline />} />
             <Route path="settings" element={<div className="p-6">Settings - Coming Soon</div>} />
             
             {/* 404 route */}
