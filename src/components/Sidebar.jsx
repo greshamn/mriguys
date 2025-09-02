@@ -64,7 +64,7 @@ const Sidebar = ({ isOpen, onToggle, collapsed = false, onCollapse }) => {
         return [
           { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard', active: location.pathname === '/dashboard' },
           { icon: FolderOpen, label: 'Cases', path: '/cases', active: location.pathname === '/cases' },
-          { icon: Download, label: 'Case Packet', path: '/packet', active: location.pathname === '/packet' },
+          { icon: Download, label: 'Case Packet', path: '/case-packet', active: location.pathname === '/case-packet' },
           { icon: Scale, label: 'Lien Ledger', path: '/lien', active: location.pathname === '/lien' },
           { icon: Users, label: 'Clients', path: '/clients', active: location.pathname === '/clients' }
         ];
