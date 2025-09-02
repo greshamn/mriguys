@@ -31,42 +31,12 @@ export function BookingModal({ open, onOpenChange, center, onBooked }) {
       setError('');
       setSelectedSlotId('');
       setConfirmed(false);
-      try {
-        // Query without date range (our mock data uses fixed dates in the past).
-        const params = new URLSearchParams({ limit: '50', status: 'available' });
-        const res = await fetch(`/api/centers/${center.id}/availability?${params.toString()}`);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = await res.json();
-        const items = (data?.data || data?.items || data || []).map((s) => ({ ...s }));
 
-        let sourceSlots = items;
-        // Fallback: generate a generic template if center has no slots in mocks
-        if (!Array.isArray(sourceSlots) || sourceSlots.length === 0) {
-          const modality = (center?.modalities && center.modalities[0]) || 'MRI';
-          const baseTimes = ['09:00', '10:30', '13:00', '14:30'];
-          sourceSlots = Array.from({ length: 8 }, (_, i) => {
-            const [h, m] = baseTimes[i % baseTimes.length].split(':').map(Number);
-            const d = new Date();
-            d.setHours(h, m, 0, 0);
-            const end = new Date(d.getTime() + 60 * 60000);
-            return {
-              id: `gen-${center.id}-${i}`,
-              centerId: center.id,
-              modality,
-              bodyPart: '',
-              startTime: d.toISOString(),
-              endTime: end.toISOString(),
-              duration: 60,
-              status: 'available',
-              price: 800,
-            };
-          });
-        }
-
+      const simulateFrom = (sourceSlots) => {
         // Simulate upcoming 3 days by shifting slot dates while preserving time-of-day
         const today = new Date();
         today.setHours(0, 0, 0, 0);
-        const simulated = sourceSlots.map((s, i) => {
+        return sourceSlots.map((s, i) => {
           const src = new Date(s.startTime);
           const dayOffset = i % 3; // spread across next 3 days
           const day = new Date(today.getTime() + dayOffset * 86400000);
@@ -76,9 +46,65 @@ export function BookingModal({ open, onOpenChange, center, onBooked }) {
             ...s,
             startTime: day.toISOString(),
             endTime: end.toISOString(),
-            _uiUnavailable: i % 4 === 2, // mark ~25% as unavailable
+            _uiUnavailable: i % 4 === 2,
           };
         });
+      };
+
+      const buildGeneric = () => {
+        const modality = (center?.modalities && center.modalities[0]) || 'MRI';
+        const baseTimes = ['09:00', '10:30', '13:00', '14:30'];
+        const generated = Array.from({ length: 8 }, (_, i) => {
+          const [h, m] = baseTimes[i % baseTimes.length].split(':').map(Number);
+          const d = new Date();
+          d.setHours(h, m, 0, 0);
+          const end = new Date(d.getTime() + 60 * 60000);
+          return {
+            id: `gen-${center.id}-${i}`,
+            centerId: center.id,
+            modality,
+            bodyPart: '',
+            startTime: d.toISOString(),
+            endTime: end.toISOString(),
+            duration: 60,
+            status: 'available',
+            price: 800,
+          };
+        });
+        return simulateFrom(generated);
+      };
+
+      try {
+        // Try API first
+        const params = new URLSearchParams({ limit: '50', status: 'available' });
+        const res = await fetch(`/api/centers/${center.id}/availability?${params.toString()}`, {
+          headers: { Accept: 'application/json' },
+        });
+
+        let simulated = [];
+        const ct = res.headers.get('content-type') || '';
+        if (res.ok && !ct.includes('text/html')) {
+          const data = await res.json();
+          const items = (data?.data || data?.items || data || []).map((s) => ({ ...s }));
+          if (items?.length) {
+            simulated = simulateFrom(items);
+          }
+        }
+
+        // Fallbacks: local fixtures or generic template
+        if (!simulated.length) {
+          try {
+            const mod = await import('@/mocks/fixtures/slots.json');
+            const all = mod?.default || mod;
+            const filtered = (all || []).filter((s) => s.centerId === center.id);
+            if (filtered.length) {
+              simulated = simulateFrom(filtered);
+            }
+          } catch {}
+        }
+        if (!simulated.length) {
+          simulated = buildGeneric();
+        }
 
         setSlots(simulated);
         if (simulated.length > 0) {
