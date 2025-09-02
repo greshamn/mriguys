@@ -4,10 +4,12 @@ import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
 import { Star, MapPin, Clock, Phone, Heart } from 'lucide-react';
 import { useFavorites } from '../../context/FavoritesContext';
+import BookingModal from './BookingModal';
 import { generateReferralURL } from '../../lib/deepLinking';
 
 export function CenterCard({ center, onClick }) {
   const { toggleFavoriteCenter, isFavoriteCenter } = useFavorites();
+  const [bookingOpen, setBookingOpen] = React.useState(false);
   
   // Calculate mock distance (in real app, would use geocoding)
   const mockDistance = Math.floor(Math.random() * 20) + 1;
@@ -180,38 +182,10 @@ export function CenterCard({ center, onClick }) {
           <Button 
             size="sm" 
             className="flex-1"
+            onMouseDown={(e) => e.stopPropagation()}
             onClick={(e) => {
               e.stopPropagation();
-              
-              // Generate deep link to Referral Wizard with center preselected
-              const referralURL = generateReferralURL(center.id, {});
-              console.log('🔗 Navigating to Referral Wizard:', referralURL);
-              
-              // Show a professional modal instead of alert
-              const modal = document.createElement('div');
-              modal.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center';
-              modal.innerHTML = `
-                <div class="bg-background border border-border rounded-lg p-6 max-w-md mx-4">
-                  <h3 class="text-lg font-semibold text-foreground mb-4">Appointment Booking</h3>
-                  <p class="text-muted-foreground mb-4">
-                    You would be redirected to the appointment booking system for <strong>${center.name}</strong>.
-                  </p>
-                  <div class="flex gap-3">
-                    <button class="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors" onclick="this.closest('.fixed').remove()">
-                      Got it
-                    </button>
-                    <button class="px-4 py-2 bg-secondary text-secondary-foreground rounded-lg hover:bg-secondary/90 transition-colors" onclick="window.open('${referralURL}', '_blank')">
-                      Open in New Tab
-                    </button>
-                  </div>
-                </div>
-              `;
-              document.body.appendChild(modal);
-              
-              // Remove modal when clicking outside
-              modal.addEventListener('click', (e) => {
-                if (e.target === modal) modal.remove();
-              });
+              setBookingOpen(true);
             }}
           >
             📅 Book Appointment
@@ -231,6 +205,15 @@ export function CenterCard({ center, onClick }) {
           >
             🗺️ Directions
           </Button>
+        </div>
+        {/* Booking Modal */}
+        <div onClick={(e) => e.stopPropagation()}>
+          <BookingModal
+            open={bookingOpen}
+            onOpenChange={setBookingOpen}
+            center={center}
+            onBooked={() => {}}
+          />
         </div>
       </CardContent>
     </Card>

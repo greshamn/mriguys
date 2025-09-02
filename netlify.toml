@@ -5,6 +5,13 @@
 [build.environment]
   NODE_VERSION = "18"
 
+## Ensure MSW worker is served as a static file (not caught by SPA redirect)
+[[redirects]]
+  from = "/mockServiceWorker.js"
+  to = "/mockServiceWorker.js"
+  status = 200
+  force = true
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
@@ -14,3 +21,9 @@
   command = "npm run dev"
   port = 3000
   publish = "dist"
+
+## Explicit content-type for service worker (defensive)
+[[headers]]
+  for = "/mockServiceWorker.js"
+  [headers.values]
+    Content-Type = "text/javascript"
