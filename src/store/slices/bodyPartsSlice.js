@@ -54,9 +54,16 @@ export const bodyPartsSlice = (set, get) => {
         console.log('🔄 fetchBodyParts: State updated successfully');
         return data;
       } catch (error) {
-        console.error('❌ fetchBodyParts: Error occurred:', error);
-        set({ error: error.message, loading: false });
-        throw error;
+        console.warn('⚠️ fetchBodyParts: Falling back to static fixtures due to:', error?.message || error);
+        try {
+          const module = await import('@/mocks/fixtures/bodyParts.json');
+          const fallback = module?.default || module;
+          set({ bodyParts: fallback, loading: false });
+          return { data: fallback };
+        } catch (fallbackErr) {
+          set({ error: error.message, loading: false });
+          throw fallbackErr;
+        }
       }
     },
 
