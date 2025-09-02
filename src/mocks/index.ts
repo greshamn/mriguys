@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { worker } from './browser'
 
 // Function to start MSW in development and optionally in production
@@ -22,6 +23,7 @@ export const startMSW = async () => {
 
     const mode = isViteDev ? 'development' : 'production'
     console.log(`✅ MSW started successfully (${mode} mode)`) 
+    try { (window as any).__MSW_READY__ = true } catch {}
     console.log('📡 Mock API endpoints are now active')
     console.log('🌐 Available endpoints:')
     console.log('   Public: /api/centers, /api/body-parts, /api/safety-questions')

@@ -69,27 +69,25 @@ const PublicFinder = () => {
   }, []); // Only run once on mount
 
   useEffect(() => {
-    // Add a small delay to ensure MSW is fully initialized
     const initializeData = async () => {
       try {
-        // Wait a bit for MSW to be ready
-        await new Promise(resolve => setTimeout(resolve, 100));
-        
+        // Wait for MSW to be ready in production if enabled.
+        let waited = 0;
+        while (import.meta?.env?.VITE_ENABLE_MSW === 'true' && !(window).__MSW_READY__ && waited < 1500) {
+          await new Promise(r => setTimeout(r, 100));
+          waited += 100;
+        }
+
         console.log('🔄 PublicFinder: Starting data initialization...');
-        
-        // Fetch centers data when component mounts
         await fetchCenters();
         console.log('✅ PublicFinder: Centers fetched successfully');
-        
-        // Fetch body parts data when component mounts
         await fetchBodyParts();
         console.log('✅ PublicFinder: Body parts fetched successfully');
-        
       } catch (error) {
         console.error('❌ PublicFinder: Failed to initialize data:', error);
       }
     };
-    
+
     initializeData();
   }, [fetchCenters, fetchBodyParts]);
 
