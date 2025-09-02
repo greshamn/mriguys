@@ -5,15 +5,9 @@ import { PatientDashboard } from '../pages/dashboards/PatientDashboard';
 import { ReferrerDashboard } from '../pages/dashboards/ReferrerDashboard';
 import { ImagingCenterDashboard } from '../pages/dashboards/ImagingCenterDashboard';
 import { AttorneyDashboard } from '../pages/dashboards/AttorneyDashboard';
+import { FunderDashboard } from '../pages/dashboards/FunderDashboard';
 
 // Placeholder components for other roles (you can expand these later)
-
-const FunderDashboard = () => (
-  <div className="p-6">
-    <h1 className="text-3xl font-bold text-foreground">Funder Dashboard</h1>
-    <p className="text-muted-foreground">Funding applications and approvals</p>
-  </div>
-);
 
 const OpsDashboard = () => (
   <div className="p-6">
