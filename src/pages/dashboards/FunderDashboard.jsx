@@ -423,7 +423,7 @@ export const FunderDashboard = () => {
           <CardContent>
             <div className="text-2xl font-bold text-red-600">{kpiMetrics.highPriority}</div>
             <p className="text-xs text-muted-foreground">
-              AI Score > 80
+              AI Score {'>'} 80
             </p>
           </CardContent>
         </Card>
