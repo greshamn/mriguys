@@ -18,30 +18,39 @@ export const bodyPartsSlice = (set, get) => {
     fetchBodyParts: async () => {
       console.log('🔄 fetchBodyParts: Starting API call...');
       set({ loading: true, error: null });
-      
-      try {
-        console.log('🔄 fetchBodyParts: Making fetch request to /api/body-parts');
-        const response = await fetch('/api/body-parts');
-        
-        console.log('🔄 fetchBodyParts: Response received:', response);
-        console.log('🔄 fetchBodyParts: Response status:', response.status);
-        console.log('🔄 fetchBodyParts: Response ok:', response.ok);
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        console.log('🔄 fetchBodyParts: Response data:', data);
-        
-        const bodyPartsData = data.data || data;
-        console.log('🔄 fetchBodyParts: Processed bodyPartsData:', bodyPartsData);
-        
-        set({
-          bodyParts: bodyPartsData,
-          loading: false,
+
+      const attemptFetch = async (attempt = 1) => {
+        console.log(`🔄 fetchBodyParts: Attempt ${attempt}`);
+        const response = await fetch('/api/body-parts', {
+          headers: { Accept: 'application/json' },
         });
-        
+        const contentType = response.headers.get('content-type') || '';
+        console.log('🔄 fetchBodyParts: Response status:', response.status, 'ct:', contentType);
+
+        if (!response.ok || contentType.includes('text/html')) {
+          if (attempt < 3) {
+            await new Promise((r) => setTimeout(r, 300 * attempt));
+            return attemptFetch(attempt + 1);
+          }
+          throw new Error(`Unexpected response for /api/body-parts (status: ${response.status}, ct: ${contentType})`);
+        }
+
+        try {
+          return await response.json();
+        } catch (e) {
+          if (attempt < 3) {
+            await new Promise((r) => setTimeout(r, 300 * attempt));
+            return attemptFetch(attempt + 1);
+          }
+          throw e;
+        }
+      };
+
+      try {
+        const data = await attemptFetch(1);
+        console.log('🔄 fetchBodyParts: Response data:', data);
+        const bodyPartsData = data.data || data;
+        set({ bodyParts: bodyPartsData, loading: false });
         console.log('🔄 fetchBodyParts: State updated successfully');
         return data;
       } catch (error) {

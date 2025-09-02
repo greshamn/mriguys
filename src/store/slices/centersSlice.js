@@ -68,13 +68,30 @@ export const centersSlice = (set, get) => ({
     set({ loading: true, error: null });
     
     try {
-      const response = await fetch(`/api/centers?${queryParams}`);
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const data = await response.json();
+      const attemptFetch = async (attempt = 1) => {
+        const response = await fetch(`/api/centers?${queryParams}`, {
+          headers: { Accept: 'application/json' },
+        });
+        const contentType = response.headers.get('content-type') || '';
+        if (!response.ok || contentType.includes('text/html')) {
+          if (attempt < 3) {
+            await new Promise((r) => setTimeout(r, 300 * attempt));
+            return attemptFetch(attempt + 1);
+          }
+          throw new Error(`Unexpected response for /api/centers (status: ${response.status}, ct: ${contentType})`);
+        }
+        try {
+          return await response.json();
+        } catch (e) {
+          if (attempt < 3) {
+            await new Promise((r) => setTimeout(r, 300 * attempt));
+            return attemptFetch(attempt + 1);
+          }
+          throw e;
+        }
+      };
+
+      const data = await attemptFetch(1);
       
       set({
         centers: data.data || data,
