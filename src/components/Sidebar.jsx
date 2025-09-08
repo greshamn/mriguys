@@ -86,7 +86,6 @@ const Sidebar = ({ isOpen, onToggle, collapsed = false, onCollapse }) => {
           { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard', active: location.pathname === '/dashboard' },
           { icon: Users, label: 'Users & Roles', path: '/users', active: location.pathname === '/users' },
           { icon: Settings, label: 'System Settings', path: '/settings', active: location.pathname === '/settings' },
-          { icon: BarChart3, label: 'Analytics', path: '/analytics', active: location.pathname === '/analytics' },
           { icon: FileText, label: 'Master Data', path: '/master-data', active: location.pathname === '/master-data' }
         ];
     }

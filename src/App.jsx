@@ -23,6 +23,8 @@ import FunderPipeline from './pages/funder/Pipeline';
 import FunderReports from './pages/funder/Reports';
 import Messages from './pages/Messages';
 import Queues from './pages/Queues';
+import UsersPage from './pages/Users';
+import Settings from './pages/Settings';
 
 
 function App() {
@@ -81,7 +83,10 @@ function App() {
             {/* Funder */}
             <Route path="pipeline" element={<FunderPipeline />} />
             <Route path="reports" element={<FunderReports />} />
-            <Route path="settings" element={<div className="p-6">Settings - Coming Soon</div>} />
+            
+            {/* Admin */}
+            <Route path="users" element={<UsersPage />} />
+            <Route path="settings" element={<Settings />} />
             
             {/* 404 route */}
             <Route path="*" element={
