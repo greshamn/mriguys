@@ -10,7 +10,8 @@ import { Input } from '../../components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/ui/select';
 import { Timeline } from '../../components/Timeline';
 import {
-  RefreshCw, Search, CheckCircle, XCircle, AlertCircle, Clock, DollarSign, Eye, ArrowRight,
+  RefreshCw, Search, CheckCircle, XCircle, AlertCircle, Clock, DollarSign, Eye, ArrowRight, 
+  TrendingUp, User, FileText, Calendar, ChevronRight, MoreHorizontal
 } from 'lucide-react';
 
 const STAGES = [
@@ -126,128 +127,330 @@ export default function FunderPipeline() {
 
   const StageDots = ({ item }) => {
     const steps = [
-      { id: 'referral', label: 'Referral Received' },
-      { id: 'booking', label: 'Appointment Booked' },
-      { id: 'scan', label: 'Scan Completed' },
-      { id: 'report', label: 'Report Ready' }
+      { id: 'referral', label: 'Referral', color: 'slate', icon: '📋' },
+      { id: 'booking', label: 'Booked', color: 'indigo', icon: '📅' },
+      { id: 'scan', label: 'Scanned', color: 'amber', icon: '🔍' },
+      { id: 'report', label: 'Report', color: 'emerald', icon: '📄' }
     ];
     const current = item.timelineStep || 'scan';
-    const isDone = (sid) => steps.findIndex((s) => s.id === sid) <= steps.findIndex((s) => s.id === current);
+    const currentIndex = steps.findIndex((s) => s.id === current);
+    
+    const getColorClasses = (stepIndex, isCompleted, isCurrent) => {
+      if (isCompleted) {
+        switch (steps[stepIndex].color) {
+          case 'slate': return 'bg-slate-400 border-slate-400 text-white';
+          case 'indigo': return 'bg-indigo-400 border-indigo-400 text-white';
+          case 'amber': return 'bg-amber-400 border-amber-400 text-white';
+          case 'emerald': return 'bg-emerald-400 border-emerald-400 text-white';
+          default: return 'bg-emerald-400 border-emerald-400 text-white';
+        }
+      } else if (isCurrent) {
+        switch (steps[stepIndex].color) {
+          case 'slate': return 'bg-slate-50 border-slate-300 text-slate-600';
+          case 'indigo': return 'bg-indigo-50 border-indigo-300 text-indigo-600';
+          case 'amber': return 'bg-amber-50 border-amber-300 text-amber-600';
+          case 'emerald': return 'bg-emerald-50 border-emerald-300 text-emerald-600';
+          default: return 'bg-emerald-50 border-emerald-300 text-emerald-600';
+        }
+      } else {
+        return 'bg-gray-50 border-gray-200 text-gray-400';
+      }
+    };
+
+    const getConnectorColor = (stepIndex) => {
+      if (stepIndex < currentIndex) {
+        switch (steps[stepIndex].color) {
+          case 'slate': return 'bg-slate-300';
+          case 'indigo': return 'bg-indigo-300';
+          case 'amber': return 'bg-amber-300';
+          case 'emerald': return 'bg-emerald-300';
+          default: return 'bg-emerald-300';
+        }
+      }
+      return 'bg-gray-200';
+    };
+    
     return (
-      <div className="flex items-center gap-2 mt-2">
-        {steps.map((s, i) => (
-          <div key={s.id} className={`w-6 h-6 rounded-full border flex items-center justify-center text-[10px] ${isDone(s.id) ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-muted text-muted-foreground border-border'}`}>{i+1}</div>
-        ))}
+      <div className="flex items-center gap-1 mt-3">
+        {steps.map((s, i) => {
+          const isCompleted = i < currentIndex;
+          const isCurrent = i === currentIndex;
+          const isUpcoming = i > currentIndex;
+          
+          return (
+            <div key={s.id} className="flex items-center">
+              <div 
+                className={`
+                  w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-medium
+                  transition-all duration-200 hover:scale-110 cursor-pointer
+                  ${getColorClasses(i, isCompleted, isCurrent)}
+                `}
+              >
+                {isCompleted ? '✓' : isCurrent ? s.icon : i + 1}
+              </div>
+              
+              {i < steps.length - 1 && (
+                <div className={`w-6 h-0.5 mx-1 transition-colors duration-200 ${
+                  getConnectorColor(i)
+                }`} />
+              )}
+            </div>
+          );
+        })}
       </div>
     );
   };
 
-  const Column = ({ id, label }) => (
-    <Card className="min-h-[620px]">
-      <CardHeader className="pb-2 sticky top-0 bg-card z-10 border-b">
-        <CardTitle className="text-sm flex items-center justify-between">
-          <span className="uppercase tracking-wide text-muted-foreground">{label}</span>
-          <Badge variant="secondary">{byStage[id].length}</Badge>
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-3">
-        {byStage[id].map((it) => (
-          <div key={it.id} className="p-3 border rounded-xl bg-card hover:shadow-md hover:border-primary/40 transition-all">
-            <div className="flex items-start justify-between gap-3">
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center text-[11px] font-semibold">
-                    {(it.patientName || getPatientName(it.patientId) || '?').split(' ').map((n) => n[0]).join('').slice(0,2)}
-                  </div>
-                  <div className="font-medium truncate">{it.patientName || getPatientName(it.patientId)}</div>
-                  {it.requirementsSatisfied ? (
-                    <Badge className="bg-green-50 text-green-700 border-green-200">Ready</Badge>
-                  ) : (
-                    <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">Docs</Badge>
-                  )}
-                  <Badge variant="outline">{it.caseNumber}</Badge>
-                </div>
-                <div className="text-xs text-muted-foreground mt-1 truncate">
-                  {it.accidentType} • ${it.amount?.toLocaleString()} • <span className="text-emerald-700 font-medium">AI {it.aiScore}</span>
-                </div>
-                <StageDots item={it} />
-              </div>
-              <div className="flex flex-col gap-1">
-                <Button size="sm" variant="outline" onClick={() => { setSelected(it); setShowDetails(true); }}>
-                  <Eye className="h-4 w-4 mr-1" /> Details
-                </Button>
-                {id !== 'active' && (
-                  <Button size="sm" onClick={() => { setSelected(it); setShowDecision(true); }}>
-                    <CheckCircle className="h-4 w-4 mr-1" /> Decide
-                  </Button>
-                )}
-              </div>
+  const Column = ({ id, label }) => {
+    const getStageColor = (stageId) => {
+      switch (stageId) {
+        case 'submitted': return 'from-blue-50 to-blue-100';
+        case 'review': return 'from-amber-50 to-amber-100';
+        case 'approved': return 'from-green-50 to-green-100';
+        case 'active': return 'from-purple-50 to-purple-100';
+        default: return 'from-gray-50 to-gray-100';
+      }
+    };
+
+    const getStageIcon = (stageId) => {
+      switch (stageId) {
+        case 'submitted': return <FileText className="h-4 w-4" />;
+        case 'review': return <Clock className="h-4 w-4" />;
+        case 'approved': return <CheckCircle className="h-4 w-4" />;
+        case 'active': return <TrendingUp className="h-4 w-4" />;
+        default: return <FileText className="h-4 w-4" />;
+      }
+    };
+
+    return (
+      <div className="bg-gray-50 rounded-xl p-4 min-h-[700px]">
+        {/* Column Header */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <div className={`p-2 rounded-lg bg-gradient-to-r ${getStageColor(id)}`}>
+              {getStageIcon(id)}
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-900 text-lg">{label}</h3>
+              <p className="text-sm text-gray-500">{byStage[id].length} cases</p>
             </div>
           </div>
-        ))}
-        {byStage[id].length === 0 && (
-          <div className="text-sm text-muted-foreground py-10 text-center">No items</div>
-        )}
-      </CardContent>
-    </Card>
-  );
+          <div className="bg-white rounded-full px-3 py-1 text-sm font-medium text-gray-600">
+            {byStage[id].length}
+          </div>
+        </div>
+
+        {/* Cards */}
+        <div className="space-y-4">
+          {byStage[id].map((it) => (
+            <div 
+              key={it.id} 
+              className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:shadow-md hover:border-gray-200 transition-all duration-200 group cursor-pointer"
+              onClick={() => { setSelected(it); setShowDetails(true); }}
+            >
+              {/* Card Header */}
+              <div className="flex items-start justify-between mb-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-white flex items-center justify-center text-sm font-semibold">
+                    {(it.patientName || getPatientName(it.patientId) || '?').split(' ').map((n) => n[0]).join('').slice(0,2)}
+                  </div>
+                  <div>
+                    <div className="font-medium text-gray-900 text-sm">
+                      {it.patientName || getPatientName(it.patientId)}
+                    </div>
+                    <div className="text-xs text-gray-500">{it.caseNumber}</div>
+                  </div>
+                </div>
+                
+                {/* Status Indicator */}
+                <div className="flex items-center gap-2">
+                  <div className={`w-2 h-2 rounded-full ${
+                    it.requirementsSatisfied ? 'bg-green-500' : 'bg-amber-500'
+                  }`} />
+                  <span className="text-xs text-gray-500">
+                    {it.requirementsSatisfied ? 'Ready' : 'Pending'}
+                  </span>
+                </div>
+              </div>
+
+              {/* Case Details */}
+              <div className="space-y-2 mb-4">
+                <div className="text-sm text-gray-600">{it.accidentType}</div>
+                <div className="flex items-center justify-between">
+                  <div className="text-lg font-semibold text-gray-900">
+                    ${it.amount?.toLocaleString()}
+                  </div>
+                  <div className="flex items-center gap-1 text-xs text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
+                    <TrendingUp className="h-3 w-3" />
+                    AI {it.aiScore}
+                  </div>
+                </div>
+              </div>
+
+              {/* Progress Indicator */}
+              <StageDots item={it} />
+
+              {/* Action Button */}
+              <div className="mt-4 pt-3 border-t border-gray-100">
+                <Button 
+                  size="sm" 
+                  variant="ghost" 
+                  className="w-full justify-between text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelected(it);
+                    setShowDetails(true);
+                  }}
+                >
+                  <span>Review Case</span>
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+          ))}
+          
+          {byStage[id].length === 0 && (
+            <div className="text-center py-12">
+              <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+                <FileText className="h-8 w-8 text-gray-400" />
+              </div>
+              <div className="text-sm text-gray-500">No cases in this stage</div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  };
 
   if (loading) {
     return (
-      <div className="p-6 space-y-6">
-        <div className="h-8 bg-muted rounded animate-pulse w-1/3" />
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="h-80 bg-muted rounded animate-pulse" />
-          <div className="h-80 bg-muted rounded animate-pulse" />
-          <div className="h-80 bg-muted rounded animate-pulse" />
-          <div className="h-80 bg-muted rounded animate-pulse" />
+      <div className="w-full space-y-8">
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="h-10 bg-gray-200 rounded animate-pulse w-48 mb-2" />
+            <div className="h-6 bg-gray-200 rounded animate-pulse w-80" />
+          </div>
+          <div className="h-10 bg-gray-200 rounded animate-pulse w-24" />
+        </div>
+        
+        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <div className="flex flex-col sm:flex-row gap-6">
+            <div className="flex-1">
+              <div className="h-4 bg-gray-200 rounded animate-pulse w-16 mb-2" />
+              <div className="h-11 bg-gray-200 rounded animate-pulse" />
+            </div>
+            <div className="w-full sm:w-48">
+              <div className="h-4 bg-gray-200 rounded animate-pulse w-16 mb-2" />
+              <div className="h-11 bg-gray-200 rounded animate-pulse" />
+            </div>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="bg-gray-50 rounded-xl p-4 min-h-[700px]">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-gray-200 rounded-lg animate-pulse" />
+                  <div>
+                    <div className="h-5 bg-gray-200 rounded animate-pulse w-24 mb-1" />
+                    <div className="h-4 bg-gray-200 rounded animate-pulse w-16" />
+                  </div>
+                </div>
+                <div className="w-8 h-6 bg-gray-200 rounded-full animate-pulse" />
+              </div>
+              <div className="space-y-4">
+                {[1, 2, 3].map((j) => (
+                  <div key={j} className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-gray-200 rounded-full animate-pulse" />
+                        <div>
+                          <div className="h-4 bg-gray-200 rounded animate-pulse w-20 mb-1" />
+                          <div className="h-3 bg-gray-200 rounded animate-pulse w-16" />
+                        </div>
+                      </div>
+                      <div className="w-2 h-2 bg-gray-200 rounded-full animate-pulse" />
+                    </div>
+                    <div className="space-y-2 mb-4">
+                      <div className="h-4 bg-gray-200 rounded animate-pulse w-32" />
+                      <div className="flex items-center justify-between">
+                        <div className="h-6 bg-gray-200 rounded animate-pulse w-16" />
+                        <div className="h-5 bg-gray-200 rounded-full animate-pulse w-12" />
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1 mt-3">
+                      <div className="w-6 h-6 bg-gray-200 rounded-full animate-pulse" />
+                      <div className="w-6 h-0.5 bg-gray-200 animate-pulse" />
+                      <div className="w-6 h-6 bg-gray-200 rounded-full animate-pulse" />
+                      <div className="w-6 h-0.5 bg-gray-200 animate-pulse" />
+                      <div className="w-6 h-6 bg-gray-200 rounded-full animate-pulse" />
+                      <div className="w-6 h-0.5 bg-gray-200 animate-pulse" />
+                      <div className="w-6 h-6 bg-gray-200 rounded-full animate-pulse" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     );
   }
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full space-y-8">
+      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Pipeline</h1>
-          <p className="text-muted-foreground">Track applications from submission to activation</p>
+          <h1 className="text-4xl font-bold text-gray-900">Pipeline</h1>
+          <p className="text-lg text-gray-600 mt-2">Track applications from submission to activation</p>
         </div>
-        <Button variant="outline"><RefreshCw className="h-4 w-4 mr-2" /> Refresh</Button>
+        <Button 
+          variant="outline" 
+          className="bg-white border-gray-200 hover:bg-gray-50 text-gray-700"
+        >
+          <RefreshCw className="h-4 w-4 mr-2" /> 
+          Refresh
+        </Button>
       </div>
 
       {/* Filters */}
-      <Card>
-        <CardContent className="pt-6">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1">
-              <Label htmlFor="search">Search</Label>
-              <div className="relative">
-                <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input id="search" value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" placeholder="Search patients, cases..." />
-              </div>
-            </div>
-            <div className="w-full sm:w-48">
-              <Label htmlFor="status">Status</Label>
-              <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger>
-                  <SelectValue placeholder="All" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All</SelectItem>
-                  <SelectItem value="submitted">Submitted</SelectItem>
-                  <SelectItem value="review">Under Review</SelectItem>
-                  <SelectItem value="approved">Approved</SelectItem>
-                  <SelectItem value="active">Active</SelectItem>
-                </SelectContent>
-              </Select>
+      <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <div className="flex flex-col sm:flex-row gap-6">
+          <div className="flex-1">
+            <Label htmlFor="search" className="text-sm font-medium text-gray-700 mb-2 block">Search</Label>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input 
+                id="search" 
+                value={search} 
+                onChange={(e) => setSearch(e.target.value)} 
+                className="pl-10 border-gray-200 focus:border-blue-500 focus:ring-blue-500 h-11" 
+                placeholder="Search patients, cases..." 
+              />
             </div>
           </div>
-        </CardContent>
-      </Card>
+          <div className="w-full sm:w-48">
+            <Label htmlFor="status" className="text-sm font-medium text-gray-700 mb-2 block">Status</Label>
+            <Select value={statusFilter} onValueChange={setStatusFilter}>
+              <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500 h-11">
+                <SelectValue placeholder="All" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Statuses</SelectItem>
+                <SelectItem value="submitted">Submitted</SelectItem>
+                <SelectItem value="review">Under Review</SelectItem>
+                <SelectItem value="approved">Approved</SelectItem>
+                <SelectItem value="active">Active</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+      </div>
 
-      {/* Columns */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+      {/* Pipeline Columns */}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {STAGES.map((s) => (
           <Column key={s.id} id={s.id} label={s.label} />
         ))}
@@ -265,8 +468,8 @@ export default function FunderPipeline() {
           </DialogHeader>
           {selected && (
             <div className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Card>
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+                <Card className="md:col-span-3">
                   <CardHeader className="pb-2"><CardTitle className="text-sm">Overview</CardTitle></CardHeader>
                   <CardContent className="space-y-2 text-sm">
                     <div><span className="text-muted-foreground">Patient:</span> {getPatientName(selected.patientId)}</div>
@@ -274,15 +477,17 @@ export default function FunderPipeline() {
                     <div><span className="text-muted-foreground">Amount:</span> ${selected.amount?.toLocaleString()}</div>
                   </CardContent>
                 </Card>
-                <Card>
+                <Card className="md:col-span-6">
                   <CardHeader className="pb-2"><CardTitle className="text-sm">Status</CardTitle></CardHeader>
-                  <CardContent className="space-y-2 text-sm">
+                  <CardContent className="space-y-3 text-sm">
                     <div className="flex items-center gap-2"><Badge variant="outline">{selected.status}</Badge><Badge variant="secondary">AI {selected.aiScore}</Badge></div>
                     <div>{selected.requirementsSatisfied ? 'All requirements satisfied' : 'Missing documentation detected'}</div>
-                    <Timeline currentStep={selected.timelineStep} />
+                    <div className="overflow-x-auto">
+                      <Timeline currentStep={selected.timelineStep} />
+                    </div>
                   </CardContent>
                 </Card>
-                <Card>
+                <Card className="md:col-span-3">
                   <CardHeader className="pb-2"><CardTitle className="text-sm">Financial</CardTitle></CardHeader>
                   <CardContent className="space-y-2 text-sm">
                     <div>Requested: <span className="font-medium">${selected.amount?.toLocaleString()}</span></div>
