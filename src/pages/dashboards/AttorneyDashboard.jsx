@@ -7,6 +7,7 @@ import { Badge } from '../../components/ui/badge';
 import { Button } from '../../components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../components/ui/dialog';
 import { Label } from '../../components/ui/label';
+import KPICard from '../../components/KPICard';
 import { 
   Users, 
   Search, 
@@ -131,15 +132,19 @@ const AttorneyAIInsights = ({ claims, liens, appointments, pivotNow }) => {
 
   if (insights.length === 0) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <Sparkles className="h-5 w-5 text-primary" />
-            AI Insights
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-muted-foreground text-sm">
+      <Card className="overflow-hidden">
+        {/* Purple gradient header */}
+        <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white p-4">
+          <div className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5" />
+            <div className="font-semibold text-lg">AI Insights</div>
+          </div>
+          <div className="text-sm opacity-90 mt-1">Case management recommendations</div>
+        </div>
+        
+        {/* White content section */}
+        <CardContent className="p-4 bg-white">
+          <div className="text-gray-600 text-sm">
             No critical alerts at this time.
           </div>
         </CardContent>
@@ -148,23 +153,27 @@ const AttorneyAIInsights = ({ claims, liens, appointments, pivotNow }) => {
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-lg">
-          <Sparkles className="h-5 w-5 text-primary" />
-          AI Insights
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-3">
+    <Card className="overflow-hidden">
+      {/* Purple gradient header */}
+      <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white p-4">
+        <div className="flex items-center gap-2">
+          <Sparkles className="h-5 w-5" />
+          <div className="font-semibold text-lg">AI Insights</div>
+        </div>
+        <div className="text-sm opacity-90 mt-1">Case management recommendations</div>
+      </div>
+      
+      {/* White content section */}
+      <CardContent className="p-4 bg-white space-y-3">
         {insights.map((insight, index) => (
-          <div key={index} className="flex items-start gap-3 p-3 rounded-lg border bg-muted/50">
+          <div key={index} className="flex items-start gap-3 p-3 rounded-lg border border-gray-200 bg-gray-50">
             <insight.icon className={`h-5 w-5 mt-0.5 ${
-              insight.priority === 'high' ? 'text-destructive' : 
-              insight.priority === 'medium' ? 'text-warning' : 'text-primary'
+              insight.priority === 'high' ? 'text-red-600' : 
+              insight.priority === 'medium' ? 'text-amber-600' : 'text-blue-600'
             }`} />
             <div className="flex-1">
-              <div className="font-medium text-sm">{insight.title}</div>
-              <div className="text-sm text-muted-foreground">{insight.message}</div>
+              <div className="font-medium text-sm text-gray-900">{insight.title}</div>
+              <div className="text-sm text-gray-600">{insight.message}</div>
             </div>
           </div>
         ))}
@@ -202,14 +211,14 @@ const CasePacketPreview = ({ caseData, patients, appointments, reports, bills })
   const documents = getCaseDocuments(caseData.id);
 
   return (
-    <Card className="h-full">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-lg">
+    <Card className="h-full overflow-hidden">
+      <CardHeader className="bg-gradient-to-r from-gray-50 to-slate-50 border-b">
+        <CardTitle className="flex items-center gap-2 text-lg text-gray-900">
           <Briefcase className="h-5 w-5" />
           Case Packet Preview
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="p-6 space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <div className="font-medium">{caseData.caseNumber}</div>
@@ -262,6 +271,8 @@ export const AttorneyDashboard = () => {
   const [statusFilter, setStatusFilter] = useState('all');
   const [riskFilter, setRiskFilter] = useState('all');
   const [selectedCase, setSelectedCase] = useState(null);
+  const [viewCaseModal, setViewCaseModal] = useState(false);
+  const [viewingCase, setViewingCase] = useState(null);
 
   // Store hooks
   const claims = useStore((s) => s.claims);
@@ -362,6 +373,51 @@ export const AttorneyDashboard = () => {
     return result;
   }, [claims, pivotNow]);
 
+  // Demo enrichment: synthesize additional liens for exposure calculation
+  const displayLiens = useMemo(() => {
+    const now = pivotNow;
+    const currentLiens = liens || [];
+    
+    // If we already have ample data, use it as-is
+    if (currentLiens.length >= 10) return currentLiens;
+
+    // Build synthetic liens for the surrounding 4 weeks
+    const synthetic = [];
+    const claimIds = displayClaims.map(c => c.id);
+    
+    for (let offset = -14; offset <= 14; offset++) {
+      const date = new Date(now); date.setDate(now.getDate() + offset);
+      const dow = date.getDay(); // 0 Sun .. 6 Sat
+      if (dow === 0 || dow === 6) continue; // weekdays only
+      
+      // Create 1-2 liens per day
+      const liensPerDay = (offset + dow) % 2 + 1;
+      for (let i = 0; i < liensPerDay; i++) {
+        const claimId = claimIds[(offset + i) % claimIds.length];
+        const amount = Math.floor(Math.random() * 150000) + 10000; // $10K-$160K
+        
+        // Deterministic pattern for status
+        const key = `${offset}-${i}-${dow}`;
+        const hash = key.split('').reduce((acc, ch) => acc + ch.charCodeAt(0), 0);
+        const status = hash % 3 === 0 ? 'active' : hash % 3 === 1 ? 'settled' : 'pending';
+        
+        synthetic.push({
+          id: `lien-${date.toISOString().slice(0,10)}-${i}`,
+          claimId,
+          amount,
+          status,
+          createdAt: date.toISOString(),
+          updatedAt: new Date().toISOString(),
+          __synthetic: true,
+        });
+      }
+    }
+    
+    const result = [...currentLiens, ...synthetic];
+    console.log('🔍 Attorney Dashboard: Total liens after enrichment:', result.length, 'Original:', currentLiens.length, 'Synthetic:', synthetic.length);
+    return result;
+  }, [liens, displayClaims, pivotNow]);
+
   // Load data
   useEffect(() => {
     const loadData = async () => {
@@ -418,9 +474,27 @@ export const AttorneyDashboard = () => {
     return sorted;
   }, [displayClaims, patients, search, statusFilter, riskFilter]);
 
+  // Generate trend data for the last 6 months
+  const generateTrendData = (baseValue, variation = 0.2) => {
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+    const trendData = months.map((month, index) => {
+      // Create more pronounced variation for better visibility
+      const variationFactor = (Math.random() - 0.5) * variation;
+      const value = Math.max(0, baseValue + (baseValue * variationFactor));
+      
+      // For very small values, ensure minimum variation
+      const minVariation = baseValue < 5 ? 1 : 0;
+      const finalValue = Math.max(minVariation, Math.round(value * 100) / 100);
+      
+      return { month, value: finalValue };
+    });
+    
+    return trendData;
+  };
+
   // Calculate KPI metrics
   const kpiMetrics = useMemo(() => {
-    const currentLiens = liens || [];
+    const currentLiens = displayLiens || [];
     const total = displayClaims.length;
     const active = displayClaims.filter(c => c.status === 'active').length;
     const settled = displayClaims.filter(c => c.status === 'settled').length;
@@ -449,7 +523,7 @@ export const AttorneyDashboard = () => {
       avgNoShowRisk,
       claimsWithMissingDocs
     };
-  }, [displayClaims, liens]);
+  }, [displayClaims, displayLiens]);
 
   const getStatusBadge = (status) => {
     switch (status) {
@@ -475,6 +549,171 @@ export const AttorneyDashboard = () => {
       default:
         return <Badge variant="outline">{riskLevel}</Badge>;
     }
+  };
+
+  const handleViewCase = (caseData) => {
+    setViewingCase(caseData);
+    setViewCaseModal(true);
+  };
+
+  const handleCloseViewModal = () => {
+    setViewCaseModal(false);
+    setViewingCase(null);
+  };
+
+  // Case Details Modal Component
+  const CaseDetailsModal = ({ caseData, isOpen, onClose }) => {
+    if (!caseData) return null;
+
+    return (
+      <Dialog open={isOpen} onOpenChange={onClose}>
+        <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-semibold text-gray-900">
+              Case Details - {caseData.caseNumber || caseData.id}
+            </DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-6">
+            {/* Basic Information */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <div>
+                  <Label className="text-sm font-medium text-gray-600">Client Information</Label>
+                  <div className="mt-2 space-y-2">
+                    <p className="text-lg font-semibold text-gray-900">{caseData.clientName}</p>
+                    <p className="text-sm text-gray-600">Case ID: {caseData.id}</p>
+                  </div>
+                </div>
+                
+                <div>
+                  <Label className="text-sm font-medium text-gray-600">Case Type</Label>
+                  <p className="mt-1 text-gray-900">{caseData.type}</p>
+                </div>
+                
+                <div>
+                  <Label className="text-sm font-medium text-gray-600">Status</Label>
+                  <div className="mt-1">
+                    {getStatusBadge(caseData.status)}
+                  </div>
+                </div>
+              </div>
+              
+              <div className="space-y-4">
+                <div>
+                  <Label className="text-sm font-medium text-gray-600">Risk Assessment</Label>
+                  <div className="mt-1">
+                    {getRiskBadge(caseData.riskLevel)}
+                  </div>
+                </div>
+                
+                <div>
+                  <Label className="text-sm font-medium text-gray-600">Case Value</Label>
+                  <p className="mt-1 text-2xl font-bold text-gray-900">${(caseData.estimatedValue || caseData.value || 0).toLocaleString()}</p>
+                </div>
+                
+                <div>
+                  <Label className="text-sm font-medium text-gray-600">No-Show Risk</Label>
+                  <div className="mt-1 flex items-center gap-2">
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div 
+                        className="bg-red-500 h-2 rounded-full" 
+                        style={{ width: `${caseData.noShowRisk || 0}%` }}
+                      ></div>
+                    </div>
+                    <span className="text-sm text-gray-600">{caseData.noShowRisk || 0}%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Case Timeline */}
+            <div>
+              <Label className="text-sm font-medium text-gray-600">Case Timeline</Label>
+              <div className="mt-3 space-y-3">
+                <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-900">Case Opened</p>
+                    <p className="text-xs text-gray-600">{new Date(caseData.createdAt).toLocaleDateString()}</p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-900">Last Updated</p>
+                    <p className="text-xs text-gray-600">{new Date(caseData.updatedAt).toLocaleDateString()}</p>
+                  </div>
+                </div>
+                
+                {caseData.status === 'settled' && (
+                  <div className="flex items-center gap-3 p-3 bg-purple-50 rounded-lg">
+                    <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-900">Case Settled</p>
+                      <p className="text-xs text-gray-600">Settlement completed</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Documents Status */}
+            <div>
+              <Label className="text-sm font-medium text-gray-600">Document Status</Label>
+              <div className="mt-3 p-4 bg-gray-50 rounded-lg">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm text-gray-700">Missing Documents</span>
+                  <span className="text-sm font-medium text-red-600">{caseData.missingDocuments || 0}</span>
+                </div>
+                {caseData.missingDocuments > 0 && (
+                  <p className="text-xs text-red-600 mt-1">
+                    Action required: Complete documentation
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* Related Information */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <Label className="text-sm font-medium text-gray-600">Appointments</Label>
+                <div className="mt-2 p-3 bg-gray-50 rounded-lg">
+                  <p className="text-sm text-gray-700">
+                    {caseData.appointmentCount || 0} scheduled appointments
+                  </p>
+                </div>
+              </div>
+              
+              <div>
+                <Label className="text-sm font-medium text-gray-600">Reports</Label>
+                <div className="mt-2 p-3 bg-gray-50 rounded-lg">
+                  <p className="text-sm text-gray-700">
+                    {caseData.reportCount || 0} medical reports
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex gap-3 pt-4 border-t">
+              <Button className="flex-1">
+                <Download className="h-4 w-4 mr-2" />
+                Download Case Packet
+              </Button>
+              <Button variant="outline" className="flex-1">
+                <Edit className="h-4 w-4 mr-2" />
+                Edit Case
+              </Button>
+              <Button variant="outline" onClick={onClose}>
+                Close
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    );
   };
 
   const getPatientName = (patientId) => {
@@ -518,62 +757,46 @@ export const AttorneyDashboard = () => {
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-        {/* Active Clients */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Clients</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{kpiMetrics.active}</div>
-            <p className="text-xs text-muted-foreground">
-              <span className="text-green-600">+12%</span> from last month
-            </p>
-          </CardContent>
-        </Card>
-
-        {/* Total Exposure */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Exposure</CardTitle>
-            <DollarSign className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">${kpiMetrics.totalExposure.toLocaleString()}</div>
-            <p className="text-xs text-muted-foreground">
-              ${kpiMetrics.activeExposure.toLocaleString()} active
-            </p>
-          </CardContent>
-        </Card>
-
-        {/* Settlement Rate */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Settlement Rate</CardTitle>
-            <Target className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{Math.round((kpiMetrics.settled / kpiMetrics.total) * 100)}%</div>
-            <p className="text-xs text-muted-foreground">
-              {kpiMetrics.settled} cases settled
-            </p>
-          </CardContent>
-        </Card>
-
-        {/* Risk Assessment */}
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">High Risk Cases</CardTitle>
-            <AlertCircle className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-red-600">{kpiMetrics.highRisk}</div>
-            <p className="text-xs text-muted-foreground">
-              {Math.round((kpiMetrics.highRisk / kpiMetrics.total) * 100)}% of total
-            </p>
-          </CardContent>
-        </Card>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <KPICard
+          title="Active Clients"
+          value={kpiMetrics.active}
+          change="+12% from last month"
+          changeType="positive"
+          icon={Users}
+          trendData={generateTrendData(kpiMetrics.active, 0.3)}
+          trendColor="#3b82f6" // Blue
+        />
+        
+        <KPICard
+          title="Total Exposure"
+          value={`$${kpiMetrics.totalExposure.toLocaleString()}`}
+          change={`$${kpiMetrics.activeExposure.toLocaleString()} High Risk`}
+          changeType="neutral"
+          icon={DollarSign}
+          trendData={generateTrendData(kpiMetrics.totalExposure / 1000, 0.4).map(d => ({ ...d, value: Math.round(d.value) }))}
+          trendColor="#10b981" // Green
+        />
+        
+        <KPICard
+          title="Settlement Rate"
+          value={`${Math.round((kpiMetrics.settled / kpiMetrics.total) * 100)}%`}
+          change={`${kpiMetrics.settled} cases settled`}
+          changeType="neutral"
+          icon={Target}
+          trendData={generateTrendData((kpiMetrics.settled / kpiMetrics.total) * 100, 0.3).map(d => ({ ...d, value: Math.round(d.value) }))}
+          trendColor="#f59e0b" // Orange
+        />
+        
+        <KPICard
+          title="High Risk Cases"
+          value={kpiMetrics.highRisk}
+          change={`${Math.round((kpiMetrics.highRisk / kpiMetrics.total) * 100)}% of total`}
+          changeType="negative"
+          icon={AlertCircle}
+          trendData={generateTrendData(kpiMetrics.highRisk, 0.4)}
+          trendColor="#ef4444" // Red
+        />
       </div>
 
       {/* Secondary Metrics */}
@@ -622,29 +845,29 @@ export const AttorneyDashboard = () => {
       </div>
 
       {/* Filters */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg">
+      <Card className="overflow-hidden">
+        <CardHeader className="bg-gradient-to-r from-gray-50 to-slate-50 border-b">
+          <CardTitle className="flex items-center gap-2 text-lg text-gray-900">
             <Filter className="h-5 w-5" />
             Case Filters
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Search */}
             <div className="relative">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
               <Input
                 placeholder="Search cases, clients..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="pl-10"
+                className="pl-10 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
               />
             </div>
 
             {/* Status Filter */}
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger>
+              <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500">
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
@@ -657,7 +880,7 @@ export const AttorneyDashboard = () => {
 
             {/* Risk Filter */}
             <Select value={riskFilter} onValueChange={setRiskFilter}>
-              <SelectTrigger>
+              <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500">
                 <SelectValue placeholder="Risk Level" />
               </SelectTrigger>
               <SelectContent>
@@ -675,72 +898,73 @@ export const AttorneyDashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Cases Content */}
         <div className="lg:col-span-3">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span>Active Cases ({filteredClaims.length})</span>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Card className="overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b">
+              <CardTitle className="flex items-center justify-between text-lg">
+                <span className="text-gray-900">Active Cases ({filteredClaims.length})</span>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
                   <Activity className="h-4 w-4" />
                   {kpiMetrics.active} active • {kpiMetrics.highRisk} high-risk • {kpiMetrics.claimsWithMissingDocs} need docs
                 </div>
               </CardTitle>
             </CardHeader>
-            <CardContent className="pt-0">
+            <CardContent className="pt-0 p-0">
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="text-left text-muted-foreground border-b">
-                      <th className="py-3 px-2">Case Number</th>
-                      <th className="py-3 px-2">Client</th>
-                      <th className="py-3 px-2">Type</th>
-                      <th className="py-3 px-2">Status</th>
-                      <th className="py-3 px-2">Risk</th>
-                      <th className="py-3 px-2">Value</th>
-                      <th className="py-3 px-2 text-right">Actions</th>
+                    <tr className="text-left text-gray-600 border-b bg-gray-50">
+                      <th className="py-4 px-4 font-semibold">Case Number</th>
+                      <th className="py-4 px-4 font-semibold">Client</th>
+                      <th className="py-4 px-4 font-semibold">Type</th>
+                      <th className="py-4 px-4 font-semibold">Status</th>
+                      <th className="py-4 px-4 font-semibold">Risk</th>
+                      <th className="py-4 px-4 font-semibold">Value</th>
+                      <th className="py-4 px-4 text-right font-semibold">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredClaims.map((claimItem) => (
-                                              <tr key={claimItem.id} className="border-b border-border hover:bg-muted/50">
-                          <td className="py-3 px-2">
-                            <div className="font-medium">{claimItem.claimNumber}</div>
-                            <div className="text-xs text-muted-foreground">
-                              {new Date(claimItem.accidentDate).toLocaleDateString()}
+                      <tr key={claimItem.id} className="border-b border-gray-100 hover:bg-blue-50/50 transition-colors">
+                        <td className="py-4 px-4">
+                          <div className="font-semibold text-gray-900">{claimItem.caseNumber || claimItem.claimNumber}</div>
+                          <div className="text-xs text-gray-500">
+                            {new Date(claimItem.accidentDate).toLocaleDateString()}
+                          </div>
+                        </td>
+                        <td className="py-4 px-4">
+                          <div className="font-semibold text-gray-900">{getPatientName(claimItem.patientId)}</div>
+                        </td>
+                        <td className="py-4 px-4">
+                          <div className="font-semibold text-gray-900">{claimItem.accidentType}</div>
+                        </td>
+                        <td className="py-4 px-4">
+                          {getStatusBadge(claimItem.status)}
+                        </td>
+                        <td className="py-4 px-4">
+                          {getRiskBadge(claimItem.riskLevel)}
+                        </td>
+                        <td className="py-4 px-4">
+                          <div className="font-semibold text-gray-900">${claimItem.estimatedValue?.toLocaleString()}</div>
+                          {claimItem.missingDocuments > 0 && (
+                            <div className="text-xs text-red-600">
+                              {claimItem.missingDocuments} docs missing
                             </div>
-                          </td>
-                          <td className="py-3 px-2">
-                            <div className="font-medium">{getPatientName(claimItem.patientId)}</div>
-                          </td>
-                          <td className="py-3 px-2">
-                            <div className="font-medium">{claimItem.accidentType}</div>
-                          </td>
-                          <td className="py-3 px-2">
-                            {getStatusBadge(claimItem.status)}
-                          </td>
-                          <td className="py-3 px-2">
-                            {getRiskBadge(claimItem.riskLevel)}
-                          </td>
-                          <td className="py-3 px-2">
-                            <div className="font-medium">${claimItem.estimatedValue?.toLocaleString()}</div>
-                            {claimItem.missingDocuments > 0 && (
-                              <div className="text-xs text-red-600">
-                                {claimItem.missingDocuments} docs missing
-                              </div>
-                            )}
-                          </td>
-                          <td className="py-3 px-2 text-right">
-                            <div className="flex items-center justify-end gap-1">
-                              <Button 
-                                size="sm" 
-                                variant="ghost"
-                                onClick={() => setSelectedCase(claimItem)}
-                              >
-                                <Eye className="h-4 w-4" />
-                              </Button>
-                            <Button size="sm" variant="ghost">
+                          )}
+                        </td>
+                        <td className="py-4 px-4 text-right">
+                          <div className="flex items-center justify-end gap-2">
+                            <Button 
+                              size="sm" 
+                              variant="ghost" 
+                              className="h-8 w-8 p-0"
+                              onClick={() => handleViewCase(claimItem)}
+                            >
+                              <Eye className="h-4 w-4" />
+                            </Button>
+                            <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
                               <Edit className="h-4 w-4" />
                             </Button>
-                            <Button size="sm" variant="ghost">
+                            <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
                               <Download className="h-4 w-4" />
                             </Button>
                           </div>
@@ -749,10 +973,10 @@ export const AttorneyDashboard = () => {
                     ))}
                     {filteredClaims.length === 0 && (
                       <tr>
-                        <td colSpan={7} className="py-8 text-center text-muted-foreground">
-                          <div className="flex flex-col items-center gap-2">
-                            <Briefcase className="h-8 w-8" />
-                            <div>No cases found</div>
+                        <td colSpan={7} className="py-12 text-center text-gray-500">
+                          <div className="flex flex-col items-center gap-3">
+                            <Briefcase className="h-12 w-12 text-gray-300" />
+                            <div className="text-lg font-medium">No cases found</div>
                             <div className="text-sm">Try adjusting your filters</div>
                           </div>
                         </td>
@@ -770,7 +994,7 @@ export const AttorneyDashboard = () => {
           {/* AI Insights */}
           <AttorneyAIInsights 
             claims={displayClaims}
-            liens={liens}
+            liens={displayLiens}
             appointments={appointments}
             pivotNow={pivotNow}
           />
@@ -787,6 +1011,13 @@ export const AttorneyDashboard = () => {
           )}
         </div>
       </div>
+
+      {/* Case Details Modal */}
+      <CaseDetailsModal 
+        caseData={viewingCase}
+        isOpen={viewCaseModal}
+        onClose={handleCloseViewModal}
+      />
     </div>
   );
 };

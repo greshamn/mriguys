@@ -92,7 +92,7 @@ const KPICard = ({ title, value, change, changeType, icon: Icon, trendData = [],
               </LineChart>
             </ResponsiveContainer>
           </div>
-          <div className="text-sm text-gray-600 text-center font-medium">7 day trend</div>
+          <div className="text-sm text-gray-600 text-center font-medium">6 month trend</div>
         </div>
       )}
     </div>

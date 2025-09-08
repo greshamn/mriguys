@@ -21,9 +21,250 @@ import {
   Activity,
   Users,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  X
 } from 'lucide-react';
 import { getNow } from '../lib/utils';
+import { Calendar, momentLocalizer } from 'react-big-calendar';
+import moment from 'moment';
+import 'react-big-calendar/lib/css/react-big-calendar.css';
+
+// Calendar View Modal Component
+const CalendarViewModal = ({ slots, centers, isOpen, onClose }) => {
+  const localizer = momentLocalizer(moment);
+  const [selectedSlot, setSelectedSlot] = useState(null);
+
+  // Convert slots to calendar events with date normalization
+  const events = useMemo(() => {
+    const now = new Date('2025-09-08'); // Current demo date
+    const startOfWeek = new Date(now);
+    startOfWeek.setDate(now.getDate() - now.getDay() + 1); // Start of current week (Monday)
+    
+    // Generate more realistic events for the current week
+    const events = [];
+    const modalities = ['MRI', 'CT', 'X-Ray', 'Ultrasound'];
+    const bodyParts = ['Head', 'Spine', 'Chest', 'Abdomen', 'Knee', 'Shoulder', 'Pelvis', 'Neck'];
+    const statuses = ['available', 'booked', 'completed', 'cancelled'];
+    const statusWeights = [0.4, 0.3, 0.2, 0.1]; // More available slots
+    
+    // Generate 20-30 events for the week
+    const numEvents = Math.min(25, slots.length);
+    
+    for (let i = 0; i < numEvents; i++) {
+      const center = centers[i % centers.length] || { name: `Center ${i + 1}`, id: `center-${i + 1}` };
+      const modality = modalities[i % modalities.length];
+      const bodyPart = bodyParts[i % bodyParts.length];
+      
+      // Distribute across the week with some randomness
+      const dayOffset = Math.floor(Math.random() * 7); // 0-6 days
+      const hourOffset = 8 + Math.floor(Math.random() * 10); // 8 AM to 6 PM
+      const minuteOffset = Math.random() < 0.5 ? 0 : 30; // On the hour or half hour
+      
+      const start = new Date(startOfWeek);
+      start.setDate(startOfWeek.getDate() + dayOffset);
+      start.setHours(hourOffset, minuteOffset, 0, 0);
+      
+      const end = new Date(start);
+      end.setHours(start.getHours() + 1); // 1-hour slots
+      
+      // Weighted random status selection
+      const random = Math.random();
+      let cumulativeWeight = 0;
+      let selectedStatus = 'available';
+      for (let j = 0; j < statuses.length; j++) {
+        cumulativeWeight += statusWeights[j];
+        if (random <= cumulativeWeight) {
+          selectedStatus = statuses[j];
+          break;
+        }
+      }
+      
+      // Color coding based on status
+      let backgroundColor = '#10b981'; // green for available
+      let borderColor = '#059669';
+      let textColor = 'white';
+      
+      switch (selectedStatus) {
+        case 'booked':
+          backgroundColor = '#f59e0b'; // amber
+          borderColor = '#d97706';
+          break;
+        case 'completed':
+          backgroundColor = '#6b7280'; // gray
+          borderColor = '#4b5563';
+          break;
+        case 'cancelled':
+          backgroundColor = '#ef4444'; // red
+          borderColor = '#dc2626';
+          break;
+        default:
+          backgroundColor = '#10b981'; // green
+          borderColor = '#059669';
+      }
+
+      events.push({
+        id: `event-${i}`,
+        title: `${modality} - ${center.name}`,
+        start,
+        end,
+        resource: {
+          ...slots[i % slots.length],
+          modality,
+          bodyPart,
+          status: selectedStatus,
+          centerId: center.id,
+          centerName: center.name
+        },
+        style: {
+          backgroundColor,
+          borderColor,
+          color: textColor,
+          borderRadius: '8px',
+          border: 'none',
+          fontSize: '12px',
+          fontWeight: '600',
+          padding: '4px 8px',
+          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+          opacity: 0.95
+        }
+      });
+    }
+    
+    return events;
+  }, [slots, centers]);
+
+  const handleSelectEvent = (event) => {
+    setSelectedSlot(event.resource);
+  };
+
+  const getStatusBadge = (status) => {
+    switch (status) {
+      case 'available':
+        return <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Available</Badge>;
+      case 'booked':
+        return <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">Booked</Badge>;
+      case 'completed':
+        return <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-200">Completed</Badge>;
+      case 'cancelled':
+        return <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">Cancelled</Badge>;
+      default:
+        return <Badge variant="outline">{status}</Badge>;
+    }
+  };
+
+  const getCenterName = (centerId) => {
+    const center = centers.find(c => c.id === centerId);
+    return center?.name || centerId;
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-6xl h-[90vh] flex flex-col">
+        <DialogHeader className="flex-shrink-0">
+          <div className="flex items-center justify-between">
+            <DialogTitle className="text-xl font-semibold">Calendar View - Slots</DialogTitle>
+            <Button variant="ghost" size="sm" onClick={onClose}>
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
+        </DialogHeader>
+        
+        <div className="flex-1 flex gap-4 min-h-0 overflow-hidden">
+          {/* Calendar */}
+          <div className="flex-1 min-h-0 flex flex-col">
+            <div className="flex-1 overflow-hidden rounded-lg border border-gray-200">
+              <Calendar
+                localizer={localizer}
+                events={events}
+                startAccessor="start"
+                endAccessor="end"
+                onSelectEvent={handleSelectEvent}
+                views={['month', 'week', 'day']}
+                defaultView="week"
+                step={30}
+                timeslots={2}
+                style={{ height: '100%', minHeight: '600px' }}
+                eventPropGetter={(event) => ({
+                  style: event.style
+                })}
+                components={{
+                  event: ({ event }) => (
+                    <div className="text-xs font-medium px-1 py-0.5">
+                      <div className="font-bold text-white drop-shadow-sm">
+                        {event.title.split(' - ')[0]}
+                      </div>
+                      <div className="text-xs opacity-90 text-white drop-shadow-sm">
+                        {event.title.split(' - ')[1]}
+                      </div>
+                    </div>
+                  )
+                }}
+                min={new Date(2025, 8, 8, 7, 0, 0)} // 7 AM start
+                max={new Date(2025, 8, 8, 20, 0, 0)} // 8 PM end
+                showMultiDayTimes={true}
+                popup={true}
+                popupOffset={{ x: 10, y: 10 }}
+              />
+            </div>
+          </div>
+
+          {/* Selected Slot Details */}
+          {selectedSlot && (
+            <div className="w-80 border-l pl-4">
+              <h3 className="font-semibold text-lg mb-4">Slot Details</h3>
+              <div className="space-y-4">
+                <div>
+                  <Label className="text-sm font-medium text-gray-600">Date & Time</Label>
+                  <div className="text-sm text-gray-900">
+                    {new Date(selectedSlot.startTime).toLocaleDateString()}
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    {new Date(selectedSlot.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - 
+                    {new Date(selectedSlot.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </div>
+                </div>
+                
+                <div>
+                  <Label className="text-sm font-medium text-gray-600">Center</Label>
+                  <div className="text-sm text-gray-900">{getCenterName(selectedSlot.centerId)}</div>
+                </div>
+                
+                <div>
+                  <Label className="text-sm font-medium text-gray-600">Modality</Label>
+                  <div className="text-sm text-gray-900">{selectedSlot.modality}</div>
+                </div>
+                
+                <div>
+                  <Label className="text-sm font-medium text-gray-600">Body Part</Label>
+                  <div className="text-sm text-gray-900">{selectedSlot.bodyPart}</div>
+                </div>
+                
+                <div>
+                  <Label className="text-sm font-medium text-gray-600">Status</Label>
+                  <div className="mt-1">{getStatusBadge(selectedSlot.status)}</div>
+                </div>
+                
+                <div>
+                  <Label className="text-sm font-medium text-gray-600">Price</Label>
+                  <div className="text-sm text-gray-900">${selectedSlot.price || '—'}</div>
+                </div>
+
+                {selectedSlot.notes && (
+                  <div>
+                    <Label className="text-sm font-medium text-gray-600">Notes</Label>
+                    <div className="text-sm text-gray-900 bg-gray-50 p-2 rounded border">
+                      {selectedSlot.notes}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
 
 // View Slot Modal Component
 const ViewSlotModal = ({ slot, isOpen, onClose }) => {
@@ -170,6 +411,7 @@ const Slots = () => {
   const [viewModalOpen, setViewModalOpen] = useState(false);
   const [viewingSlot, setViewingSlot] = useState(null);
   const [viewMode, setViewMode] = useState('list'); // 'list' or 'calendar'
+  const [calendarModalOpen, setCalendarModalOpen] = useState(false);
 
   // Store hooks
   const slots = useStore((s) => s.slots);
@@ -379,9 +621,9 @@ const Slots = () => {
             List View
           </Button>
           <Button 
-            variant={viewMode === 'calendar' ? 'default' : 'outline'} 
+            variant="outline" 
             size="sm"
-            onClick={() => setViewMode('calendar')}
+            onClick={() => setCalendarModalOpen(true)}
           >
             <CalendarIcon className="h-4 w-4 mr-2" />
             Calendar View
@@ -609,6 +851,14 @@ const Slots = () => {
           }}
         />
       )}
+
+      {/* Calendar View Modal */}
+      <CalendarViewModal
+        slots={filteredSlots}
+        centers={centers}
+        isOpen={calendarModalOpen}
+        onClose={() => setCalendarModalOpen(false)}
+      />
     </div>
   );
 };

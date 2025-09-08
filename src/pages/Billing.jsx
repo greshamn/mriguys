@@ -123,15 +123,19 @@ const BillingAIInsights = ({ bills, appointments, revenuePct, pivotNow }) => {
 
   if (insights.length === 0) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <Sparkles className="h-5 w-5 text-primary" />
-            AI Insights
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-muted-foreground text-sm">
+      <Card className="overflow-hidden">
+        {/* Purple gradient header */}
+        <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white p-4">
+          <div className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5" />
+            <div className="font-semibold text-lg">AI Insights</div>
+          </div>
+          <div className="text-sm opacity-90 mt-1">Billing optimization recommendations</div>
+        </div>
+        
+        {/* White content section */}
+        <CardContent className="p-4 bg-white">
+          <div className="text-gray-600 text-sm">
             No billing optimization suggestions at this time.
           </div>
         </CardContent>
@@ -140,23 +144,27 @@ const BillingAIInsights = ({ bills, appointments, revenuePct, pivotNow }) => {
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-lg">
-          <Sparkles className="h-5 w-5 text-primary" />
-          AI Insights
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-3">
+    <Card className="overflow-hidden">
+      {/* Purple gradient header */}
+      <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white p-4">
+        <div className="flex items-center gap-2">
+          <Sparkles className="h-5 w-5" />
+          <div className="font-semibold text-lg">AI Insights</div>
+        </div>
+        <div className="text-sm opacity-90 mt-1">Billing optimization recommendations</div>
+      </div>
+      
+      {/* White content section */}
+      <CardContent className="p-4 bg-white space-y-3">
         {insights.map((insight, index) => (
-          <div key={index} className="flex items-start gap-3 p-3 rounded-lg border bg-muted/50">
+          <div key={index} className="flex items-start gap-3 p-3 rounded-lg border border-gray-200 bg-gray-50">
             <insight.icon className={`h-5 w-5 mt-0.5 ${
-              insight.priority === 'high' ? 'text-destructive' : 
-              insight.priority === 'medium' ? 'text-warning' : 'text-primary'
+              insight.priority === 'high' ? 'text-red-600' : 
+              insight.priority === 'medium' ? 'text-amber-600' : 'text-blue-600'
             }`} />
             <div className="flex-1">
-              <div className="font-medium text-sm">{insight.title}</div>
-              <div className="text-sm text-muted-foreground">{insight.message}</div>
+              <div className="font-medium text-sm text-gray-900">{insight.title}</div>
+              <div className="text-sm text-gray-600">{insight.message}</div>
             </div>
           </div>
         ))}
@@ -628,29 +636,29 @@ const Billing = () => {
       </div>
 
       {/* Filters */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg">
+      <Card className="overflow-hidden">
+        <CardHeader className="bg-gradient-to-r from-gray-50 to-slate-50 border-b">
+          <CardTitle className="flex items-center gap-2 text-lg text-gray-900">
             <Filter className="h-5 w-5" />
             Filters
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Search */}
             <div className="relative">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
               <Input
                 placeholder="Search bills, patients..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="pl-10"
+                className="pl-10 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
               />
             </div>
 
             {/* Status Filter */}
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger>
+              <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500">
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
@@ -664,7 +672,7 @@ const Billing = () => {
 
             {/* Date Filter */}
             <Select value={dateFilter} onValueChange={setDateFilter}>
-              <SelectTrigger>
+              <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500">
                 <SelectValue placeholder="Date Range" />
               </SelectTrigger>
               <SelectContent>
@@ -684,6 +692,7 @@ const Billing = () => {
                 setStatusFilter('all');
                 setDateFilter('all');
               }}
+              className="border-gray-200 hover:bg-gray-50"
             >
               Clear Filters
             </Button>
@@ -695,57 +704,57 @@ const Billing = () => {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Bills Content */}
         <div className="lg:col-span-3">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span>Bills ({filteredBills.length})</span>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Card className="overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b">
+              <CardTitle className="flex items-center justify-between text-lg">
+                <span className="text-gray-900">Bills ({filteredBills.length})</span>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
                   <Activity className="h-4 w-4" />
                   {kpiMetrics.total} total • {kpiMetrics.paid} paid • {kpiMetrics.overdue} overdue
                 </div>
               </CardTitle>
             </CardHeader>
-            <CardContent className="pt-0">
+            <CardContent className="pt-0 p-0">
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="text-left text-muted-foreground border-b">
-                      <th className="py-3 px-2">Bill ID</th>
-                      <th className="py-3 px-2">Patient</th>
-                      <th className="py-3 px-2">Amount</th>
-                      <th className="py-3 px-2">Status</th>
-                      <th className="py-3 px-2">Billing Date</th>
-                      <th className="py-3 px-2">Due Date</th>
-                      <th className="py-3 px-2 text-right">Actions</th>
+                    <tr className="text-left text-gray-600 border-b bg-gray-50">
+                      <th className="py-4 px-4 font-semibold">Bill ID</th>
+                      <th className="py-4 px-4 font-semibold">Patient</th>
+                      <th className="py-4 px-4 font-semibold">Amount</th>
+                      <th className="py-4 px-4 font-semibold">Status</th>
+                      <th className="py-4 px-4 font-semibold">Billing Date</th>
+                      <th className="py-4 px-4 font-semibold">Due Date</th>
+                      <th className="py-4 px-4 text-right font-semibold">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredBills.map((bill) => (
-                      <tr key={bill.id} className="border-b border-border hover:bg-muted/50">
-                        <td className="py-3 px-2">
-                          <div className="font-medium">{bill.id}</div>
+                      <tr key={bill.id} className="border-b border-gray-100 hover:bg-blue-50/50 transition-colors">
+                        <td className="py-4 px-4">
+                          <div className="font-semibold text-gray-900">{bill.id}</div>
                         </td>
-                        <td className="py-3 px-2">
-                          <div className="font-medium">{getPatientName(bill.patientId)}</div>
+                        <td className="py-4 px-4">
+                          <div className="font-semibold text-gray-900">{getPatientName(bill.patientId)}</div>
                         </td>
-                        <td className="py-3 px-2">
-                          <div className="font-medium">${bill.total?.toLocaleString()}</div>
+                        <td className="py-4 px-4">
+                          <div className="font-semibold text-gray-900">${bill.total?.toLocaleString()}</div>
                           {bill.insuranceAmount > 0 && (
-                            <div className="text-xs text-muted-foreground">
+                            <div className="text-xs text-gray-500">
                               Insurance: ${bill.insuranceAmount?.toLocaleString()}
                             </div>
                           )}
                         </td>
-                        <td className="py-3 px-2">
+                        <td className="py-4 px-4">
                           {getStatusBadge(bill.status)}
                         </td>
-                        <td className="py-3 px-2">
-                          <div className="font-medium">
+                        <td className="py-4 px-4">
+                          <div className="font-semibold text-gray-900">
                             {new Date(bill.billingDate).toLocaleDateString()}
                           </div>
                         </td>
-                        <td className="py-3 px-2">
-                          <div className="font-medium">
+                        <td className="py-4 px-4">
+                          <div className="font-semibold text-gray-900">
                             {new Date(bill.dueDate).toLocaleDateString()}
                           </div>
                           {bill.status === 'overdue' && (
@@ -754,11 +763,12 @@ const Billing = () => {
                             </div>
                           )}
                         </td>
-                        <td className="py-3 px-2 text-right">
-                          <div className="flex items-center justify-end gap-1">
+                        <td className="py-4 px-4 text-right">
+                          <div className="flex items-center justify-end gap-2">
                             <Button 
                               size="sm" 
-                              variant="ghost"
+                              variant="ghost" 
+                              className="h-8 w-8 p-0"
                               onClick={() => {
                                 setSelectedBill(bill);
                                 setBillModalOpen(true);
@@ -766,10 +776,10 @@ const Billing = () => {
                             >
                               <Eye className="h-4 w-4" />
                             </Button>
-                            <Button size="sm" variant="ghost">
+                            <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
                               <Edit className="h-4 w-4" />
                             </Button>
-                            <Button size="sm" variant="ghost">
+                            <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
                               <Download className="h-4 w-4" />
                             </Button>
                           </div>
@@ -778,10 +788,10 @@ const Billing = () => {
                     ))}
                     {filteredBills.length === 0 && (
                       <tr>
-                        <td colSpan={7} className="py-8 text-center text-muted-foreground">
-                          <div className="flex flex-col items-center gap-2">
-                            <Receipt className="h-8 w-8" />
-                            <div>No bills found</div>
+                        <td colSpan={7} className="py-12 text-center text-gray-500">
+                          <div className="flex flex-col items-center gap-3">
+                            <Receipt className="h-12 w-12 text-gray-300" />
+                            <div className="text-lg font-medium">No bills found</div>
                             <div className="text-sm">Try adjusting your filters</div>
                           </div>
                         </td>
