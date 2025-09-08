@@ -80,15 +80,19 @@ const WorklistAIInsights = ({ appointments, utilizationPct, noShowRate, pivotNow
 
   if (insights.length === 0) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <Sparkles className="h-5 w-5 text-primary" />
-            AI Insights
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-muted-foreground text-sm">
+      <Card className="overflow-hidden">
+        {/* Purple gradient header */}
+        <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white p-4">
+          <div className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5" />
+            <div className="font-semibold text-lg">AI Insights</div>
+          </div>
+          <div className="text-sm opacity-90 mt-1">Optimization recommendations</div>
+        </div>
+        
+        {/* White content section */}
+        <CardContent className="p-4 bg-white">
+          <div className="text-gray-600 text-sm">
             No optimization suggestions at this time.
           </div>
         </CardContent>
@@ -97,23 +101,27 @@ const WorklistAIInsights = ({ appointments, utilizationPct, noShowRate, pivotNow
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2 text-lg">
-          <Sparkles className="h-5 w-5 text-primary" />
-          AI Insights
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-3">
+    <Card className="overflow-hidden">
+      {/* Purple gradient header */}
+      <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white p-4">
+        <div className="flex items-center gap-2">
+          <Sparkles className="h-5 w-5" />
+          <div className="font-semibold text-lg">AI Insights</div>
+        </div>
+        <div className="text-sm opacity-90 mt-1">Optimization recommendations</div>
+      </div>
+      
+      {/* White content section */}
+      <CardContent className="p-4 bg-white space-y-3">
         {insights.map((insight, index) => (
-          <div key={index} className="flex items-start gap-3 p-3 rounded-lg border bg-muted/50">
+          <div key={index} className="flex items-start gap-3 p-3 rounded-lg border border-gray-200 bg-gray-50">
             <insight.icon className={`h-5 w-5 mt-0.5 ${
-              insight.priority === 'high' ? 'text-destructive' : 
-              insight.priority === 'medium' ? 'text-warning' : 'text-primary'
+              insight.priority === 'high' ? 'text-red-600' : 
+              insight.priority === 'medium' ? 'text-orange-600' : 'text-blue-600'
             }`} />
             <div className="flex-1">
-              <div className="font-medium text-sm">{insight.title}</div>
-              <div className="text-sm text-muted-foreground">{insight.message}</div>
+              <div className="font-medium text-sm text-gray-900">{insight.title}</div>
+              <div className="text-sm text-gray-600">{insight.message}</div>
             </div>
           </div>
         ))}
@@ -491,29 +499,29 @@ const Worklist = () => {
       </div>
 
       {/* Filters */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg">
+      <Card className="overflow-hidden">
+        <CardHeader className="bg-gradient-to-r from-gray-50 to-slate-50 border-b">
+          <CardTitle className="flex items-center gap-2 text-lg text-gray-900">
             <Filter className="h-5 w-5" />
             Filters
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             {/* Search */}
             <div className="relative">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
               <Input
                 placeholder="Search patients, IDs..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="pl-10"
+                className="pl-10 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
               />
             </div>
 
             {/* Status Filter */}
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger>
+              <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500">
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
@@ -529,7 +537,7 @@ const Worklist = () => {
 
             {/* Date Filter */}
             <Select value={dateFilter} onValueChange={setDateFilter}>
-              <SelectTrigger>
+              <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500">
                 <SelectValue placeholder="Date" />
               </SelectTrigger>
               <SelectContent>
@@ -543,7 +551,7 @@ const Worklist = () => {
 
             {/* Modality Filter */}
             <Select value={modalityFilter} onValueChange={setModalityFilter}>
-              <SelectTrigger>
+              <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500">
                 <SelectValue placeholder="Modality" />
               </SelectTrigger>
               <SelectContent>
@@ -564,6 +572,7 @@ const Worklist = () => {
                 setDateFilter('today');
                 setModalityFilter('all');
               }}
+              className="border-gray-200 hover:bg-gray-50"
             >
               Clear Filters
             </Button>
@@ -575,57 +584,57 @@ const Worklist = () => {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Worklist Table */}
         <div className="lg:col-span-3">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span>Appointments ({worklistData.length})</span>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Card className="overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b">
+              <CardTitle className="flex items-center justify-between text-lg">
+                <span className="text-gray-900">Appointments ({worklistData.length})</span>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
                   <Activity className="h-4 w-4" />
                   {metrics.total} total • {metrics.completed} completed • {metrics.inProgress} in progress
                 </div>
               </CardTitle>
             </CardHeader>
-            <CardContent className="pt-0">
+            <CardContent className="pt-0 p-0">
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="text-left text-muted-foreground border-b">
-                      <th className="py-3 px-2">Time</th>
-                      <th className="py-3 px-2">Patient</th>
-                      <th className="py-3 px-2">Modality</th>
-                      <th className="py-3 px-2">Status</th>
-                      <th className="py-3 px-2 text-right">Actions</th>
+                    <tr className="text-left text-gray-600 border-b bg-gray-50">
+                      <th className="py-4 px-4 font-semibold">Time</th>
+                      <th className="py-4 px-4 font-semibold">Patient</th>
+                      <th className="py-4 px-4 font-semibold">Modality</th>
+                      <th className="py-4 px-4 font-semibold">Status</th>
+                      <th className="py-4 px-4 text-right font-semibold">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {worklistData.map((appointment) => (
-                      <tr key={appointment.id} className="border-b border-border hover:bg-muted/50">
-                        <td className="py-3 px-2">
-                          <div className="font-medium">
+                      <tr key={appointment.id} className="border-b border-gray-100 hover:bg-blue-50/50 transition-colors">
+                        <td className="py-4 px-4">
+                          <div className="font-semibold text-gray-900">
                             {new Date(appointment.appointmentDate || appointment.startTime).toLocaleTimeString([], { 
                               hour: '2-digit', 
                               minute: '2-digit' 
                             })}
                           </div>
-                          <div className="text-xs text-muted-foreground">
+                          <div className="text-xs text-gray-500">
                             {new Date(appointment.appointmentDate || appointment.startTime).toLocaleDateString()}
                           </div>
                         </td>
-                        <td className="py-3 px-2">
-                          <div className="font-medium">{getPatientName(appointment.patientId)}</div>
-                          <div className="text-xs text-muted-foreground">ID: {appointment.patientId}</div>
+                        <td className="py-4 px-4">
+                          <div className="font-semibold text-gray-900">{getPatientName(appointment.patientId)}</div>
+                          <div className="text-xs text-gray-500">ID: {appointment.patientId}</div>
                         </td>
-                        <td className="py-3 px-2">
-                          <div className="font-medium">{appointment.modality}</div>
-                          <div className="text-xs text-muted-foreground">{appointment.bodyPart}</div>
+                        <td className="py-4 px-4">
+                          <div className="font-semibold text-gray-900">{appointment.modality}</div>
+                          <div className="text-xs text-gray-500">{appointment.bodyPart}</div>
                         </td>
-                        <td className="py-3 px-2">
+                        <td className="py-4 px-4">
                           {getStatusBadge(appointment.status)}
                         </td>
-                        <td className="py-3 px-2 text-right">
-                          <div className="flex items-center justify-end gap-1">
+                        <td className="py-4 px-4 text-right">
+                          <div className="flex items-center justify-end gap-2">
                             {/* View Details */}
-                            <Button size="sm" variant="ghost">
+                            <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
                               <Eye className="h-4 w-4" />
                             </Button>
                             
@@ -635,6 +644,7 @@ const Worklist = () => {
                                 size="sm" 
                                 variant="outline"
                                 onClick={() => handleStatusUpdate(appointment.id, 'in-progress')}
+                                className="h-8 text-xs"
                               >
                                 Check-in
                               </Button>
@@ -644,6 +654,7 @@ const Worklist = () => {
                               <Button 
                                 size="sm"
                                 onClick={() => handleStatusUpdate(appointment.id, 'completed')}
+                                className="h-8 text-xs"
                               >
                                 Complete
                               </Button>
@@ -658,6 +669,7 @@ const Worklist = () => {
                                   setSelectedAppointment(appointment);
                                   setUploadModalOpen(true);
                                 }}
+                                className="h-8 text-xs"
                               >
                                 <Upload className="h-4 w-4 mr-1" />
                                 Upload
@@ -665,7 +677,7 @@ const Worklist = () => {
                             ) : null}
                             
                             {/* Edit */}
-                            <Button size="sm" variant="ghost">
+                            <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
                               <Edit className="h-4 w-4" />
                             </Button>
                           </div>
@@ -674,10 +686,10 @@ const Worklist = () => {
                     ))}
                     {worklistData.length === 0 && (
                       <tr>
-                        <td colSpan={5} className="py-8 text-center text-muted-foreground">
-                          <div className="flex flex-col items-center gap-2">
-                            <Clock className="h-8 w-8" />
-                            <div>No appointments found</div>
+                        <td colSpan={5} className="py-12 text-center text-gray-500">
+                          <div className="flex flex-col items-center gap-3">
+                            <Clock className="h-12 w-12 text-gray-300" />
+                            <div className="text-lg font-medium">No appointments found</div>
                             <div className="text-sm">Try adjusting your filters</div>
                           </div>
                         </td>

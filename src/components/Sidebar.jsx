@@ -56,7 +56,6 @@ const Sidebar = ({ isOpen, onToggle, collapsed = false, onCollapse }) => {
           { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard', active: location.pathname === '/dashboard' },
           { icon: Clock, label: 'Worklist', path: '/worklist', active: location.pathname === '/worklist' },
           { icon: Settings, label: 'Slots', path: '/slots', active: location.pathname === '/slots' },
-          { icon: Upload, label: 'Upload Report', path: '/upload', active: location.pathname === '/upload' },
           { icon: FileSpreadsheet, label: 'Billing', path: '/billing', active: location.pathname === '/billing' }
         ];
       
@@ -121,7 +120,7 @@ const Sidebar = ({ isOpen, onToggle, collapsed = false, onCollapse }) => {
       case 'referrer':
         return 'New Referral';
       case 'imaging-center':
-        return 'Upload Report';
+        return 'View Worklist';
       case 'attorney':
         return 'New Case';
       case 'funder':
@@ -182,7 +181,7 @@ const Sidebar = ({ isOpen, onToggle, collapsed = false, onCollapse }) => {
                 viewingAsRole === 'referrer' 
                   ? '/referral' 
                   : (viewingAsRole === 'imaging-center' 
-                      ? '/upload' 
+                      ? '/worklist' 
                       : (viewingAsRole === 'patient' ? '/centers' : '/dashboard'))
               )}
             >

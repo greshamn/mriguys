@@ -5,8 +5,10 @@ import { Input } from '../components/ui/input';
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '../components/ui/select';
 import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '../components/ui/dialog';
+import { Label } from '../components/ui/label';
 import KPICard from '../components/KPICard';
-import { Sparkles, UserPlus, Building2, FileText, Calendar as CalendarIcon, Download, ArrowRight } from 'lucide-react';
+import { Sparkles, UserPlus, Building2, FileText, Calendar as CalendarIcon, Download, ArrowRight, Check } from 'lucide-react';
 
 // Referrer Patients Page per PRD (worklist + KPIs + AI tips)
 const Patients = () => {
@@ -18,6 +20,13 @@ const Patients = () => {
   const [bodyPart, setBodyPart] = useState('all');
   const [pipOnly, setPipOnly] = useState('all');
   const [centerId, setCenterId] = useState('all');
+  
+  // Reassignment modal state
+  const [reassignModalOpen, setReassignModalOpen] = useState(false);
+  const [reassignPatient, setReassignPatient] = useState(null);
+  const [reassignStep, setReassignStep] = useState(1); // 1: Choose type, 2: Choose center
+  const [selectedReassignType, setSelectedReassignType] = useState('');
+  const [selectedReassignCenter, setSelectedReassignCenter] = useState('');
 
   // Load data from MSW via slices
   useEffect(() => {
@@ -98,6 +107,53 @@ const Patients = () => {
     setBodyPart('all');
     setPipOnly('all');
     setCenterId('all');
+  };
+
+  // Reassignment handlers
+  const handleReassignClick = (patient) => {
+    setReassignPatient(patient);
+    setReassignModalOpen(true);
+    setReassignStep(1);
+    setSelectedReassignType('');
+    setSelectedReassignCenter('');
+  };
+
+  const handleReassignTypeSelect = (type) => {
+    setSelectedReassignType(type);
+    if (type === 'mri-guys') {
+      // Direct assignment to MRI Guys
+      handleConfirmReassign();
+    } else {
+      // Move to step 2: Choose imaging center
+      setReassignStep(2);
+    }
+  };
+
+  const handleConfirmReassign = () => {
+    if (selectedReassignType === 'mri-guys') {
+      // Handle MRI Guys assignment
+      console.log('Reassigning to MRI Guys:', reassignPatient);
+      // TODO: Implement actual reassignment logic
+    } else if (selectedReassignType === 'imaging-center' && selectedReassignCenter) {
+      // Handle imaging center assignment
+      console.log('Reassigning to imaging center:', selectedReassignCenter, 'for patient:', reassignPatient);
+      // TODO: Implement actual reassignment logic
+    }
+    
+    // Close modal and reset state
+    setReassignModalOpen(false);
+    setReassignPatient(null);
+    setReassignStep(1);
+    setSelectedReassignType('');
+    setSelectedReassignCenter('');
+  };
+
+  const handleCancelReassign = () => {
+    setReassignModalOpen(false);
+    setReassignPatient(null);
+    setReassignStep(1);
+    setSelectedReassignType('');
+    setSelectedReassignCenter('');
   };
 
   return (
@@ -243,7 +299,9 @@ const Patients = () => {
                           <div className="flex flex-wrap gap-2">
                             <Button asChild variant="outline" size="sm"><a href="/referral"><CalendarIcon className="w-3.5 h-3.5" /> Rebook</a></Button>
                             {r.centerId && (
-                              <Button asChild variant="outline" size="sm"><a href="/centers"><Building2 className="w-3.5 h-3.5" /> Reassign</a></Button>
+                              <Button variant="outline" size="sm" onClick={() => handleReassignClick(r)}>
+                                <Building2 className="w-3.5 h-3.5" /> Reassign
+                              </Button>
                             )}
                             {r.reportUrl ? (
                               <Button asChild size="sm"><a href={r.reportUrl} target="_blank" rel="noreferrer"><Download className="w-3.5 h-3.5" /> Results</a></Button>
@@ -306,6 +364,114 @@ const Patients = () => {
           </Card>
         </div>
       </div>
+
+      {/* Reassignment Modal */}
+      <Dialog open={reassignModalOpen} onOpenChange={setReassignModalOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Reassign Patient</DialogTitle>
+            <DialogDescription>
+              {reassignPatient && `Reassign ${reassignPatient.patientName} to a different provider`}
+            </DialogDescription>
+          </DialogHeader>
+          
+          {reassignStep === 1 && (
+            <div className="space-y-4">
+              <div className="text-sm font-medium">Choose assignment type:</div>
+              <div className="space-y-3">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start h-auto p-4"
+                  onClick={() => handleReassignTypeSelect('mri-guys')}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Building2 className="w-4 h-4 text-primary" />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-medium">Assign to MRI Guys</div>
+                      <div className="text-sm text-muted-foreground">Internal MRI Guys team will handle this case</div>
+                    </div>
+                  </div>
+                </Button>
+                
+                <Button
+                  variant="outline"
+                  className="w-full justify-start h-auto p-4"
+                  onClick={() => handleReassignTypeSelect('imaging-center')}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Building2 className="w-4 h-4 text-primary" />
+                    </div>
+                    <div className="text-left">
+                      <div className="font-medium">Assign to Imaging Center</div>
+                      <div className="text-sm text-muted-foreground">Choose from available imaging centers</div>
+                    </div>
+                  </div>
+                </Button>
+              </div>
+              
+              <div className="flex justify-end gap-2 pt-4">
+                <Button variant="outline" onClick={handleCancelReassign}>
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          )}
+
+          {reassignStep === 2 && (
+            <div className="space-y-4">
+              <div className="text-sm font-medium">Select Imaging Center:</div>
+              <div className="space-y-2 max-h-60 overflow-y-auto">
+                {centers.map((center) => (
+                  <div
+                    key={center.id}
+                    className={`p-3 rounded-lg border cursor-pointer transition-colors ${
+                      selectedReassignCenter === center.id
+                        ? 'border-primary bg-primary/5 ring-2 ring-primary/20'
+                        : 'border-border hover:bg-muted/50'
+                    }`}
+                    onClick={() => setSelectedReassignCenter(center.id)}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="font-medium">{center.name}</div>
+                        <div className="text-sm text-muted-foreground">
+                          {center.address.city}, {center.address.state}
+                        </div>
+                        <div className="text-xs text-muted-foreground mt-1">
+                          Rating: {center.rating}/5 • TAT: {center.avgTat} days
+                        </div>
+                      </div>
+                      {selectedReassignCenter === center.id && (
+                        <div className="flex items-center justify-center w-6 h-6 bg-primary text-primary-foreground rounded-full">
+                          <Check className="h-4 w-4" />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="flex justify-end gap-2 pt-4">
+                <Button variant="outline" onClick={() => setReassignStep(1)}>
+                  Back
+                </Button>
+                <Button variant="outline" onClick={handleCancelReassign}>
+                  Cancel
+                </Button>
+                <Button 
+                  onClick={handleConfirmReassign}
+                  disabled={!selectedReassignCenter}
+                >
+                  Confirm Reassignment
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

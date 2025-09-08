@@ -14,6 +14,7 @@ import { mockAIService } from '@/lib/MockAIService.js';
 import { generateSlotPickerURL } from '@/lib/deepLinking.js';
 import { CenterProfileModal } from '@/components/public/CenterProfileModal.jsx';
 import { Sparkles } from 'lucide-react';
+import { CenterCard } from '@/components/public/CenterCard.jsx';
 
 const steps = [
   'Patient',
@@ -59,6 +60,7 @@ export default function ReferralWizard() {
   const [minRating, setMinRating] = useState('0'); // as string for Select
   const [adaOnly, setAdaOnly] = useState(false);
   const [magnet3TOnly, setMagnet3TOnly] = useState(false);
+  const [selectedInsurances, setSelectedInsurances] = useState([]);
 
   const store = useStore();
   const selectedPatientId = useStore(state => state.selectedPatientId || 'patient-001');
@@ -125,14 +127,17 @@ export default function ReferralWizard() {
         const searchMatch = text
           ? (c.name?.toLowerCase().includes(text) || c.address?.city?.toLowerCase().includes(text))
           : true;
-        return examMatch && ratingMatch && adaMatch && magnetMatch && searchMatch;
+        const insuranceMatch = selectedInsurances.length === 0 || selectedInsurances.some(insurance => 
+          c.insuranceAccepted && c.insuranceAccepted.includes(insurance)
+        );
+        return examMatch && ratingMatch && adaMatch && magnetMatch && searchMatch && insuranceMatch;
       });
       const formatted = filtered.map(c => ({ ...c, distance: c.distance || Math.round(Math.random() * 10) + 1 }));
       return mockAIService.generateRecommendations(formatted, { bodyPart, modalities: modality ? [modality] : [] });
     } catch (e) {
       return [];
     }
-  }, [centers, modality, bodyPart, centerSearch, minRating, adaOnly, magnet3TOnly]);
+  }, [centers, modality, bodyPart, centerSearch, minRating, adaOnly, magnet3TOnly, selectedInsurances]);
 
   useEffect(() => {
     if (!selectedCenterId && recommendations.length > 0) {
@@ -310,9 +315,10 @@ export default function ReferralWizard() {
 
           {step === 4 && (
             <Card>
-              <CardHeader className="py-3">
-                <div className="flex items-center justify-between gap-3 flex-wrap">
-                  <CardTitle className="text-base">Choose Center</CardTitle>
+              <CardHeader className="py-3"><CardTitle className="text-base">Choose Center</CardTitle></CardHeader>
+              <CardContent className="space-y-4">
+                {/* Filters */}
+                <div className="space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-4 gap-2 w-full xl:w-auto">
                     <div className="sm:col-span-2">
                       <Input value={centerSearch} onChange={(e) => setCenterSearch(e.target.value)} placeholder="Search name or city" />
@@ -340,44 +346,61 @@ export default function ReferralWizard() {
                       </div>
                     </div>
                   </div>
+                  
+                  {/* Insurance Filter */}
+                  <div>
+                    <Label className="text-sm font-medium">Insurance Accepted</Label>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {['Blue Cross', 'Aetna', 'Cigna', 'UnitedHealth', 'Humana', 'Medicare', 'Medicaid'].map((insurance) => (
+                        <div key={insurance} className="flex items-center space-x-2">
+                          <Checkbox
+                            id={`insurance-${insurance}`}
+                            checked={selectedInsurances.includes(insurance)}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                setSelectedInsurances(prev => [...prev, insurance]);
+                              } else {
+                                setSelectedInsurances(prev => prev.filter(i => i !== insurance));
+                              }
+                            }}
+                          />
+                          <Label htmlFor={`insurance-${insurance}`} className="text-sm text-muted-foreground">
+                            {insurance}
+                          </Label>
+                        </div>
+                      ))}
+                    </div>
+                    {selectedInsurances.length > 0 && (
+                      <div className="mt-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => setSelectedInsurances([])}
+                          className="text-xs"
+                        >
+                          Clear all
+                        </Button>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </CardHeader>
-              <CardContent className="space-y-3">
+
+                {/* Center cards (replicate Public Finder visuals) */}
                 {centerLoading ? (
                   <div className="text-sm text-muted-foreground">Loading centers…</div>
-                ) : centers.length === 0 ? (
+                ) : recommendations.length === 0 ? (
                   <div className="text-sm text-muted-foreground">No centers match your filters.</div>
                 ) : (
-                  <div className="space-y-2">
-                    {recommendations.map((c) => {
-                      const isSelected = selectedCenterId === c.id;
-                      const isRecommended = c.aiRank === 1;
-                      return (
-                        <button
-                          key={c.id}
-                          className={`w-full text-left p-3 rounded-lg border-2 transition-all ${
-                            isSelected
-                              ? 'border-primary ring-2 ring-primary/50 bg-accent/40 shadow-md'
-                              : isRecommended
-                                ? 'border-violet-500 hover:bg-accent/30'
-                                : 'border-border hover:bg-accent/30'
-                          }`}
-                          onClick={() => setSelectedCenterId(c.id)}
-                        >
-                          <div className="flex items-center justify-between">
-                            <div className="font-medium">{c.name}</div>
-                            <div className="flex items-center gap-2">
-                              {c.aiRank === 1 && <Badge>AI Recommended</Badge>}
-                              <Badge variant="secondary">Score {Math.round(c.aiScore)}</Badge>
-                            </div>
-                          </div>
-                          <div className="text-xs text-muted-foreground mt-1">{c.aiReasoning}</div>
-                          <div className="mt-2">
-                            <Button variant="outline" size="sm" onClick={(e) => { e.stopPropagation(); setPreviewCenter(c); }}>View</Button>
-                          </div>
-                        </button>
-                      );
-                    })}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {recommendations.map((c) => (
+                      <div key={c.id} onClick={() => setSelectedCenterId(c.id)}>
+                        <CenterCard 
+                          center={c} 
+                          onClick={() => setSelectedCenterId(c.id)} 
+                          selected={selectedCenterId === c.id}
+                        />
+                      </div>
+                    ))}
                   </div>
                 )}
               </CardContent>

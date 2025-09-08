@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { SearchFilters } from '@/components/public/SearchFilters.jsx';
+import { HorizontalSearchFilters } from '@/components/public/HorizontalSearchFilters.jsx';
 import { SearchResults } from '@/components/public/SearchResults.jsx';
 import { ShareDropdown } from '@/components/public/ShareDropdown.jsx';
 import { Bookmarks } from '@/components/public/Bookmarks.jsx';
@@ -23,6 +24,7 @@ const PublicFinder = () => {
     location: '',
     bodyPart: '',
     modalities: [],
+    insurances: [],
     dateRange: null,
     sortBy: '',
     centerId: ''
@@ -128,7 +130,7 @@ const PublicFinder = () => {
     console.log('🔍 PublicFinder: Handling search with params:', params);
     
     // Prevent search if no meaningful filters are applied
-    const hasMeaningfulFilters = params.location?.trim() || params.bodyPart || params.modalities?.length > 0;
+    const hasMeaningfulFilters = params.location?.trim() || params.bodyPart || params.modalities?.length > 0 || params.insurances?.length > 0;
     
     // If no filters, show all centers without loading state
     if (!hasMeaningfulFilters) {
@@ -173,6 +175,14 @@ const PublicFinder = () => {
       filtered = filtered.filter(center => 
         params.modalities.some(modality => 
           center.modalities.includes(modality)
+        )
+      );
+    }
+    
+    if (params.insurances?.length > 0) {
+      filtered = filtered.filter(center => 
+        params.insurances.some(insurance => 
+          center.insuranceAccepted && center.insuranceAccepted.includes(insurance)
         )
       );
     }
@@ -315,9 +325,9 @@ const PublicFinder = () => {
           </div>
         </div>
 
-        {/* Search Filters Sidebar */}
-        <div className="col-span-12 lg:col-span-3">
-          <SearchFilters 
+        {/* Horizontal Search Filters */}
+        <div className="col-span-12">
+          <HorizontalSearchFilters 
             onSearch={handleSearch} 
             bodyParts={bodyParts} 
             modalityOptions={modalityOptions}
@@ -326,7 +336,7 @@ const PublicFinder = () => {
         </div>
         
         {/* Search Results */}
-        <div className="col-span-12 lg:col-span-9">
+        <div className="col-span-12">
           <SearchResults 
             key={`search-${JSON.stringify(searchParams)}`}
             results={searchResults}

@@ -2,12 +2,12 @@ import React from 'react';
 import { Card, CardContent, CardHeader } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
-import { Star, MapPin, Clock, Phone, Heart } from 'lucide-react';
+import { Star, MapPin, Clock, Phone, Heart, Check } from 'lucide-react';
 import { useFavorites } from '../../context/FavoritesContext';
 import BookingModal from './BookingModal';
 import { generateReferralURL } from '../../lib/deepLinking';
 
-export function CenterCard({ center, onClick }) {
+export function CenterCard({ center, onClick, selected = false }) {
   const { toggleFavoriteCenter, isFavoriteCenter } = useFavorites();
   const [bookingOpen, setBookingOpen] = React.useState(false);
   
@@ -42,7 +42,11 @@ export function CenterCard({ center, onClick }) {
 
   return (
     <Card 
-      className="h-full hover:shadow-lg transition-shadow cursor-pointer border-border hover:border-primary/50"
+      className={`h-full hover:shadow-lg transition-all cursor-pointer relative ${
+        selected 
+          ? 'border-primary ring-2 ring-primary/20 shadow-lg bg-primary/5' 
+          : 'border-border hover:border-primary/50'
+      }`}
       onClick={onClick}
     >
       <CardHeader className="pb-3">
@@ -60,24 +64,31 @@ export function CenterCard({ center, onClick }) {
             <div className="text-sm font-medium text-primary">
               {mockDistance} mi
             </div>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                toggleFavoriteCenter(center);
-              }}
-              className={`p-1 rounded-full transition-colors hover:bg-muted/50 ${
-                isFavoriteCenter(center.id) 
-                  ? 'text-red-500 hover:text-red-600' 
-                  : 'text-muted-foreground hover:text-red-500'
-              }`}
-              title={isFavoriteCenter(center.id) ? 'Remove from favorites' : 'Add to favorites'}
-            >
-              <Heart 
-                className={`h-3 w-3 ${
-                  isFavoriteCenter(center.id) ? 'fill-current' : ''
+            <div className="flex items-center gap-1">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleFavoriteCenter(center);
+                }}
+                className={`p-1 rounded-full transition-colors hover:bg-muted/50 ${
+                  isFavoriteCenter(center.id) 
+                    ? 'text-red-500 hover:text-red-600' 
+                    : 'text-muted-foreground hover:text-red-500'
                 }`}
-              />
-            </button>
+                title={isFavoriteCenter(center.id) ? 'Remove from favorites' : 'Add to favorites'}
+              >
+                <Heart 
+                  className={`h-3 w-3 ${
+                    isFavoriteCenter(center.id) ? 'fill-current' : ''
+                  }`}
+                />
+              </button>
+              {selected && (
+                <div className="flex items-center justify-center w-6 h-6 bg-primary text-primary-foreground rounded-full">
+                  <Check className="h-4 w-4" />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </CardHeader>
