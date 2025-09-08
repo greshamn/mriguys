@@ -5,13 +5,22 @@
 [build.environment]
   NODE_VERSION = "18"
 
-## Ensure MSW worker is served as a static file (not caught by SPA redirect)
+# CRITICAL: API routes must be excluded from SPA redirect
+# This allows MSW to intercept API calls before they hit the SPA redirect
+[[redirects]]
+  from = "/api/*"
+  to = "/api/:splat"
+  status = 200
+  force = true
+
+# MSW Service Worker - must be served as static file
 [[redirects]]
   from = "/mockServiceWorker.js"
   to = "/mockServiceWorker.js"
   status = 200
   force = true
 
+# SPA fallback - MUST be last to catch all other routes
 [[redirects]]
   from = "/*"
   to = "/index.html"
@@ -22,8 +31,19 @@
   port = 3000
   publish = "dist"
 
-## Explicit content-type for service worker (defensive)
+# Headers for MSW service worker
 [[headers]]
   for = "/mockServiceWorker.js"
   [headers.values]
     Content-Type = "text/javascript"
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Service-Worker-Allowed = "/"
+
+# Headers for API routes to ensure proper CORS and caching
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+    Cache-Control = "no-cache, no-store, must-revalidate"
