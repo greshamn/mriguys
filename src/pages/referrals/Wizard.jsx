@@ -274,6 +274,17 @@ export default function ReferralWizard() {
                     <Button key={p} variant="outline" size="sm" onClick={() => addPhrase(p)}>{p}</Button>
                   ))}
                 </div>
+
+                {/* Optional Doctor's Script upload */}
+                <div className="pt-2">
+                  <Label className="text-xs text-muted-foreground">Doctor's Script (optional)</Label>
+                  <Input type="file" accept="image/*,application/pdf" onChange={(e) => {
+                    const files = Array.from(e.target.files || []);
+                    const meta = files.map(f => ({ name: f.name, size: f.size, type: f.type, kind: 'doctor-script' }));
+                    setAttachments(prev => [...prev, ...meta]);
+                  }} />
+                  <div className="text-[11px] text-muted-foreground mt-1">PDF or image of the referring doctor’s script. Optional.</div>
+                </div>
               </CardContent>
             </Card>
           )}

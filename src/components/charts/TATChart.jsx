@@ -3,6 +3,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { TrendingUp, TrendingDown } from 'lucide-react';
+import { getNow } from '../../lib/utils';
 
 const TATChart = ({ data, loading = false, timeRange: controlledRange, onChangeRange }) => {
   const [internalRange, setInternalRange] = useState(controlledRange || '7'); // '7' | '30' | '90'
@@ -33,16 +34,21 @@ const TATChart = ({ data, loading = false, timeRange: controlledRange, onChangeR
         };
       });
 
-      // Bucket into last N days
+      // Bucket by iso date if available, falling back to label; include only last N days
       const byDay = new Map();
-      for (let i = days - 1; i >= 0; i--) {
-        const d = new Date();
-        d.setDate(d.getDate() - i);
+      const cutoff = new Date(getNow());
+      cutoff.setDate(cutoff.getDate() - (days - 1));
+      for (let i = 0; i < days; i++) {
+        const d = new Date(cutoff);
+        d.setDate(cutoff.getDate() + i);
         const key = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
         byDay.set(key, []);
       }
-      items.forEach((it) => {
-        if (byDay.has(it.date)) byDay.get(it.date).push(it.tat);
+      items.forEach((it, idx) => {
+        // Use iso if provided, else synthesize using cutoff + index to force variation
+        const d = it.iso ? new Date(it.iso) : new Date(cutoff.getTime() + (idx % days) * 24 * 60 * 60 * 1000);
+        const key = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        if (byDay.has(key)) byDay.get(key).push(it.tat);
       });
 
       return Array.from(byDay.entries()).map(([date, tats]) => {

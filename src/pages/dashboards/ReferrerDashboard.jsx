@@ -21,26 +21,96 @@ export const ReferrerDashboard = () => {
   const patients = useStore(selectPatients);
   const selectedReferrerId = useStore(selectSelectedReferrerId);
 
-  // Memoized filtered data calculations
-  const referrerReferrals = useMemo(() => {
-    return referrals.filter(ref => ref.referrerId === selectedReferrerId);
-  }, [referrals, selectedReferrerId]);
+  // Helper to generate stable offsets from ids (keeps demo data varied but deterministic)
+  const offsetFromId = useCallback((id, max = 30) => {
+    try {
+      const s = String(id || '')
+      const v = [...s].reduce((acc, ch) => acc + ch.charCodeAt(0), 0)
+      return (v % max)
+    } catch { return 0 }
+  }, []);
 
-  const referrerAppointments = useMemo(() => {
-    return appointments.filter(apt => {
+  // Per-referrer bias to ensure each provider gets a distinct, stable distribution
+  const refBias = useMemo(() => {
+    const seed = offsetFromId(selectedReferrerId, 10);
+    return {
+      futureSpreadDays: 7 + seed,          // how far out future appts can be
+      pastSpreadDays: 25 + seed * 3,       // how far back completed appts can be
+      tatHoursMin: 4 + (seed % 6),         // min hours after appt to finalize
+      tatHoursMax: 48 + seed * 6,          // max hours after appt to finalize
+    };
+  }, [selectedReferrerId, offsetFromId]);
+
+  // Memoized filtered data calculations (normalized to current demo date)
+  const referrerReferralsRaw = useMemo(() => (
+    referrals.filter(ref => ref.referrerId === selectedReferrerId)
+  ), [referrals, selectedReferrerId]);
+
+  const referrerAppointmentsRaw = useMemo(() => (
+    appointments.filter(apt => {
       const referral = referrals.find(ref => ref.id === apt.referralId);
       return referral && referral.referrerId === selectedReferrerId;
-    });
-  }, [appointments, referrals, selectedReferrerId]);
+    })
+  ), [appointments, referrals, selectedReferrerId]);
 
-  const referrerReports = useMemo(() => {
-    return reports.filter(report => {
+  const referrerReportsRaw = useMemo(() => (
+    reports.filter(report => {
       const appointment = appointments.find(apt => apt.id === report.appointmentId);
       if (!appointment) return false;
       const referral = referrals.find(ref => ref.id === appointment.referralId);
       return referral && referral.referrerId === selectedReferrerId;
+    })
+  ), [reports, appointments, referrals, selectedReferrerId]);
+
+  // Normalize dates into recent windows so KPIs/charts are meaningful regardless of seed data age
+  const referrerAppointments = useMemo(() => {
+    const now = getNow();
+    return referrerAppointmentsRaw.map((a) => {
+      const copy = { ...a };
+      const base = new Date(now);
+      const off = (offsetFromId(a.id + selectedReferrerId, refBias.futureSpreadDays) + 3); // distributed by referrer
+      if (a.status === 'scheduled' || a.status === 'confirmed') {
+        base.setDate(base.getDate() + off);
+      } else if (a.status === 'completed' || a.status === 'no-show' || a.status === 'cancelled') {
+        base.setDate(base.getDate() - (offsetFromId(a.id + '-past-' + selectedReferrerId, refBias.pastSpreadDays) + 1));
+      } else {
+        base.setDate(base.getDate() - offsetFromId(a.id + '-other-' + selectedReferrerId, 10));
+      }
+      const iso = base.toISOString();
+      copy.appointmentDate = iso;
+      copy.startTime = iso;
+      return copy;
     });
-  }, [reports, appointments, referrals, selectedReferrerId]);
+  }, [referrerAppointmentsRaw, offsetFromId, selectedReferrerId, refBias]);
+
+  const referrerReports = useMemo(() => {
+    const now = getNow();
+    return referrerReportsRaw.map((r) => {
+      const copy = { ...r };
+      const apt = referrerAppointments.find((a) => a.id === r.appointmentId);
+      const when = new Date(apt?.appointmentDate || now);
+      // finalize a variable number of hours after appointment, biased per referrer
+      const spread = Math.max(refBias.tatHoursMax - refBias.tatHoursMin, 6);
+      const addHours = (offsetFromId(r.id + selectedReferrerId, spread) + refBias.tatHoursMin);
+      when.setHours(when.getHours() + addHours);
+      const finIso = when.toISOString();
+      copy.finalizedAt = finIso;
+      copy.reportDate = finIso;
+      if (!copy.status) copy.status = 'finalized';
+      return copy;
+    });
+  }, [referrerReportsRaw, referrerAppointments, offsetFromId, selectedReferrerId, refBias]);
+
+  const referrerReferrals = useMemo(() => {
+    const now = getNow();
+    return referrerReferralsRaw.map((r) => {
+      const copy = { ...r };
+      const d = new Date(now);
+      d.setDate(d.getDate() - (offsetFromId(r.id + selectedReferrerId, 60) + 1)); // created within last 2 months
+      copy.createdAt = d.toISOString();
+      return copy;
+    });
+  }, [referrerReferralsRaw, offsetFromId, selectedReferrerId]);
 
   const referrerPatientCount = useMemo(() => {
     // Count unique patients from referrals to avoid dependence on full patients dataset
@@ -57,7 +127,8 @@ export const ReferrerDashboard = () => {
       const start = apt?.appointmentDate || apt?.startTime || report.createdAt;
       const end = report.finalizedAt || report.reportDate || apt?.endTime || report.updatedAt;
       const tatDays = start && end ? (new Date(end) - new Date(start)) / (1000 * 60 * 60 * 24) : 2.2;
-      return { date: formatDay(end || new Date()), tat: Math.max(0.5, parseFloat(tatDays.toFixed(1))) };
+      const endIso = end || new Date().toISOString();
+      return { date: formatDay(endIso), iso: endIso, tat: Math.max(0.5, parseFloat(tatDays.toFixed(1))) };
     });
   }, [referrerReports, referrerAppointments]);
 
@@ -112,6 +183,20 @@ export const ReferrerDashboard = () => {
     };
 
     loadData();
+  }, []);
+
+  // Set default demo date to +60 days if not already set
+  useEffect(() => {
+    try {
+      const existing = localStorage.getItem('demoDate');
+      if (!existing) {
+        const d = new Date();
+        d.setDate(d.getDate() + 60);
+        setDemoDate(d);
+      }
+    } catch (e) {
+      // ignore storage errors in demo
+    }
   }, []);
 
   const handleNewReferral = useCallback(() => {
@@ -184,7 +269,7 @@ export const ReferrerDashboard = () => {
               }}
             >
               <SelectTrigger className="w-[160px]">
-                <SelectValue placeholder="Demo Date" />
+                <SelectValue placeholder="Date Range" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="today">Today</SelectItem>
@@ -206,15 +291,7 @@ export const ReferrerDashboard = () => {
         </div>
       </div>
 
-      {/* KPI Controls + Cards */}
-      <div className="flex items-center justify-between">
-        <div className="text-sm text-muted-foreground">KPI Range</div>
-        <div className="flex items-center gap-2">
-          <Button variant={kpiRange==='7'?'default':'outline'} size="sm" onClick={()=>setKpiRange('7')}>7d</Button>
-          <Button variant={kpiRange==='30'?'default':'outline'} size="sm" onClick={()=>setKpiRange('30')}>30d</Button>
-          <Button variant={kpiRange==='90'?'default':'outline'} size="sm" onClick={()=>setKpiRange('90')}>90d</Button>
-        </div>
-      </div>
+      {/* KPI Cards */}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* New Results */}
