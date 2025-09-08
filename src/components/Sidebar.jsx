@@ -62,7 +62,6 @@ const Sidebar = ({ isOpen, onToggle, collapsed = false, onCollapse }) => {
       case 'attorney':
         return [
           { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard', active: location.pathname === '/dashboard' },
-          { icon: FolderOpen, label: 'Cases', path: '/cases', active: location.pathname === '/cases' },
           { icon: Download, label: 'Case Packet', path: '/case-packet', active: location.pathname === '/case-packet' },
           { icon: Scale, label: 'Lien Ledger', path: '/lien', active: location.pathname === '/lien' },
           { icon: Users, label: 'Clients', path: '/clients', active: location.pathname === '/clients' }
@@ -72,8 +71,6 @@ const Sidebar = ({ isOpen, onToggle, collapsed = false, onCollapse }) => {
         return [
           { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard', active: location.pathname === '/dashboard' },
           { icon: RefreshCw, label: 'Pipeline', path: '/pipeline', active: location.pathname === '/pipeline' },
-          { icon: CheckCircle, label: 'Approvals', path: '/approvals', active: location.pathname === '/approvals' },
-          { icon: DollarSign, label: 'Exposure', path: '/exposure', active: location.pathname === '/exposure' },
           { icon: BarChart3, label: 'Reports', path: '/reports', active: location.pathname === '/reports' }
         ];
       

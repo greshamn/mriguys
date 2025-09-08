@@ -276,23 +276,29 @@ export default function Clients() {
       {/* Main grid */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         <div className="lg:col-span-3 space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Filters</CardTitle>
+          <Card className="overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-gray-50 to-slate-50 border-b">
+              <CardTitle className="text-gray-900">Client Filters</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-6">
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1">
                   <Label htmlFor="search">Search</Label>
                   <div className="relative">
                     <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input id="search" placeholder="Search name, email, city..." value={search} onChange={(e) => setSearch(e.target.value)} className="pl-10" />
+                    <Input 
+                      id="search" 
+                      placeholder="Search name, email, city..." 
+                      value={search} 
+                      onChange={(e) => setSearch(e.target.value)} 
+                      className="pl-10 border-gray-200 focus:border-blue-500 focus:ring-blue-500" 
+                    />
                   </div>
                 </div>
                 <div className="w-full sm:w-48">
                   <Label htmlFor="risk">Risk</Label>
                   <Select value={riskFilter} onValueChange={setRiskFilter}>
-                    <SelectTrigger>
+                    <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500">
                       <SelectValue placeholder="All" />
                     </SelectTrigger>
                     <SelectContent>
@@ -307,31 +313,31 @@ export default function Clients() {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span>Clients ({filtered.length})</span>
-                <div className="text-sm text-muted-foreground flex items-center gap-2">
+          <Card className="overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b">
+              <CardTitle className="flex items-center justify-between text-lg">
+                <span className="text-gray-900">Clients ({filtered.length})</span>
+                <div className="text-sm text-gray-600 flex items-center gap-2">
                   <Activity className="h-4 w-4" /> {kpis.highRisk} high risk
                 </div>
               </CardTitle>
             </CardHeader>
-            <CardContent className="pt-0">
+            <CardContent className="pt-0 p-0">
               <Table>
                 <TableHeader>
-                  <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Contact</TableHead>
-                    <TableHead>City</TableHead>
-                    <TableHead>Appointments</TableHead>
-                    <TableHead>Reports</TableHead>
-                    <TableHead>Risk</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
+                  <TableRow className="text-gray-600 border-b bg-gray-50">
+                    <TableHead className="py-4 px-4 font-semibold">Name</TableHead>
+                    <TableHead className="py-4 px-4 font-semibold">Contact</TableHead>
+                    <TableHead className="py-4 px-4 font-semibold">City</TableHead>
+                    <TableHead className="py-4 px-4 font-semibold">Appointments</TableHead>
+                    <TableHead className="py-4 px-4 font-semibold">Reports</TableHead>
+                    <TableHead className="py-4 px-4 font-semibold">Risk</TableHead>
+                    <TableHead className="py-4 px-4 text-right font-semibold">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filtered.map((c) => (
-                    <TableRow key={c.id}>
+                    <TableRow key={c.id} className="hover:bg-blue-50/50 transition-colors">
                       <TableCell>
                         <div className="font-medium">{c.name}</div>
                       </TableCell>
@@ -367,6 +373,17 @@ export default function Clients() {
                       </TableCell>
                     </TableRow>
                   ))}
+                  {filtered.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={7} className="py-8 text-center text-gray-500">
+                        <div className="flex flex-col items-center gap-2">
+                          <Users className="h-8 w-8 text-gray-400" />
+                          <div className="font-medium">No clients found</div>
+                          <div className="text-sm">Try adjusting your filters</div>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )}
                 </TableBody>
               </Table>
             </CardContent>
@@ -374,30 +391,37 @@ export default function Clients() {
         </div>
         {/* Insights */}
         <div className="lg:col-span-1 space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg"><TrendingUp className="h-5 w-5 text-primary" />AI Insights</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-start gap-3 p-3 rounded-lg border bg-muted/50">
-                <AlertCircle className="h-5 w-5 mt-0.5 text-amber-500" />
+          <Card className="overflow-hidden">
+            {/* Purple gradient header */}
+            <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white p-4">
+              <div className="flex items-center gap-2">
+                <TrendingUp className="h-5 w-5" />
+                <div className="font-semibold text-lg">AI Insights</div>
+              </div>
+              <div className="text-sm opacity-90 mt-1">Client management recommendations</div>
+            </div>
+            
+            {/* White content section */}
+            <CardContent className="p-4 bg-white space-y-4">
+              <div className="flex items-start gap-3 p-3 rounded-lg border bg-gray-50">
+                <AlertCircle className="h-5 w-5 mt-0.5 text-amber-600" />
                 <div className="flex-1">
-                  <div className="font-medium text-sm">Complete Missing Docs</div>
-                  <div className="text-xs text-muted-foreground mt-1">Prioritize {kpis.highRisk} high-risk clients lacking reports to reduce settlement delays.</div>
+                  <div className="font-medium text-sm text-gray-900">Complete Missing Docs</div>
+                  <div className="text-xs text-gray-600 mt-1">Prioritize {kpis.highRisk} high-risk clients lacking reports to reduce settlement delays.</div>
                 </div>
               </div>
-              <div className="flex items-start gap-3 p-3 rounded-lg border bg-muted/50">
-                <CalendarDays className="h-5 w-5 mt-0.5 text-blue-500" />
+              <div className="flex items-start gap-3 p-3 rounded-lg border bg-gray-50">
+                <CalendarDays className="h-5 w-5 mt-0.5 text-blue-600" />
                 <div className="flex-1">
-                  <div className="font-medium text-sm">Schedule Follow-ups</div>
-                  <div className="text-xs text-muted-foreground mt-1">{kpis.withUpcoming} clients have upcoming visits. Confirm attendance and prep requirements.</div>
+                  <div className="font-medium text-sm text-gray-900">Schedule Follow-ups</div>
+                  <div className="text-xs text-gray-600 mt-1">{kpis.withUpcoming} clients have upcoming visits. Confirm attendance and prep requirements.</div>
                 </div>
               </div>
-              <div className="flex items-start gap-3 p-3 rounded-lg border bg-muted/50">
+              <div className="flex items-start gap-3 p-3 rounded-lg border bg-gray-50">
                 <Shield className="h-5 w-5 mt-0.5 text-green-600" />
                 <div className="flex-1">
-                  <div className="font-medium text-sm">Exposure Watch</div>
-                  <div className="text-xs text-muted-foreground mt-1">Current exposure ${kpis.exposure.toLocaleString()}. Consider early settlement on older cases.</div>
+                  <div className="font-medium text-sm text-gray-900">Exposure Watch</div>
+                  <div className="text-xs text-gray-600 mt-1">Current exposure ${kpis.exposure.toLocaleString()}. Consider early settlement on older cases.</div>
                 </div>
               </div>
             </CardContent>

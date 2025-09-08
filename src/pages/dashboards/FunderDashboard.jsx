@@ -580,11 +580,11 @@ export const FunderDashboard = () => {
         {/* Main Content */}
         <div className="lg:col-span-3 space-y-4">
           {/* Filters */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Case Filters</CardTitle>
+          <Card className="overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-gray-50 to-slate-50 border-b">
+              <CardTitle className="text-gray-900">Case Filters</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-6">
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1">
                   <Label htmlFor="search">Search</Label>
@@ -595,14 +595,14 @@ export const FunderDashboard = () => {
                       placeholder="Search cases, patients..."
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
-                      className="pl-10"
+                      className="pl-10 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
                     />
                   </div>
                 </div>
                 <div className="w-full sm:w-48">
                   <Label htmlFor="status">Status</Label>
                   <Select value={statusFilter} onValueChange={setStatusFilter}>
-                    <SelectTrigger>
+                    <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500">
                       <SelectValue placeholder="All Statuses" />
                     </SelectTrigger>
                     <SelectContent>
@@ -616,7 +616,7 @@ export const FunderDashboard = () => {
                 <div className="w-full sm:w-48">
                   <Label htmlFor="priority">Priority</Label>
                   <Select value={priorityFilter} onValueChange={setPriorityFilter}>
-                    <SelectTrigger>
+                    <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500">
                       <SelectValue placeholder="All Priorities" />
                     </SelectTrigger>
                     <SelectContent>
@@ -632,32 +632,32 @@ export const FunderDashboard = () => {
           </Card>
 
           {/* Cases Table */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span>Case Queue ({filteredCases.length})</span>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Card className="overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b">
+              <CardTitle className="flex items-center justify-between text-lg">
+                <span className="text-gray-900">Case Queue ({filteredCases.length})</span>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
                   <Activity className="h-4 w-4" />
                   {kpiMetrics.pending} pending • {kpiMetrics.readyForApproval} ready • {kpiMetrics.highPriority} high-priority
                 </div>
               </CardTitle>
             </CardHeader>
-            <CardContent className="pt-0">
+            <CardContent className="pt-0 p-0">
               <Table>
                 <TableHeader>
-                  <TableRow>
-                    <TableHead>Case Number</TableHead>
-                    <TableHead>Patient</TableHead>
-                    <TableHead>Amount</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>AI Score</TableHead>
-                    <TableHead>Requirements</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
+                  <TableRow className="text-gray-600 border-b bg-gray-50">
+                    <TableHead className="py-4 px-4 font-semibold">Case Number</TableHead>
+                    <TableHead className="py-4 px-4 font-semibold">Patient</TableHead>
+                    <TableHead className="py-4 px-4 font-semibold">Amount</TableHead>
+                    <TableHead className="py-4 px-4 font-semibold">Status</TableHead>
+                    <TableHead className="py-4 px-4 font-semibold">AI Score</TableHead>
+                    <TableHead className="py-4 px-4 font-semibold">Requirements</TableHead>
+                    <TableHead className="py-4 px-4 text-right font-semibold">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredCases.map((caseItem) => (
-                    <TableRow key={caseItem.id}>
+                    <TableRow key={caseItem.id} className="hover:bg-blue-50/50 transition-colors">
                       <TableCell>
                         <div className="font-medium">{caseItem.caseNumber}</div>
                         <div className="text-xs text-muted-foreground">
@@ -731,10 +731,10 @@ export const FunderDashboard = () => {
                   ))}
                   {filteredCases.length === 0 && (
                     <TableRow>
-                      <TableCell colSpan={7} className="py-8 text-center text-muted-foreground">
+                      <TableCell colSpan={7} className="py-8 text-center text-gray-500">
                         <div className="flex flex-col items-center gap-2">
-                          <Briefcase className="h-8 w-8" />
-                          <div>No cases found</div>
+                          <Briefcase className="h-8 w-8 text-gray-400" />
+                          <div className="font-medium">No cases found</div>
                           <div className="text-sm">Try adjusting your filters</div>
                         </div>
                       </TableCell>
@@ -748,29 +748,33 @@ export const FunderDashboard = () => {
 
         {/* Sidebar */}
         <div className="lg:col-span-1 space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <Zap className="h-5 w-5 text-primary" />
-                AI Insights
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-start gap-3 p-3 rounded-lg border bg-muted/50">
-                <Target className="h-5 w-5 mt-0.5 text-green-500" />
+          <Card className="overflow-hidden">
+            {/* Purple gradient header */}
+            <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white p-4">
+              <div className="flex items-center gap-2">
+                <Zap className="h-5 w-5" />
+                <div className="font-semibold text-lg">AI Insights</div>
+              </div>
+              <div className="text-sm opacity-90 mt-1">Funding optimization recommendations</div>
+            </div>
+            
+            {/* White content section */}
+            <CardContent className="p-4 bg-white space-y-4">
+              <div className="flex items-start gap-3 p-3 rounded-lg border bg-gray-50">
+                <Target className="h-5 w-5 mt-0.5 text-green-600" />
                 <div className="flex-1">
-                  <div className="font-medium text-sm">Top 3 to Approve Today</div>
-                  <div className="text-xs text-muted-foreground mt-1">
+                  <div className="font-medium text-sm text-gray-900">Top 3 to Approve Today</div>
+                  <div className="text-xs text-gray-600 mt-1">
                     Based on AI scoring algorithm considering injury severity, documentation completeness, and case strength.
                   </div>
                 </div>
               </div>
               
               {aiRecommendations.map((rec, index) => (
-                <div key={rec.id} className="flex items-center justify-between p-3 border rounded-lg">
+                <div key={rec.id} className="flex items-center justify-between p-3 border rounded-lg bg-gray-50">
                   <div className="flex-1">
-                    <div className="font-medium text-sm">{rec.caseNumber}</div>
-                    <div className="text-xs text-muted-foreground">
+                    <div className="font-medium text-sm text-gray-900">{rec.caseNumber}</div>
+                    <div className="text-xs text-gray-600">
                       ${rec.amount?.toLocaleString()} • Score: {rec.aiScore}
                     </div>
                   </div>
@@ -784,21 +788,21 @@ export const FunderDashboard = () => {
                 </div>
               ))}
               
-              <div className="flex items-start gap-3 p-3 rounded-lg border bg-muted/50">
-                <AlertCircle className="h-5 w-5 mt-0.5 text-amber-500" />
+              <div className="flex items-start gap-3 p-3 rounded-lg border bg-gray-50">
+                <AlertCircle className="h-5 w-5 mt-0.5 text-amber-600" />
                 <div className="flex-1">
-                  <div className="font-medium text-sm">Risk Assessment</div>
-                  <div className="text-xs text-muted-foreground mt-1">
+                  <div className="font-medium text-sm text-gray-900">Risk Assessment</div>
+                  <div className="text-xs text-gray-600 mt-1">
                     {kpiMetrics.highPriority} high-priority cases require immediate attention. Consider expedited processing.
                   </div>
                 </div>
               </div>
               
-              <div className="flex items-start gap-3 p-3 rounded-lg border bg-muted/50">
-                <TrendingUp className="h-5 w-5 mt-0.5 text-blue-500" />
+              <div className="flex items-start gap-3 p-3 rounded-lg border bg-gray-50">
+                <TrendingUp className="h-5 w-5 mt-0.5 text-blue-600" />
                 <div className="flex-1">
-                  <div className="font-medium text-sm">ROI Optimization</div>
-                  <div className="text-xs text-muted-foreground mt-1">
+                  <div className="font-medium text-sm text-gray-900">ROI Optimization</div>
+                  <div className="text-xs text-gray-600 mt-1">
                     Expected ROI of {(kpiMetrics.avgROI * 100).toFixed(1)}% exceeds target. Focus on high-scoring cases for maximum returns.
                   </div>
                 </div>

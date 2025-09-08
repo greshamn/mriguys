@@ -91,6 +91,8 @@ export default function CasePacket() {
   const [selectedCase, setSelectedCase] = useState(null);
   const [showPacketPreview, setShowPacketPreview] = useState(false);
   const [showExportModal, setShowExportModal] = useState(false);
+  const [showCaseDetailsModal, setShowCaseDetailsModal] = useState(false);
+  const [viewingCase, setViewingCase] = useState(null);
   const [exportFormat, setExportFormat] = useState('pdf');
 
   // Store hooks
@@ -372,6 +374,16 @@ export default function CasePacket() {
     }
   };
 
+  const handleViewCase = (caseData) => {
+    setViewingCase(caseData);
+    setShowCaseDetailsModal(true);
+  };
+
+  const handleCloseCaseDetailsModal = () => {
+    setShowCaseDetailsModal(false);
+    setViewingCase(null);
+  };
+
   if (loading) {
     return (
       <div className="p-6 space-y-6">
@@ -498,11 +510,11 @@ export default function CasePacket() {
         {/* Main Content */}
         <div className="lg:col-span-3 space-y-4">
           {/* Filters */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Packet Filters</CardTitle>
+          <Card className="overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-gray-50 to-slate-50 border-b">
+              <CardTitle className="text-gray-900">Packet Filters</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-6">
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1">
                   <Label htmlFor="search">Search</Label>
@@ -513,14 +525,14 @@ export default function CasePacket() {
                       placeholder="Search cases, patients, accident types..."
                       value={search}
                       onChange={(e) => setSearch(e.target.value)}
-                      className="pl-10"
+                      className="pl-10 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
                     />
                   </div>
                 </div>
                 <div className="w-full sm:w-48">
                   <Label htmlFor="status">Status</Label>
                   <Select value={statusFilter} onValueChange={setStatusFilter}>
-                    <SelectTrigger>
+                    <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500">
                       <SelectValue placeholder="All Statuses" />
                     </SelectTrigger>
                     <SelectContent>
@@ -536,35 +548,35 @@ export default function CasePacket() {
           </Card>
 
           {/* Cases Table */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span>Case Packets ({filteredCases.length})</span>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Card className="overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b">
+              <CardTitle className="flex items-center justify-between text-lg">
+                <span className="text-gray-900">Case Packets ({filteredCases.length})</span>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
                   <Package className="h-4 w-4" />
                   {kpiMetrics.casesWithCompletePackets} complete • {kpiMetrics.casesWithPartialPackets} partial • {kpiMetrics.casesWithNoPackets} missing
                 </div>
               </CardTitle>
             </CardHeader>
-            <CardContent className="pt-0">
+            <CardContent className="pt-0 p-0">
               <Table>
                 <TableHeader>
-                  <TableRow>
-                    <TableHead>Case Number</TableHead>
-                    <TableHead>Patient</TableHead>
-                    <TableHead>Accident Type</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Packet Status</TableHead>
-                    <TableHead>Documents</TableHead>
-                    <TableHead>Amount</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
+                  <TableRow className="text-gray-600 border-b bg-gray-50">
+                    <TableHead className="py-4 px-4 font-semibold">Case Number</TableHead>
+                    <TableHead className="py-4 px-4 font-semibold">Patient</TableHead>
+                    <TableHead className="py-4 px-4 font-semibold">Accident Type</TableHead>
+                    <TableHead className="py-4 px-4 font-semibold">Status</TableHead>
+                    <TableHead className="py-4 px-4 font-semibold">Packet Status</TableHead>
+                    <TableHead className="py-4 px-4 font-semibold">Documents</TableHead>
+                    <TableHead className="py-4 px-4 font-semibold">Amount</TableHead>
+                    <TableHead className="py-4 px-4 text-right font-semibold">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredCases.map((caseItem) => {
                     const packetData = getCasePacketData(caseItem);
                     return (
-                      <TableRow key={caseItem.id}>
+                      <TableRow key={caseItem.id} className="hover:bg-blue-50/50 transition-colors">
                         <TableCell>
                           <div className="font-medium">{caseItem.caseNumber}</div>
                           <div className="text-xs text-muted-foreground">
@@ -604,8 +616,8 @@ export default function CasePacket() {
                             <Button 
                               size="sm" 
                               variant="ghost"
-                              onClick={() => handlePacketAction('preview', caseItem)}
-                              title="Preview Packet"
+                              onClick={() => handleViewCase(caseItem)}
+                              title="View Case Details"
                             >
                               <Eye className="h-4 w-4" />
                             </Button>
@@ -633,10 +645,10 @@ export default function CasePacket() {
                   })}
                   {filteredCases.length === 0 && (
                     <TableRow>
-                      <TableCell colSpan={8} className="py-8 text-center text-muted-foreground">
+                      <TableCell colSpan={8} className="py-8 text-center text-gray-500">
                         <div className="flex flex-col items-center gap-2">
-                          <Package className="h-8 w-8" />
-                          <div>No cases found</div>
+                          <Package className="h-8 w-8 text-gray-400" />
+                          <div className="font-medium">No cases found</div>
                           <div className="text-sm">Try adjusting your filters</div>
                         </div>
                       </TableCell>
@@ -650,37 +662,42 @@ export default function CasePacket() {
 
         {/* Sidebar */}
         <div className="lg:col-span-1 space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <Zap className="h-5 w-5 text-primary" />
-                AI Insights
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-start gap-3 p-3 rounded-lg border bg-muted/50">
-                <FileCheck className="h-5 w-5 mt-0.5 text-green-500" />
+          {/* AI Insights */}
+          <Card className="overflow-hidden">
+            {/* Purple gradient header */}
+            <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white p-4">
+              <div className="flex items-center gap-2">
+                <Zap className="h-5 w-5" />
+                <div className="font-semibold text-lg">AI Insights</div>
+              </div>
+              <div className="text-sm opacity-90 mt-1">Case packet optimization recommendations</div>
+            </div>
+            
+            {/* White content section */}
+            <CardContent className="p-4 bg-white space-y-4">
+              <div className="flex items-start gap-3 p-3 rounded-lg border bg-gray-50">
+                <FileCheck className="h-5 w-5 mt-0.5 text-green-600" />
                 <div className="flex-1">
-                  <div className="font-medium text-sm">Packet Readiness</div>
-                  <div className="text-xs text-muted-foreground mt-1">
+                  <div className="font-medium text-sm text-gray-900">Packet Readiness</div>
+                  <div className="text-xs text-gray-600 mt-1">
                     {kpiMetrics.packetReadinessRate}% of cases have complete packets. Focus on completing documentation for the remaining {kpiMetrics.casesWithPartialPackets + kpiMetrics.casesWithNoPackets} cases.
                   </div>
                 </div>
               </div>
-              <div className="flex items-start gap-3 p-3 rounded-lg border bg-muted/50">
-                <AlertCircle className="h-5 w-5 mt-0.5 text-amber-500" />
+              <div className="flex items-start gap-3 p-3 rounded-lg border bg-gray-50">
+                <AlertCircle className="h-5 w-5 mt-0.5 text-amber-600" />
                 <div className="flex-1">
-                  <div className="font-medium text-sm">Missing Documentation</div>
-                  <div className="text-xs text-muted-foreground mt-1">
+                  <div className="font-medium text-sm text-gray-900">Missing Documentation</div>
+                  <div className="text-xs text-gray-600 mt-1">
                     {kpiMetrics.casesWithNoPackets} cases have no documentation. These cases need immediate attention to build strong legal positions.
                   </div>
                 </div>
               </div>
-              <div className="flex items-start gap-3 p-3 rounded-lg border bg-muted/50">
-                <Target className="h-5 w-5 mt-0.5 text-blue-500" />
+              <div className="flex items-start gap-3 p-3 rounded-lg border bg-gray-50">
+                <Target className="h-5 w-5 mt-0.5 text-blue-600" />
                 <div className="flex-1">
-                  <div className="font-medium text-sm">Export Opportunities</div>
-                  <div className="text-xs text-muted-foreground mt-1">
+                  <div className="font-medium text-sm text-gray-900">Export Opportunities</div>
+                  <div className="text-xs text-gray-600 mt-1">
                     {kpiMetrics.casesWithCompletePackets} cases are ready for immediate export. Consider bulk export for efficient case management.
                   </div>
                 </div>
@@ -689,6 +706,180 @@ export default function CasePacket() {
           </Card>
         </div>
       </div>
+
+      {/* Case Details Modal */}
+      <Dialog open={showCaseDetailsModal} onOpenChange={setShowCaseDetailsModal}>
+        <DialogContent className="sm:max-w-4xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-semibold text-gray-900">
+              Case Details - {viewingCase?.caseNumber}
+            </DialogTitle>
+          </DialogHeader>
+          
+          {viewingCase && (() => {
+            const packetData = getCasePacketData(viewingCase);
+            return (
+              <div className="space-y-6">
+                {/* Basic Information */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div>
+                      <Label className="text-sm font-medium text-gray-600">Case Information</Label>
+                      <div className="mt-2 space-y-2">
+                        <p className="text-lg font-semibold text-gray-900">{viewingCase.caseNumber}</p>
+                        <p className="text-sm text-gray-600">Case ID: {viewingCase.id}</p>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <Label className="text-sm font-medium text-gray-600">Patient</Label>
+                      <p className="mt-1 text-gray-900">{getPatientName(viewingCase.patientId)}</p>
+                    </div>
+                    
+                    <div>
+                      <Label className="text-sm font-medium text-gray-600">Status</Label>
+                      <div className="mt-1">
+                        {getStatusBadge(viewingCase.status)}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <Label className="text-sm font-medium text-gray-600">Accident Information</Label>
+                      <p className="mt-1 text-gray-900">{viewingCase.accidentType}</p>
+                      <p className="text-sm text-gray-600 mt-1">
+                        {new Date(viewingCase.accidentDate).toLocaleDateString()}
+                      </p>
+                    </div>
+                    
+                    <div>
+                      <Label className="text-sm font-medium text-gray-600">Case Value</Label>
+                      <p className="mt-1 text-2xl font-bold text-gray-900">${(viewingCase.amount || 0).toLocaleString()}</p>
+                    </div>
+                    
+                    <div>
+                      <Label className="text-sm font-medium text-gray-600">Packet Status</Label>
+                      <div className="mt-1">
+                        {getPacketStatusBadge(viewingCase)}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Case Description */}
+                <div>
+                  <Label className="text-sm font-medium text-gray-600">Accident Description</Label>
+                  <div className="mt-2 p-4 bg-gray-50 rounded-lg">
+                    <p className="text-sm text-gray-700">{viewingCase.accidentDescription}</p>
+                  </div>
+                </div>
+
+                <div>
+                  <Label className="text-sm font-medium text-gray-600">Injury Description</Label>
+                  <div className="mt-2 p-4 bg-gray-50 rounded-lg">
+                    <p className="text-sm text-gray-700">{viewingCase.injuryDescription}</p>
+                  </div>
+                </div>
+
+                {/* Financial Information */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="p-4 bg-blue-50 rounded-lg">
+                    <Label className="text-sm font-medium text-gray-600">Total Amount</Label>
+                    <p className="text-2xl font-bold text-blue-600 mt-1">${(viewingCase.amount || 0).toLocaleString()}</p>
+                  </div>
+                  
+                  <div className="p-4 bg-green-50 rounded-lg">
+                    <Label className="text-sm font-medium text-gray-600">Balance</Label>
+                    <p className="text-2xl font-bold text-green-600 mt-1">${(viewingCase.balance || 0).toLocaleString()}</p>
+                  </div>
+                  
+                  <div className="p-4 bg-purple-50 rounded-lg">
+                    <Label className="text-sm font-medium text-gray-600">Paid Amount</Label>
+                    <p className="text-2xl font-bold text-purple-600 mt-1">
+                      ${((viewingCase.amount || 0) - (viewingCase.balance || 0)).toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Attorney Information */}
+                <div>
+                  <Label className="text-sm font-medium text-gray-600">Attorney Information</Label>
+                  <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-gray-50 rounded-lg">
+                    <div>
+                      <p className="font-medium text-gray-900">{viewingCase.attorneyName}</p>
+                      <p className="text-sm text-gray-600">{viewingCase.attorneyFirm}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-600">{viewingCase.attorneyPhone}</p>
+                      <p className="text-sm text-gray-600">{viewingCase.attorneyEmail}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Defendant Information */}
+                <div>
+                  <Label className="text-sm font-medium text-gray-600">Defendant Information</Label>
+                  <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-gray-50 rounded-lg">
+                    <div>
+                      <p className="font-medium text-gray-900">{viewingCase.defendantName}</p>
+                      <p className="text-sm text-gray-600">{viewingCase.defendantInsurance}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-600">Policy: {viewingCase.defendantPolicyNumber}</p>
+                      <p className="text-sm text-gray-600">Limit: ${(viewingCase.defendantPolicyLimit || 0).toLocaleString()}</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Document Summary */}
+                <div>
+                  <Label className="text-sm font-medium text-gray-600">Document Summary</Label>
+                  <div className="mt-2 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="p-4 bg-gray-50 rounded-lg text-center">
+                      <p className="text-2xl font-bold text-gray-900">{packetData.totalDocuments}</p>
+                      <p className="text-sm text-gray-600">Total Documents</p>
+                    </div>
+                    <div className="p-4 bg-gray-50 rounded-lg text-center">
+                      <p className="text-2xl font-bold text-blue-600">{packetData.reports.length}</p>
+                      <p className="text-sm text-gray-600">Medical Reports</p>
+                    </div>
+                    <div className="p-4 bg-gray-50 rounded-lg text-center">
+                      <p className="text-2xl font-bold text-green-600">{packetData.bills.length}</p>
+                      <p className="text-sm text-gray-600">Bills & Invoices</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Case Notes */}
+                {viewingCase.notes && (
+                  <div>
+                    <Label className="text-sm font-medium text-gray-600">Case Notes</Label>
+                    <div className="mt-2 p-4 bg-gray-50 rounded-lg">
+                      <p className="text-sm text-gray-700">{viewingCase.notes}</p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Action Buttons */}
+                <div className="flex gap-3 pt-4 border-t">
+                  <Button className="flex-1" onClick={() => handlePacketAction('preview', viewingCase)}>
+                    <Eye className="h-4 w-4 mr-2" />
+                    Preview Packet
+                  </Button>
+                  <Button variant="outline" className="flex-1" onClick={() => handlePacketAction('export', viewingCase)}>
+                    <Download className="h-4 w-4 mr-2" />
+                    Export Packet
+                  </Button>
+                  <Button variant="outline" onClick={handleCloseCaseDetailsModal}>
+                    Close
+                  </Button>
+                </div>
+              </div>
+            );
+          })()}
+        </DialogContent>
+      </Dialog>
 
       {/* Packet Preview Modal */}
       <Dialog open={showPacketPreview} onOpenChange={setShowPacketPreview}>

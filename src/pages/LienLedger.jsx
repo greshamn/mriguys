@@ -107,6 +107,7 @@ export default function LienLedger() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [settlementFilter, setSettlementFilter] = useState('all');
   const [selectedLien, setSelectedLien] = useState(null);
   const [showLedgerModal, setShowLedgerModal] = useState(false);
 
@@ -165,9 +166,24 @@ export default function LienLedger() {
 
   const filteredLiens = useMemo(() => {
     let list = computedLiens;
+    
+    // Filter by status (lien status, not settlement status)
     if (statusFilter !== 'all') {
-      list = list.filter((l) => String(l.settlementStatus || l.status).toLowerCase() === statusFilter);
+      list = list.filter((l) => {
+        const status = String(l.status || '').toLowerCase();
+        return status === statusFilter;
+      });
     }
+    
+    // Filter by settlement status
+    if (settlementFilter !== 'all') {
+      list = list.filter((l) => {
+        const settlementStatus = String(l.settlementStatus || '').toLowerCase();
+        return settlementStatus === settlementFilter;
+      });
+    }
+    
+    // Search filter
     if (search) {
       const s = search.toLowerCase();
       list = list.filter((l) => {
@@ -177,8 +193,9 @@ export default function LienLedger() {
         return patient.includes(s) || caseNum.includes(s) || accident.includes(s);
       });
     }
+    
     return list.sort((a, b) => new Date(b.accidentDate || b.createdAt || 0) - new Date(a.accidentDate || a.createdAt || 0));
-  }, [computedLiens, statusFilter, search]);
+  }, [computedLiens, statusFilter, settlementFilter, search]);
 
   const kpis = useMemo(() => {
     const total = computedLiens.length;
@@ -346,11 +363,11 @@ export default function LienLedger() {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Main list */}
         <div className="lg:col-span-3 space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Filters</CardTitle>
+          <Card className="overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-gray-50 to-slate-50 border-b">
+              <CardTitle className="text-gray-900">Lien Filters</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-6">
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1">
                   <Label htmlFor="search">Search</Label>
@@ -359,12 +376,13 @@ export default function LienLedger() {
                     placeholder="Search patients, case numbers, accident types..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
+                    className="border-gray-200 focus:border-blue-500 focus:ring-blue-500"
                   />
                 </div>
                 <div className="w-full sm:w-48">
                   <Label htmlFor="status">Status</Label>
                   <Select value={statusFilter} onValueChange={setStatusFilter}>
-                    <SelectTrigger>
+                    <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500">
                       <SelectValue placeholder="All statuses" />
                     </SelectTrigger>
                     <SelectContent>
@@ -376,37 +394,54 @@ export default function LienLedger() {
                     </SelectContent>
                   </Select>
                 </div>
+                <div className="w-full sm:w-48">
+                  <Label htmlFor="settlement">Settlement</Label>
+                  <Select value={settlementFilter} onValueChange={setSettlementFilter}>
+                    <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500">
+                      <SelectValue placeholder="All settlements" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All</SelectItem>
+                      <SelectItem value="demand_sent">Demand Sent</SelectItem>
+                      <SelectItem value="investigating">Investigating</SelectItem>
+                      <SelectItem value="expert_review">Expert Review</SelectItem>
+                      <SelectItem value="pending">Pending</SelectItem>
+                      <SelectItem value="settled">Settled</SelectItem>
+                      <SelectItem value="closed">Closed</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span>Liens ({filteredLiens.length})</span>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Card className="overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b">
+              <CardTitle className="flex items-center justify-between text-lg">
+                <span className="text-gray-900">Liens ({filteredLiens.length})</span>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
                   <BadgeDollarSign className="h-4 w-4" />
                   ${kpis.totalAmount.toLocaleString()} total • {kpis.overdueCount} overdue
                 </div>
               </CardTitle>
             </CardHeader>
-            <CardContent className="pt-0">
+            <CardContent className="pt-0 p-0">
               <Table>
                 <TableHeader>
-                  <TableRow>
-                    <TableHead>Case</TableHead>
-                    <TableHead>Patient</TableHead>
-                    <TableHead>Accident</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Settlement</TableHead>
-                    <TableHead>Amount</TableHead>
-                    <TableHead>Expires</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
+                  <TableRow className="text-gray-600 border-b bg-gray-50">
+                    <TableHead className="py-4 px-4 font-semibold">Case</TableHead>
+                    <TableHead className="py-4 px-4 font-semibold">Patient</TableHead>
+                    <TableHead className="py-4 px-4 font-semibold">Accident</TableHead>
+                    <TableHead className="py-4 px-4 font-semibold">Status</TableHead>
+                    <TableHead className="py-4 px-4 font-semibold">Settlement</TableHead>
+                    <TableHead className="py-4 px-4 font-semibold">Amount</TableHead>
+                    <TableHead className="py-4 px-4 font-semibold">Expires</TableHead>
+                    <TableHead className="py-4 px-4 text-right font-semibold">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filteredLiens.map((l) => (
-                    <TableRow key={l.id}>
+                    <TableRow key={l.id} className="hover:bg-blue-50/50 transition-colors">
                       <TableCell>
                         <div className="font-medium">{l.caseNumber || l.id}</div>
                         <div className="text-xs text-muted-foreground">{new Date(l.accidentDate).toLocaleDateString()}</div>
@@ -453,8 +488,12 @@ export default function LienLedger() {
                   ))}
                   {filteredLiens.length === 0 && (
                     <TableRow>
-                      <TableCell colSpan={8} className="py-8 text-center text-muted-foreground">
-                        No liens match your filters
+                      <TableCell colSpan={8} className="py-8 text-center text-gray-500">
+                        <div className="flex flex-col items-center gap-2">
+                          <Scale className="h-8 w-8 text-gray-400" />
+                          <div className="font-medium">No liens found</div>
+                          <div className="text-sm">Try adjusting your filters</div>
+                        </div>
                       </TableCell>
                     </TableRow>
                   )}
@@ -466,37 +505,41 @@ export default function LienLedger() {
 
         {/* Sidebar */}
         <div className="lg:col-span-1 space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <Activity className="h-5 w-5 text-primary" />
-                AI Insights
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex items-start gap-3 p-3 rounded-lg border bg-muted/50">
-                <AlertCircle className="h-5 w-5 mt-0.5 text-amber-500" />
+          <Card className="overflow-hidden">
+            {/* Purple gradient header */}
+            <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white p-4">
+              <div className="flex items-center gap-2">
+                <Activity className="h-5 w-5" />
+                <div className="font-semibold text-lg">AI Insights</div>
+              </div>
+              <div className="text-sm opacity-90 mt-1">Lien management recommendations</div>
+            </div>
+            
+            {/* White content section */}
+            <CardContent className="p-4 bg-white space-y-4">
+              <div className="flex items-start gap-3 p-3 rounded-lg border bg-gray-50">
+                <AlertCircle className="h-5 w-5 mt-0.5 text-amber-600" />
                 <div className="flex-1">
-                  <div className="font-medium text-sm">Pending settlements</div>
-                  <div className="text-xs text-muted-foreground mt-1">
+                  <div className="font-medium text-sm text-gray-900">Pending settlements</div>
+                  <div className="text-xs text-gray-600 mt-1">
                     {kpis.pendingCount} liens await settlement. Prioritize those approaching expiration.
                   </div>
                 </div>
               </div>
-              <div className="flex items-start gap-3 p-3 rounded-lg border bg-muted/50">
-                <TrendingUp className="h-5 w-5 mt-0.5 text-blue-500" />
+              <div className="flex items-start gap-3 p-3 rounded-lg border bg-gray-50">
+                <TrendingUp className="h-5 w-5 mt-0.5 text-blue-600" />
                 <div className="flex-1">
-                  <div className="font-medium text-sm">Exposure concentration</div>
-                  <div className="text-xs text-muted-foreground mt-1">
+                  <div className="font-medium text-sm text-gray-900">Exposure concentration</div>
+                  <div className="text-xs text-gray-600 mt-1">
                     Top 5 cases represent a large share of exposure. Consider early negotiations.
                   </div>
                 </div>
               </div>
-              <div className="flex items-start gap-3 p-3 rounded-lg border bg-muted/50">
+              <div className="flex items-start gap-3 p-3 rounded-lg border bg-gray-50">
                 <CalendarDays className="h-5 w-5 mt-0.5 text-green-600" />
                 <div className="flex-1">
-                  <div className="font-medium text-sm">Upcoming expirations</div>
-                  <div className="text-xs text-muted-foreground mt-1">
+                  <div className="font-medium text-sm text-gray-900">Upcoming expirations</div>
+                  <div className="text-xs text-gray-600 mt-1">
                     {kpis.overdueCount} overdue; review timelines to avoid missed windows.
                   </div>
                 </div>
