@@ -69,6 +69,21 @@ export default {
         mono: ["var(--font-mono)"],
         serif: ["var(--font-serif)"],
       },
+      fontSize: {
+        'xs': ['0.875rem', { lineHeight: '1.25rem' }],     // 14px (was 12px)
+        'sm': ['1rem', { lineHeight: '1.5rem' }],          // 16px (was 14px)
+        'base': ['1.125rem', { lineHeight: '1.75rem' }],   // 18px (was 16px)
+        'lg': ['1.25rem', { lineHeight: '1.75rem' }],      // 20px (was 18px)
+        'xl': ['1.5rem', { lineHeight: '2rem' }],          // 24px (was 20px)
+        '2xl': ['1.875rem', { lineHeight: '2.25rem' }],    // 30px (was 24px)
+        '3xl': ['2.25rem', { lineHeight: '2.5rem' }],      // 36px (was 30px)
+        '4xl': ['3rem', { lineHeight: '1' }],              // 48px (was 36px)
+        '5xl': ['3.75rem', { lineHeight: '1' }],           // 60px (was 48px)
+        '6xl': ['4.5rem', { lineHeight: '1' }],            // 72px (was 60px)
+        '7xl': ['6rem', { lineHeight: '1' }],              // 96px (was 72px)
+        '8xl': ['8rem', { lineHeight: '1' }],              // 128px (was 96px)
+        '9xl': ['12rem', { lineHeight: '1' }],             // 192px (was 128px)
+      },
       boxShadow: {
         "2xs": "var(--shadow-2xs)",
         xs: "var(--shadow-xs)",

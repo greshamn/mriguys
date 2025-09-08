@@ -141,6 +141,7 @@ body {
   background: hsl(var(--background));
   font-family: var(--font-sans);
   letter-spacing: var(--tracking-normal);
+  font-size: 18px; /* Increased base font size for better readability */
 }
 
 /* Tailwind Layer Base */

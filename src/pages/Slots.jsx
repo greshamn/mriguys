@@ -25,6 +25,138 @@ import {
 } from 'lucide-react';
 import { getNow } from '../lib/utils';
 
+// View Slot Modal Component
+const ViewSlotModal = ({ slot, isOpen, onClose }) => {
+  if (!slot) return null;
+
+  const getCenterName = (centerId) => {
+    const centers = useStore.getState().centers;
+    const center = centers.find(c => c.id === centerId);
+    return center?.name || centerId;
+  };
+
+  const formatDateTime = (dateString) => {
+    const date = new Date(dateString);
+    return {
+      date: date.toLocaleDateString(),
+      time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+  };
+
+  const getStatusBadge = (status) => {
+    switch (status) {
+      case 'available':
+        return <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Available</Badge>;
+      case 'booked':
+        return <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">Booked</Badge>;
+      case 'completed':
+        return <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-200">Completed</Badge>;
+      case 'cancelled':
+        return <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">Cancelled</Badge>;
+      default:
+        return <Badge variant="outline">{status}</Badge>;
+    }
+  };
+
+  const startTime = formatDateTime(slot.startTime);
+  const endTime = formatDateTime(slot.endTime);
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-2xl">
+        <DialogHeader>
+          <DialogTitle className="text-xl font-semibold">Slot Details</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-6">
+          {/* Slot Information */}
+          <div className="bg-blue-50 rounded-lg p-4">
+            <h3 className="font-semibold text-lg mb-3 text-gray-900">Slot Information</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label className="text-sm font-medium text-gray-600">Date</Label>
+                <div className="text-sm text-gray-900">{startTime.date}</div>
+              </div>
+              <div>
+                <Label className="text-sm font-medium text-gray-600">Time</Label>
+                <div className="text-sm text-gray-900">{startTime.time} - {endTime.time}</div>
+              </div>
+              <div>
+                <Label className="text-sm font-medium text-gray-600">Modality</Label>
+                <div className="text-sm text-gray-900">{slot.modality}</div>
+              </div>
+              <div>
+                <Label className="text-sm font-medium text-gray-600">Body Part</Label>
+                <div className="text-sm text-gray-900">{slot.bodyPart}</div>
+              </div>
+              <div>
+                <Label className="text-sm font-medium text-gray-600">Status</Label>
+                <div className="mt-1">{getStatusBadge(slot.status)}</div>
+              </div>
+              <div>
+                <Label className="text-sm font-medium text-gray-600">Price</Label>
+                <div className="text-sm text-gray-900">${slot.price || '—'}</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Center Information */}
+          <div className="bg-gray-50 rounded-lg p-4">
+            <h3 className="font-semibold text-lg mb-3 text-gray-900">Center Information</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label className="text-sm font-medium text-gray-600">Center Name</Label>
+                <div className="text-sm text-gray-900">{getCenterName(slot.centerId)}</div>
+              </div>
+              <div>
+                <Label className="text-sm font-medium text-gray-600">Center ID</Label>
+                <div className="text-sm text-gray-900">{slot.centerId}</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Additional Information */}
+          {slot.notes && (
+            <div className="bg-green-50 rounded-lg p-4">
+              <h3 className="font-semibold text-lg mb-3 text-gray-900">Additional Information</h3>
+              <div>
+                <Label className="text-sm font-medium text-gray-600">Notes</Label>
+                <div className="text-sm text-gray-900 bg-white p-3 rounded border mt-1">
+                  {slot.notes}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Timestamps */}
+          <div className="bg-gray-50 rounded-lg p-4">
+            <h3 className="font-semibold text-lg mb-3 text-gray-900">Timestamps</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label className="text-sm font-medium text-gray-600">Created</Label>
+                <div className="text-sm text-gray-900">
+                  {new Date(slot.createdAt).toLocaleString()}
+                </div>
+              </div>
+              <div>
+                <Label className="text-sm font-medium text-gray-600">Last Updated</Label>
+                <div className="text-sm text-gray-900">
+                  {new Date(slot.updatedAt).toLocaleString()}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="flex justify-end gap-2 pt-4">
+          <Button variant="outline" onClick={onClose}>
+            Close
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
 // Main Slots Component
 const Slots = () => {
   const [loading, setLoading] = useState(true);
@@ -35,6 +167,8 @@ const Slots = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [slotModalOpen, setSlotModalOpen] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState(null);
+  const [viewModalOpen, setViewModalOpen] = useState(false);
+  const [viewingSlot, setViewingSlot] = useState(null);
   const [viewMode, setViewMode] = useState('list'); // 'list' or 'calendar'
 
   // Store hooks
@@ -266,29 +400,29 @@ const Slots = () => {
       </div>
 
       {/* Filters */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg">
+      <Card className="overflow-hidden">
+        <CardHeader className="bg-gradient-to-r from-gray-50 to-slate-50 border-b">
+          <CardTitle className="flex items-center gap-2 text-lg text-gray-900">
             <Filter className="h-5 w-5" />
             Filters
           </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             {/* Search */}
             <div className="relative">
-              <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
               <Input
                 placeholder="Search centers, modalities..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="pl-10"
+                className="pl-10 border-gray-200 focus:border-blue-500 focus:ring-blue-500"
               />
             </div>
 
             {/* Status Filter */}
             <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger>
+              <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500">
                 <SelectValue placeholder="Status" />
               </SelectTrigger>
               <SelectContent>
@@ -302,7 +436,7 @@ const Slots = () => {
 
             {/* Modality Filter */}
             <Select value={modalityFilter} onValueChange={setModalityFilter}>
-              <SelectTrigger>
+              <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500">
                 <SelectValue placeholder="Modality" />
               </SelectTrigger>
               <SelectContent>
@@ -316,7 +450,7 @@ const Slots = () => {
 
             {/* Center Filter */}
             <Select value={centerFilter} onValueChange={setCenterFilter}>
-              <SelectTrigger>
+              <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500">
                 <SelectValue placeholder="Center" />
               </SelectTrigger>
               <SelectContent>
@@ -338,6 +472,7 @@ const Slots = () => {
                 setModalityFilter('all');
                 setCenterFilter('all');
               }}
+              className="border-gray-200 hover:bg-gray-50"
             >
               Clear Filters
             </Button>
@@ -349,66 +484,74 @@ const Slots = () => {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Slots Content */}
         <div className="lg:col-span-3">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span>Slots ({filteredSlots.length})</span>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Card className="overflow-hidden">
+            <CardHeader className="bg-gradient-to-r from-blue-50 to-indigo-50 border-b">
+              <CardTitle className="flex items-center justify-between text-lg">
+                <span className="text-gray-900">Slots ({filteredSlots.length})</span>
+                <div className="flex items-center gap-2 text-sm text-gray-600">
                   <Activity className="h-4 w-4" />
                   {metrics.total} total • {metrics.available} available • {metrics.booked} booked
                 </div>
               </CardTitle>
             </CardHeader>
-            <CardContent className="pt-0">
+            <CardContent className="pt-0 p-0">
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="text-left text-muted-foreground border-b">
-                      <th className="py-3 px-2">Date & Time</th>
-                      <th className="py-3 px-2">Center</th>
-                      <th className="py-3 px-2">Modality</th>
-                      <th className="py-3 px-2">Body Part</th>
-                      <th className="py-3 px-2">Status</th>
-                      <th className="py-3 px-2">Price</th>
-                      <th className="py-3 px-2 text-right">Actions</th>
+                    <tr className="text-left text-gray-600 border-b bg-gray-50">
+                      <th className="py-4 px-4 font-semibold">Date & Time</th>
+                      <th className="py-4 px-4 font-semibold">Center</th>
+                      <th className="py-4 px-4 font-semibold">Modality</th>
+                      <th className="py-4 px-4 font-semibold">Body Part</th>
+                      <th className="py-4 px-4 font-semibold">Status</th>
+                      <th className="py-4 px-4 font-semibold">Price</th>
+                      <th className="py-4 px-4 text-right font-semibold">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredSlots.map((slot) => (
-                      <tr key={slot.id} className="border-b border-border hover:bg-muted/50">
-                        <td className="py-3 px-2">
-                          <div className="font-medium">
+                      <tr key={slot.id} className="border-b border-gray-100 hover:bg-blue-50/50 transition-colors">
+                        <td className="py-4 px-4">
+                          <div className="font-semibold text-gray-900">
                             {new Date(slot.startTime).toLocaleDateString()}
                           </div>
-                          <div className="text-xs text-muted-foreground">
+                          <div className="text-xs text-gray-500">
                             {new Date(slot.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - 
                             {new Date(slot.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                           </div>
                         </td>
-                        <td className="py-3 px-2">
-                          <div className="font-medium">{getCenterName(slot.centerId)}</div>
+                        <td className="py-4 px-4">
+                          <div className="font-semibold text-gray-900">{getCenterName(slot.centerId)}</div>
                         </td>
-                        <td className="py-3 px-2">
-                          <div className="font-medium">{slot.modality}</div>
+                        <td className="py-4 px-4">
+                          <div className="font-semibold text-gray-900">{slot.modality}</div>
                         </td>
-                        <td className="py-3 px-2">
-                          <div className="font-medium">{slot.bodyPart}</div>
+                        <td className="py-4 px-4">
+                          <div className="font-semibold text-gray-900">{slot.bodyPart}</div>
                         </td>
-                        <td className="py-3 px-2">
+                        <td className="py-4 px-4">
                           {getStatusBadge(slot.status)}
                         </td>
-                        <td className="py-3 px-2">
-                          <div className="font-medium">${slot.price || '—'}</div>
+                        <td className="py-4 px-4">
+                          <div className="font-semibold text-gray-900">${slot.price || '—'}</div>
                         </td>
-                        <td className="py-3 px-2 text-right">
-                          <div className="flex items-center justify-end gap-1">
-                            <Button size="sm" variant="ghost">
+                        <td className="py-4 px-4 text-right">
+                          <div className="flex items-center justify-end gap-2">
+                            <Button 
+                              size="sm" 
+                              variant="ghost" 
+                              className="h-8 w-8 p-0"
+                              onClick={() => {
+                                setViewingSlot(slot);
+                                setViewModalOpen(true);
+                              }}
+                            >
                               <Eye className="h-4 w-4" />
                             </Button>
-                            <Button size="sm" variant="ghost">
+                            <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
                               <Edit className="h-4 w-4" />
                             </Button>
-                            <Button size="sm" variant="ghost">
+                            <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
                               <Trash2 className="h-4 w-4" />
                             </Button>
                           </div>
@@ -417,10 +560,10 @@ const Slots = () => {
                     ))}
                     {filteredSlots.length === 0 && (
                       <tr>
-                        <td colSpan={7} className="py-8 text-center text-muted-foreground">
-                          <div className="flex flex-col items-center gap-2">
-                            <Clock className="h-8 w-8" />
-                            <div>No slots found</div>
+                        <td colSpan={7} className="py-12 text-center text-gray-500">
+                          <div className="flex flex-col items-center gap-3">
+                            <Clock className="h-12 w-12 text-gray-300" />
+                            <div className="text-lg font-medium">No slots found</div>
                             <div className="text-sm">Try adjusting your filters</div>
                           </div>
                         </td>
@@ -435,21 +578,37 @@ const Slots = () => {
 
         {/* AI Insights Sidebar */}
         <div className="lg:col-span-1">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg">
-                <Sparkles className="h-5 w-5 text-primary" />
-                AI Insights
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-muted-foreground text-sm">
+          <Card className="overflow-hidden">
+            {/* Purple gradient header */}
+            <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white p-4">
+              <div className="flex items-center gap-2">
+                <Sparkles className="h-5 w-5" />
+                <div className="font-semibold text-lg">AI Insights</div>
+              </div>
+              <div className="text-sm opacity-90 mt-1">Slot optimization recommendations</div>
+            </div>
+            
+            {/* White content section */}
+            <CardContent className="p-4 bg-white">
+              <div className="text-gray-600 text-sm">
                 Slot optimization suggestions will appear here.
               </div>
             </CardContent>
           </Card>
         </div>
       </div>
+
+      {/* View Slot Modal */}
+      {viewingSlot && (
+        <ViewSlotModal
+          slot={viewingSlot}
+          isOpen={viewModalOpen}
+          onClose={() => {
+            setViewModalOpen(false);
+            setViewingSlot(null);
+          }}
+        />
+      )}
     </div>
   );
 };

@@ -130,6 +130,157 @@ const WorklistAIInsights = ({ appointments, utilizationPct, noShowRate, pivotNow
   );
 };
 
+// View Appointment Modal Component
+const ViewAppointmentModal = ({ appointment, isOpen, onClose }) => {
+  if (!appointment) return null;
+
+  const getPatientName = (patientId) => {
+    const patients = useStore.getState().patients;
+    const patient = patients.find(p => p.id === patientId);
+    return patient?.name || patientId;
+  };
+
+  const getCenterName = (centerId) => {
+    const centers = useStore.getState().centers;
+    const center = centers.find(c => c.id === centerId);
+    return center?.name || centerId;
+  };
+
+  const formatDateTime = (dateString) => {
+    const date = new Date(dateString);
+    return {
+      date: date.toLocaleDateString(),
+      time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+  };
+
+  const getStatusBadge = (status) => {
+    switch (status) {
+      case 'scheduled':
+      case 'confirmed':
+        return <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">Scheduled</Badge>;
+      case 'in-progress':
+        return <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">In Progress</Badge>;
+      case 'completed':
+        return <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Completed</Badge>;
+      case 'no-show':
+        return <Badge variant="outline" className="bg-red-50 text-red-700 border-red-200">No Show</Badge>;
+      case 'cancelled':
+        return <Badge variant="outline" className="bg-gray-50 text-gray-700 border-gray-200">Cancelled</Badge>;
+      default:
+        return <Badge variant="outline">{status}</Badge>;
+    }
+  };
+
+  const startTime = formatDateTime(appointment.appointmentDate || appointment.startTime);
+  const endTime = formatDateTime(appointment.endTime);
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-2xl">
+        <DialogHeader>
+          <DialogTitle className="text-xl font-semibold">Appointment Details</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-6">
+          {/* Patient Information */}
+          <div className="bg-gray-50 rounded-lg p-4">
+            <h3 className="font-semibold text-lg mb-3 text-gray-900">Patient Information</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label className="text-sm font-medium text-gray-600">Patient Name</Label>
+                <div className="text-sm text-gray-900">{getPatientName(appointment.patientId)}</div>
+              </div>
+              <div>
+                <Label className="text-sm font-medium text-gray-600">Patient ID</Label>
+                <div className="text-sm text-gray-900">{appointment.patientId}</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Appointment Details */}
+          <div className="bg-blue-50 rounded-lg p-4">
+            <h3 className="font-semibold text-lg mb-3 text-gray-900">Appointment Details</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label className="text-sm font-medium text-gray-600">Date</Label>
+                <div className="text-sm text-gray-900">{startTime.date}</div>
+              </div>
+              <div>
+                <Label className="text-sm font-medium text-gray-600">Time</Label>
+                <div className="text-sm text-gray-900">{startTime.time} - {endTime.time}</div>
+              </div>
+              <div>
+                <Label className="text-sm font-medium text-gray-600">Modality</Label>
+                <div className="text-sm text-gray-900">{appointment.modality}</div>
+              </div>
+              <div>
+                <Label className="text-sm font-medium text-gray-600">Body Part</Label>
+                <div className="text-sm text-gray-900">{appointment.bodyPart}</div>
+              </div>
+              <div>
+                <Label className="text-sm font-medium text-gray-600">Status</Label>
+                <div className="mt-1">{getStatusBadge(appointment.status)}</div>
+              </div>
+              <div>
+                <Label className="text-sm font-medium text-gray-600">Center</Label>
+                <div className="text-sm text-gray-900">{getCenterName(appointment.centerId)}</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Additional Information */}
+          {(appointment.notes || appointment.referralId) && (
+            <div className="bg-green-50 rounded-lg p-4">
+              <h3 className="font-semibold text-lg mb-3 text-gray-900">Additional Information</h3>
+              <div className="space-y-3">
+                {appointment.referralId && (
+                  <div>
+                    <Label className="text-sm font-medium text-gray-600">Referral ID</Label>
+                    <div className="text-sm text-gray-900">{appointment.referralId}</div>
+                  </div>
+                )}
+                {appointment.notes && (
+                  <div>
+                    <Label className="text-sm font-medium text-gray-600">Notes</Label>
+                    <div className="text-sm text-gray-900 bg-white p-3 rounded border">
+                      {appointment.notes}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Timestamps */}
+          <div className="bg-gray-50 rounded-lg p-4">
+            <h3 className="font-semibold text-lg mb-3 text-gray-900">Timestamps</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label className="text-sm font-medium text-gray-600">Created</Label>
+                <div className="text-sm text-gray-900">
+                  {new Date(appointment.createdAt).toLocaleString()}
+                </div>
+              </div>
+              <div>
+                <Label className="text-sm font-medium text-gray-600">Last Updated</Label>
+                <div className="text-sm text-gray-900">
+                  {new Date(appointment.updatedAt).toLocaleString()}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div className="flex justify-end gap-2 pt-4">
+          <Button variant="outline" onClick={onClose}>
+            Close
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
 // Upload Report Modal Component
 const UploadReportModal = ({ appointment, isOpen, onClose, onUpload }) => {
   const [file, setFile] = useState(null);
@@ -245,6 +396,8 @@ const Worklist = () => {
   const [modalityFilter, setModalityFilter] = useState('all');
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [viewModalOpen, setViewModalOpen] = useState(false);
+  const [viewingAppointment, setViewingAppointment] = useState(null);
 
   // Store hooks
   const appointments = useStore((s) => s.appointments);
@@ -634,7 +787,15 @@ const Worklist = () => {
                         <td className="py-4 px-4 text-right">
                           <div className="flex items-center justify-end gap-2">
                             {/* View Details */}
-                            <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
+                            <Button 
+                              size="sm" 
+                              variant="ghost" 
+                              className="h-8 w-8 p-0"
+                              onClick={() => {
+                                setViewingAppointment(appointment);
+                                setViewModalOpen(true);
+                              }}
+                            >
                               <Eye className="h-4 w-4" />
                             </Button>
                             
@@ -712,6 +873,18 @@ const Worklist = () => {
           />
         </div>
       </div>
+
+      {/* View Appointment Modal */}
+      {viewingAppointment && (
+        <ViewAppointmentModal
+          appointment={viewingAppointment}
+          isOpen={viewModalOpen}
+          onClose={() => {
+            setViewModalOpen(false);
+            setViewingAppointment(null);
+          }}
+        />
+      )}
 
       {/* Upload Report Modal */}
       {selectedAppointment && (

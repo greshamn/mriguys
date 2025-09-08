@@ -55,16 +55,19 @@ const KPICard = ({ title, value, change, changeType, icon: Icon, trendData = [],
 
   return (
     <div className="bg-card rounded-lg border border-border p-6 hover:shadow-md transition-shadow">
-      {/* Main KPI Info: Icon + Title on left, Value on right */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3">
-          <IconComponent className="w-8 h-8 text-primary" />
-          <h3 className="text-sm font-medium text-muted-foreground">{title}</h3>
+      {/* Main KPI Layout: Icon on left, Title below icon, Value on right */}
+      <div className="flex items-start justify-between">
+        {/* Left side: Icon and Title */}
+        <div className="flex flex-col items-start gap-2">
+          <IconComponent className="w-6 h-6 text-primary" />
+          <h3 className="text-sm font-medium text-muted-foreground leading-tight">{title}</h3>
         </div>
-        <div className="flex items-baseline gap-2">
-          <span className="text-4xl font-bold text-foreground">{value}</span>
+        
+        {/* Right side: Value and Change */}
+        <div className="flex flex-col items-end text-right">
+          <span className="text-4xl font-bold text-foreground leading-none">{value}</span>
           {change && (
-            <span className={`text-sm font-medium ${getChangeColor()}`}>
+            <span className={`text-sm font-medium mt-1 ${getChangeColor()}`}>
               {change}
             </span>
           )}
@@ -73,7 +76,7 @@ const KPICard = ({ title, value, change, changeType, icon: Icon, trendData = [],
       
       {/* Mini trend chart */}
       {trendData && trendData.length > 0 && (
-        <div className="space-y-1">
+        <div className="space-y-1 mt-4">
           <div className="h-16 w-full bg-gray-50 rounded-md p-1">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={trendData} margin={{ top: 2, right: 2, left: 2, bottom: 2 }}>
