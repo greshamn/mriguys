@@ -256,110 +256,333 @@ export const PatientDashboard = () => {
 
       {/* Main Content Area - RE-ENABLED */}
       <div className="col-span-12 lg:col-span-8 space-y-6">
-        {/* Next Appointment Hero Card */}
-        <Card className="border-border bg-card">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-card-foreground">
-              <Calendar className="h-5 w-5 text-primary" />
-              Your Next Appointment
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {loading ? (
-              <div className="space-y-4">
-                <Skeleton className="h-8 w-48" />
-                <Skeleton className="h-4 w-64" />
-                <Skeleton className="h-20 w-full" />
-                <Skeleton className="h-10 w-32" />
-              </div>
-            ) : nextAppointment ? (
-              <div className="space-y-4">
-                {/* Appointment Date & Time */}
-                <div>
-                  <h3 className="text-2xl font-bold text-card-foreground">
-                    {formatAppointmentDate(nextAppointment.appointmentDate)}
-                  </h3>
-                  <p className="text-lg text-muted-foreground">
-                    {formatAppointmentTime(nextAppointment.appointmentDate)} • {nextAppointment.modality} - {nextAppointment.bodyPart}
-                  </p>
-                </div>
-
-                <Separator />
-
-                {/* Center Information */}
-                <div className="space-y-3">
-                  <div className="flex items-start gap-3">
-                    <MapPin className="h-5 w-5 text-muted-foreground mt-0.5" />
+        {/* Top Row: Next Appointment (70%) + AI Insights (30%) */}
+        <div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
+          {/* Next Appointment Hero Card */}
+          <div className="lg:col-span-7">
+            <Card className="border-border bg-card">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-card-foreground">
+                  <Calendar className="h-5 w-5 text-primary" />
+                  Your Next Appointment
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {loading ? (
+                  <div className="space-y-4">
+                    <Skeleton className="h-8 w-48" />
+                    <Skeleton className="h-4 w-64" />
+                    <Skeleton className="h-20 w-full" />
+                    <Skeleton className="h-10 w-32" />
+                  </div>
+                ) : nextAppointment ? (
+                  <div className="space-y-4">
+                    {/* Appointment Date & Time */}
                     <div>
-                      <p className="font-medium text-card-foreground">{nextAppointment.center.name}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {nextAppointment.center.address?.street || ''}{nextAppointment.center.address?.street ? ', ' : ''}{nextAppointment.center.address?.city || ''}{nextAppointment.center.address?.city ? ', ' : ''}{nextAppointment.center.address?.state || ''}
+                      <h3 className="text-2xl font-bold text-card-foreground">
+                        {formatAppointmentDate(nextAppointment.appointmentDate)}
+                      </h3>
+                      <p className="text-lg text-muted-foreground">
+                        {formatAppointmentTime(nextAppointment.appointmentDate)} • {nextAppointment.modality} - {nextAppointment.bodyPart}
                       </p>
                     </div>
-                  </div>
-                  
-                  {nextAppointment.center.phone && (
-                    <div className="flex items-center gap-3">
-                      <Phone className="h-5 w-5 text-muted-foreground" />
-                      <p className="text-sm text-muted-foreground">{nextAppointment.center.phone}</p>
-                    </div>
-                  )}
-                </div>
 
-                <Separator />
+                    <Separator />
 
-                {/* Preparation Checklist */}
-                <div>
-                  <h4 className="font-semibold text-card-foreground mb-3 flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-green-600" />
-                    Preparation Checklist
-                  </h4>
-                  <div className="space-y-2 ml-6">
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-primary rounded-full" />
-                      <span className="text-sm text-muted-foreground">Remove all metal objects (jewelry, watches, belts)</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-primary rounded-full" />
-                      <span className="text-sm text-muted-foreground">Wear comfortable, loose-fitting clothing</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-primary rounded-full" />
-                      <span className="text-sm text-muted-foreground">Arrive 15 minutes early for safety screening</span>
-                    </div>
-                    {nextAppointment.preparation?.instructions && (
-                      <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-primary rounded-full" />
-                        <span className="text-sm text-muted-foreground">{nextAppointment.preparation.instructions}</span>
+                    {/* Center Information */}
+                    <div className="space-y-3">
+                      <div className="flex items-start gap-3">
+                        <MapPin className="h-5 w-5 text-muted-foreground mt-0.5" />
+                        <div>
+                          <p className="font-medium text-card-foreground">{nextAppointment.center.name}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {nextAppointment.center.address?.street || ''}{nextAppointment.center.address?.street ? ', ' : ''}{nextAppointment.center.address?.city || ''}{nextAppointment.center.address?.city ? ', ' : ''}{nextAppointment.center.address?.state || ''}
+                          </p>
+                        </div>
                       </div>
-                    )}
-                  </div>
-                </div>
+                      
+                      {nextAppointment.center.phone && (
+                        <div className="flex items-center gap-3">
+                          <Phone className="h-5 w-5 text-muted-foreground" />
+                          <p className="text-sm text-muted-foreground">{nextAppointment.center.phone}</p>
+                        </div>
+                      )}
+                    </div>
 
-                {/* Action Buttons */}
-                <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                  <Button variant="outline" size="sm">
-                    <Calendar className="h-4 w-4 mr-2" />
-                    Reschedule
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    <MapPin className="h-4 w-4 mr-2" />
-                    Get Directions
-                  </Button>
+                    <Separator />
+
+                    {/* Preparation Checklist */}
+                    <div>
+                      <h4 className="font-semibold text-card-foreground mb-3 flex items-center gap-2">
+                        <CheckCircle2 className="h-4 w-4 text-green-600" />
+                        Preparation Checklist
+                      </h4>
+                      <div className="space-y-2 ml-6">
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-primary rounded-full" />
+                          <span className="text-sm text-muted-foreground">Remove all metal objects (jewelry, watches, belts)</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-primary rounded-full" />
+                          <span className="text-sm text-muted-foreground">Wear comfortable, loose-fitting clothing</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 bg-primary rounded-full" />
+                          <span className="text-sm text-muted-foreground">Arrive 15 minutes early for safety screening</span>
+                        </div>
+                        {nextAppointment.preparation?.instructions && (
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-primary rounded-full" />
+                            <span className="text-sm text-muted-foreground">{nextAppointment.preparation.instructions}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                      <Button variant="outline" size="sm">
+                        <Calendar className="h-4 w-4 mr-2" />
+                        Reschedule
+                      </Button>
+                      <Button variant="outline" size="sm">
+                        <MapPin className="h-4 w-4 mr-2" />
+                        Get Directions
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center py-8">
+                    <AlertCircle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                    <p className="text-muted-foreground">No upcoming appointments scheduled</p>
+                    <Button className="mt-4" variant="outline">
+                      <Calendar className="h-4 w-4 mr-2" />
+                      Schedule Appointment
+                    </Button>
                 </div>
-              </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* AI Insights card (30%) */}
+          <div className="lg:col-span-3">
+            {loading ? (
+              <Card>
+                <CardHeader className="pb-3">
+                  <Skeleton className="h-5 w-20" />
+                </CardHeader>
+                <CardContent>
+                  <Skeleton className="h-16 w-full" />
+                </CardContent>
+              </Card>
             ) : (
-              <div className="text-center py-8">
-                <AlertCircle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <p className="text-muted-foreground">No upcoming appointments scheduled</p>
-                <Button className="mt-4" variant="outline">
-                  <Calendar className="h-4 w-4 mr-2" />
-                  Schedule Appointment
-                </Button>
-            </div>
+              <AITip tip={aiTipData.tip} type={aiTipData.type} />
             )}
-          </CardContent>
-        </Card>
+
+            {/* Quick Actions under AI Insights */}
+            <Card className="border-border bg-card mt-6">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-card-foreground">Quick Actions</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                {/* View Results CTA */}
+                <Dialog open={showResultsModal} onOpenChange={setShowResultsModal}>
+                  <DialogTrigger asChild>
+                    <Button 
+                      size="lg" 
+                      className="w-full justify-start" 
+                      variant={ctaStates.viewResults.available ? "default" : "outline"}
+                      disabled={!ctaStates.viewResults.available}
+                    >
+                      <FileText className="h-4 w-4 mr-2" />
+                      {ctaStates.viewResults.label}
+                      {ctaStates.viewResults.available && ctaStates.viewResults.count > 0 && (
+                        <Badge variant="secondary" className="ml-auto">
+                          {ctaStates.viewResults.count}
+                        </Badge>
+                      )}
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Your Imaging Results</DialogTitle>
+                      <DialogDescription>
+                        View and download your completed imaging reports.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      {patientReports.length > 0 ? patientReports.map((report) => (
+                        <div key={report.id} className="border rounded-lg p-4">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <h4 className="font-medium">{report.modality} - {report.bodyPart} Report</h4>
+                              <p className="text-sm text-muted-foreground">
+                                Completed: {new Date(report.reportDate).toLocaleDateString('en-US', { 
+                                  year: 'numeric', 
+                                  month: 'long', 
+                                  day: 'numeric' 
+                                })}
+                              </p>
+                              <p className="text-xs text-muted-foreground mt-1">Status: {report.status}</p>
+                            </div>
+                            <Button size="sm">Download</Button>
+                          </div>
+                        </div>
+                      )) : (
+                        <div className="text-center py-8">
+                          <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                          <p className="text-muted-foreground">No results available yet</p>
+                        </div>
+                      )}
+                    </div>
+                  </DialogContent>
+                </Dialog>
+
+                {/* Message Center CTA */}
+                <Dialog open={showMessageModal} onOpenChange={setShowMessageModal}>
+                  <DialogTrigger asChild>
+                    <Button 
+                      size="lg" 
+                      className="w-full justify-start" 
+                      variant="outline"
+                    >
+                      <MessageSquare className="h-4 w-4 mr-2" />
+                      {ctaStates.messageCenter.label}
+                      {ctaStates.messageCenter.unreadCount > 0 && (
+                        <Badge variant="destructive" className="ml-auto">
+                          {ctaStates.messageCenter.unreadCount}
+                        </Badge>
+                      )}
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Message Center</DialogTitle>
+                      <DialogDescription>
+                        Communicate with your healthcare providers and imaging centers.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4">
+                      {/* Dynamic messages based on patient's actual data */}
+                      {nextAppointment && (
+                        <div className="border rounded-lg p-4 bg-blue-50">
+                          <div className="flex items-start justify-between">
+                            <div>
+                              <h4 className="font-medium">Preparation Reminder</h4>
+                              <p className="text-sm text-muted-foreground">From: {nextAppointment.center.name}</p>
+                              <p className="text-sm mt-1">
+                                Your {nextAppointment.modality} appointment is on {formatAppointmentDate(nextAppointment.appointmentDate)}. 
+                                Please remember to remove all metal objects and arrive 15 minutes early.
+                              </p>
+                            </div>
+                            <Badge variant="destructive" className="text-xs">New</Badge>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {patientReports.length > 0 && (
+                        <div className="border rounded-lg p-4">
+                          <div className="flex items-start justify-between">
+                            <div>
+                              <h4 className="font-medium">Results Available</h4>
+                              <p className="text-sm text-muted-foreground">From: Radiology Department</p>
+                              <p className="text-sm mt-1">
+                                You have {patientReports.length} imaging result{patientReports.length !== 1 ? 's' : ''} available for review.
+                              </p>
+                            </div>
+                            <Badge variant="destructive" className="text-xs">New</Badge>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Default message if no specific messages */}
+                      {!nextAppointment && patientReports.length === 0 && (
+                        <div className="text-center py-8">
+                          <MessageSquare className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                          <p className="text-muted-foreground">No new messages</p>
+                        </div>
+                      )}
+                    </div>
+                  </DialogContent>
+                </Dialog>
+
+                {/* Conditional CTA: Schedule or Cancel Appointment */}
+                {ctaStates.scheduleAppointment.available ? (
+                  <Button 
+                    size="lg" 
+                    className="w-full justify-start" 
+                    variant="outline"
+                    onClick={() => {
+                      // Navigate to Find Centers page
+                      window.location.href = '/find-centers';
+                    }}
+                  >
+                    <Calendar className="h-4 w-4 mr-2" />
+                    {ctaStates.scheduleAppointment.label}
+                  </Button>
+                ) : ctaStates.cancelAppointment.available ? (
+                  <Dialog open={showCancelModal} onOpenChange={setShowCancelModal}>
+                    <DialogTrigger asChild>
+                      <Button 
+                        size="lg" 
+                        className="w-full justify-start" 
+                        variant="outline"
+                      >
+                        <AlertCircle className="h-4 w-4 mr-2" />
+                        {ctaStates.cancelAppointment.label}
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Cancel Appointment</DialogTitle>
+                        <DialogDescription>
+                          Are you sure you want to cancel your upcoming appointment?
+                        </DialogDescription>
+                      </DialogHeader>
+                      <div className="space-y-4">
+                        <div className="border rounded-lg p-4 bg-yellow-50">
+                          <h4 className="font-medium">Appointment Details</h4>
+                          <p className="text-sm text-muted-foreground mt-1">
+                            {nextAppointment && formatAppointmentDate(nextAppointment.appointmentDate)} at {nextAppointment && formatAppointmentTime(nextAppointment.appointmentDate)}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            {nextAppointment?.center?.name}
+                          </p>
+                        </div>
+                        <div className="flex gap-2 justify-end">
+                          <Button variant="outline" onClick={() => setShowCancelModal(false)}>
+                            Keep Appointment
+                          </Button>
+                          <Button variant="destructive" onClick={() => {
+                            setShowCancelModal(false);
+                            // TODO: Implement actual cancellation logic
+                            alert('Appointment cancelled successfully');
+                          }}>
+                            Cancel Appointment
+                          </Button>
+                        </div>
+                  </div>
+                    </DialogContent>
+                  </Dialog>
+                ) : null}
+
+                {/* Update Profile - Always available */}
+                <Button 
+                  size="lg" 
+                  className="w-full justify-start" 
+                  variant="outline"
+                  onClick={() => {
+                    alert('Profile update feature coming soon!');
+                  }}
+                >
+                  <User className="h-4 w-4 mr-2" />
+                  Update Profile
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
 
         {/* Care Timeline - RE-ENABLED WITH FIX */}
         <Card className="border-border bg-card">
@@ -387,255 +610,7 @@ export const PatientDashboard = () => {
         </Card>
       </div>
 
-      {/* Sidebar - RESTORED */}
-      <div className="col-span-12 lg:col-span-4 space-y-6">
-        {/* AI Tip Card */}
-        {loading ? (
-          <Card>
-            <CardHeader className="pb-3">
-              <Skeleton className="h-5 w-20" />
-            </CardHeader>
-            <CardContent>
-              <Skeleton className="h-16 w-full" />
-            </CardContent>
-          </Card>
-        ) : (
-          <AITip tip={aiTipData.tip} type={aiTipData.type} />
-        )}
-
-        {/* Enhanced Quick Actions with CTA Logic */}
-        <Card className="border-border bg-card">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-card-foreground">Quick Actions</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            {/* View Results CTA */}
-            <Dialog open={showResultsModal} onOpenChange={setShowResultsModal}>
-              <DialogTrigger asChild>
-                <Button 
-                  size="lg" 
-                  className="w-full justify-start" 
-                  variant={ctaStates.viewResults.available ? "default" : "outline"}
-                  disabled={!ctaStates.viewResults.available}
-                >
-                  <FileText className="h-4 w-4 mr-2" />
-                  {ctaStates.viewResults.label}
-                  {ctaStates.viewResults.available && ctaStates.viewResults.count > 0 && (
-                    <Badge variant="secondary" className="ml-auto">
-                      {ctaStates.viewResults.count}
-                    </Badge>
-                  )}
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Your Imaging Results</DialogTitle>
-                  <DialogDescription>
-                    View and download your completed imaging reports.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="space-y-4">
-                  {patientReports.length > 0 ? patientReports.map((report) => (
-                    <div key={report.id} className="border rounded-lg p-4">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <h4 className="font-medium">{report.modality} - {report.bodyPart} Report</h4>
-                          <p className="text-sm text-muted-foreground">
-                            Completed: {new Date(report.reportDate).toLocaleDateString('en-US', { 
-                              year: 'numeric', 
-                              month: 'long', 
-                              day: 'numeric' 
-                            })}
-                          </p>
-                          <p className="text-xs text-muted-foreground mt-1">Status: {report.status}</p>
-                        </div>
-                        <Button size="sm">Download</Button>
-                      </div>
-                    </div>
-                  )) : (
-                    <div className="text-center py-8">
-                      <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                      <p className="text-muted-foreground">No results available yet</p>
-                    </div>
-                  )}
-                </div>
-              </DialogContent>
-            </Dialog>
-
-            {/* Message Center CTA */}
-            <Dialog open={showMessageModal} onOpenChange={setShowMessageModal}>
-              <DialogTrigger asChild>
-                <Button 
-                  size="lg" 
-                  className="w-full justify-start" 
-                  variant="outline"
-                >
-                  <MessageSquare className="h-4 w-4 mr-2" />
-                  {ctaStates.messageCenter.label}
-                  {ctaStates.messageCenter.unreadCount > 0 && (
-                    <Badge variant="destructive" className="ml-auto">
-                      {ctaStates.messageCenter.unreadCount}
-                    </Badge>
-                  )}
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Message Center</DialogTitle>
-                  <DialogDescription>
-                    Communicate with your healthcare providers and imaging centers.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="space-y-4">
-                  {/* Dynamic messages based on patient's actual data */}
-                  {nextAppointment && (
-                    <div className="border rounded-lg p-4 bg-blue-50">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <h4 className="font-medium">Preparation Reminder</h4>
-                          <p className="text-sm text-muted-foreground">From: {nextAppointment.center.name}</p>
-                          <p className="text-sm mt-1">
-                            Your {nextAppointment.modality} appointment is on {formatAppointmentDate(nextAppointment.appointmentDate)}. 
-                            Please remember to remove all metal objects and arrive 15 minutes early.
-                          </p>
-                        </div>
-                        <Badge variant="destructive" className="text-xs">New</Badge>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {patientReports.length > 0 && (
-                    <div className="border rounded-lg p-4">
-                      <div className="flex items-start justify-between">
-                        <div>
-                          <h4 className="font-medium">Results Available</h4>
-                          <p className="text-sm text-muted-foreground">From: Radiology Department</p>
-                          <p className="text-sm mt-1">
-                            You have {patientReports.length} imaging result{patientReports.length !== 1 ? 's' : ''} available for review.
-                          </p>
-                        </div>
-                        <Badge variant="destructive" className="text-xs">New</Badge>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {/* Default message if no specific messages */}
-                  {!nextAppointment && patientReports.length === 0 && (
-                    <div className="text-center py-8">
-                      <MessageSquare className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                      <p className="text-muted-foreground">No new messages</p>
-                    </div>
-                  )}
-                </div>
-              </DialogContent>
-            </Dialog>
-
-            {/* Conditional CTA: Schedule or Cancel Appointment */}
-            {ctaStates.scheduleAppointment.available ? (
-              <Button 
-                size="lg" 
-                className="w-full justify-start" 
-                variant="outline"
-                onClick={() => {
-                  // Navigate to Find Centers page
-                  window.location.href = '/find-centers';
-                }}
-              >
-                <Calendar className="h-4 w-4 mr-2" />
-                {ctaStates.scheduleAppointment.label}
-              </Button>
-            ) : ctaStates.cancelAppointment.available ? (
-              <Dialog open={showCancelModal} onOpenChange={setShowCancelModal}>
-                <DialogTrigger asChild>
-                  <Button 
-                    size="lg" 
-                    className="w-full justify-start" 
-                    variant="outline"
-                  >
-                    <AlertCircle className="h-4 w-4 mr-2" />
-                    {ctaStates.cancelAppointment.label}
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Cancel Appointment</DialogTitle>
-                    <DialogDescription>
-                      Are you sure you want to cancel your upcoming appointment?
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="space-y-4">
-                    <div className="border rounded-lg p-4 bg-yellow-50">
-                      <h4 className="font-medium">Appointment Details</h4>
-                      <p className="text-sm text-muted-foreground mt-1">
-                        {nextAppointment && formatAppointmentDate(nextAppointment.appointmentDate)} at {nextAppointment && formatAppointmentTime(nextAppointment.appointmentDate)}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {nextAppointment?.center?.name}
-                      </p>
-                    </div>
-                    <div className="flex gap-2 justify-end">
-                      <Button variant="outline" onClick={() => setShowCancelModal(false)}>
-                        Keep Appointment
-                      </Button>
-                      <Button variant="destructive" onClick={() => {
-                        setShowCancelModal(false);
-                        // TODO: Implement actual cancellation logic
-                        alert('Appointment cancelled successfully');
-                      }}>
-                        Cancel Appointment
-                      </Button>
-                    </div>
-            </div>
-                </DialogContent>
-              </Dialog>
-            ) : null}
-
-            {/* Update Profile - Always available */}
-            <Button 
-              size="lg" 
-              className="w-full justify-start" 
-              variant="outline"
-              onClick={() => {
-                alert('Profile update feature coming soon!');
-              }}
-            >
-              <User className="h-4 w-4 mr-2" />
-              Update Profile
-            </Button>
-          </CardContent>
-        </Card>
-
-        {/* Quick Stats */}
-        <div className="grid grid-cols-1 gap-4">
-          <Card className="border-border bg-card">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">Active Referrals</p>
-                  <div className="text-2xl font-bold text-card-foreground">
-                    {loading ? <Skeleton className="h-8 w-8" /> : patientAppointments.filter(apt => apt.status === 'confirmed' || apt.status === 'scheduled').length}
-                  </div>
-                </div>
-                <FileText className="h-8 w-8 text-muted-foreground" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="border-border bg-card">
-            <CardContent className="pt-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground">Available Results</p>
-                  <div className="text-2xl font-bold text-card-foreground">
-                    {loading ? <Skeleton className="h-8 w-8" /> : patientReports.length}
-                  </div>
-                </div>
-                <CheckCircle2 className="h-8 w-8 text-green-600" />
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
+      {/* Sidebar removed: Quick Actions moved under AI Insights */}
     </>
   );
 };

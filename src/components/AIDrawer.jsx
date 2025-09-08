@@ -125,7 +125,7 @@ export const AIDrawer = ({ isOpen, onClose }) => {
         {/* Role Badge */}
         <div className="px-4 py-2 bg-muted/50">
           <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-            Viewing as: {viewingAsRole.replace('-', ' ')}
+            Logged in as: {viewingAsRole.replace('-', ' ')}
           </span>
         </div>
 

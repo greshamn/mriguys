@@ -52,14 +52,14 @@ export const RoleSwitcher = () => {
           className="flex items-center gap-2 border-border bg-background text-foreground hover:bg-accent hover:text-accent-foreground"
         >
           <CurrentIcon className="h-4 w-4" />
-          <span className="hidden sm:inline">Viewing as: {roleDisplayNames[viewingAsRole]}</span>
+          <span className="hidden sm:inline">Logged in as: {roleDisplayNames[viewingAsRole]}</span>
           <span className="sm:hidden">{roleDisplayNames[viewingAsRole]}</span>
           <ChevronDown className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       
       <DropdownMenuContent align="end" className="w-56">
-        <DropdownMenuLabel>Switch Viewing Role</DropdownMenuLabel>
+        <DropdownMenuLabel>Switch Logged In Role</DropdownMenuLabel>
         <DropdownMenuSeparator />
         
         {availableRoles.map((role) => {
