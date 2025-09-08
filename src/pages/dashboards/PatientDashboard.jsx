@@ -65,6 +65,7 @@ export const PatientDashboard = () => {
   const [showResultsModal, setShowResultsModal] = useState(false);
   const [showMessageModal, setShowMessageModal] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
+  const [showRescheduleModal, setShowRescheduleModal] = useState(false);
   
   // Get data from Zustand store using memoized selectors
   const appointments = useStore(selectAppointments);
@@ -341,11 +342,33 @@ export const PatientDashboard = () => {
 
                     {/* Action Buttons */}
                     <div className="flex flex-col sm:flex-row gap-3 pt-2">
-                      <Button variant="outline" size="sm">
-                        <Calendar className="h-4 w-4 mr-2" />
-                        Reschedule
-                      </Button>
-                      <Button variant="outline" size="sm">
+                      <Dialog open={showRescheduleModal} onOpenChange={setShowRescheduleModal}>
+                        <DialogTrigger asChild>
+                          <Button variant="outline" size="sm">
+                            <Calendar className="h-4 w-4 mr-2" />
+                            Reschedule
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent>
+                          <DialogHeader>
+                            <DialogTitle>Before you reschedule</DialogTitle>
+                            <DialogDescription>
+                              Please verify your imaging center's rescheduling and cancellation rules. Some centers may charge fees if changes are made within a certain time window before your appointment.
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="flex justify-end gap-2">
+                            <Button variant="outline" onClick={() => setShowRescheduleModal(false)}>Cancel</Button>
+                            <Button onClick={() => setShowRescheduleModal(false)}>Reschedule</Button>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+                      <Button variant="outline" size="sm" onClick={() => {
+                        if (!nextAppointment?.center?.address) return;
+                        const addr = nextAppointment.center.address;
+                        const addressString = [addr.street, addr.city, addr.state, addr.zip].filter(Boolean).join(', ');
+                        const mapsURL = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(addressString)}`;
+                        window.open(mapsURL, '_blank');
+                      }}>
                         <MapPin className="h-4 w-4 mr-2" />
                         Get Directions
                       </Button>
