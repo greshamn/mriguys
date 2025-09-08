@@ -78,9 +78,7 @@ const Sidebar = ({ isOpen, onToggle, collapsed = false, onCollapse }) => {
         return [
           { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard', active: location.pathname === '/dashboard' },
           { icon: Clock, label: 'Queues', path: '/queues', active: location.pathname === '/queues' },
-          { icon: BarChart3, label: 'Scorecards', path: '/scorecards', active: location.pathname === '/scorecards' },
-          { icon: RefreshCw, label: 'Reports', path: '/reports', active: location.pathname === '/reports' },
-          { icon: Settings, label: 'Settings', path: '/settings', active: location.pathname === '/settings' }
+          { icon: RefreshCw, label: 'Reports', path: '/reports', active: location.pathname === '/reports' }
         ];
       
       default: // admin
@@ -251,17 +249,6 @@ const Sidebar = ({ isOpen, onToggle, collapsed = false, onCollapse }) => {
               </button>
             ))}
             
-            {/* Search - Hide when collapsed */}
-            {!collapsed && (
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className="w-full pl-10 pr-3 py-2 bg-muted/50 text-card-foreground placeholder-muted-foreground rounded-lg text-sm border border-border focus:outline-none focus:ring-2 focus:ring-ring"
-                />
-              </div>
-            )}
 
             {/* User Profile */}
             <div className={`flex items-center gap-3 p-3 rounded-lg hover:bg-accent transition-colors cursor-pointer ${

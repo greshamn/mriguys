@@ -6,15 +6,9 @@ import { ReferrerDashboard } from '../pages/dashboards/ReferrerDashboard';
 import { ImagingCenterDashboard } from '../pages/dashboards/ImagingCenterDashboard';
 import { AttorneyDashboard } from '../pages/dashboards/AttorneyDashboard';
 import { FunderDashboard } from '../pages/dashboards/FunderDashboard';
+import OperationsDashboard from '../pages/dashboards/OperationsDashboard';
 
 // Placeholder components for other roles (you can expand these later)
-
-const OpsDashboard = () => (
-  <div className="p-6">
-    <h1 className="text-3xl font-bold text-foreground">Operations Dashboard</h1>
-    <p className="text-muted-foreground">Queue management and center scorecards</p>
-  </div>
-);
 
 export const Dashboard = () => {
   const { viewingAsRole, isAdmin } = useRole();
@@ -34,7 +28,7 @@ export const Dashboard = () => {
     case 'funder':
       return <FunderDashboard />;
     case 'ops':
-      return <OpsDashboard />;
+      return <OperationsDashboard />;
     default:
       return <AdminDashboard />;
   }

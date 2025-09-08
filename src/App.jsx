@@ -22,6 +22,7 @@ import Clients from './pages/Clients';
 import FunderPipeline from './pages/funder/Pipeline';
 import FunderReports from './pages/funder/Reports';
 import Messages from './pages/Messages';
+import Queues from './pages/Queues';
 
 
 function App() {
@@ -56,6 +57,9 @@ function App() {
             <Route path="appointments" element={<Appointments />} />
             {/* Messages for patients/referrers */}
             <Route path="messages" element={<Messages />} />
+            
+            {/* Operations Queues */}
+            <Route path="queues" element={<Queues />} />
             
             {/* Imaging Center Worklist */}
             <Route path="worklist" element={<Worklist />} />
