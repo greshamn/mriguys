@@ -20,6 +20,7 @@ import CasePacket from './pages/CasePacket';
 import LienLedger from './pages/LienLedger';
 import Clients from './pages/Clients';
 import FunderPipeline from './pages/funder/Pipeline';
+import Messages from './pages/Messages';
 
 
 function App() {
@@ -52,6 +53,8 @@ function App() {
             <Route path="results" element={<Results />} />
             {/* Patient Appointments */}
             <Route path="appointments" element={<Appointments />} />
+            {/* Messages for patients/referrers */}
+            <Route path="messages" element={<Messages />} />
             
             {/* Imaging Center Worklist */}
             <Route path="worklist" element={<Worklist />} />

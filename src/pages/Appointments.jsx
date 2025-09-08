@@ -54,6 +54,7 @@ export default function Appointments() {
   const [detailApt, setDetailApt] = useState(null);
   const [reschedApt, setReschedApt] = useState(null);
   const [reslots, setReslots] = useState([]);
+  const [showRescheduleNotice, setShowRescheduleNotice] = useState(null);
   const [statusFilter, setStatusFilter] = useState('upcoming');
   const [search, setSearch] = useState('');
 
@@ -290,7 +291,7 @@ export default function Appointments() {
                           <CalendarPlus className="h-4 w-4 mr-2" />
                           Add to Calendar
                         </Button>
-                        <Button size="sm" variant="default" disabled={disableChange} onClick={() => startReschedule(a)}>Reschedule</Button>
+                        <Button size="sm" variant="default" disabled={disableChange} onClick={() => setShowRescheduleNotice(a)}>Reschedule</Button>
                         <Button size="sm" variant="destructive" disabled={disableChange} onClick={() => onCancel(a)}>
                           <X className="h-4 w-4 mr-2" />
                           Cancel
@@ -339,6 +340,23 @@ export default function Appointments() {
               {detailApt.notes && <div><span className="text-muted-foreground">Notes</span><p className="mt-1 text-card-foreground/90">{detailApt.notes}</p></div>}
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Reschedule Dialog */}
+      {/* Policy Notice Dialog before rescheduling */}
+      <Dialog open={!!showRescheduleNotice} onOpenChange={(open) => !open && setShowRescheduleNotice(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Before you reschedule</DialogTitle>
+            <DialogDescription>
+              Please verify the imaging center's rescheduling and cancellation policies. Some centers may charge a fee if changes are made within a certain time window before your appointment.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex justify-end gap-2">
+            <Button variant="outline" onClick={() => setShowRescheduleNotice(null)}>Cancel</Button>
+            <Button onClick={() => { const apt = showRescheduleNotice; setShowRescheduleNotice(null); if (apt) startReschedule(apt); }}>Reschedule</Button>
+          </div>
         </DialogContent>
       </Dialog>
 

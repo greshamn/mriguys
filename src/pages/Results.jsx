@@ -238,13 +238,15 @@ export default function Results() {
             </DialogDescription>
           </DialogHeader>
           <div className="h-[70vh] bg-muted rounded-md overflow-hidden">
-            {previewReport?.reportPdfUrl ? (
-              <iframe title="report" src={previewReport.reportPdfUrl} className="w-full h-full" />
-            ) : (
-              <div className="h-full flex items-center justify-center text-muted-foreground">
-                No preview available. Use Download instead.
-              </div>
-            )}
+            <div className="w-full h-full overflow-y-auto bg-white text-foreground">
+              {previewReport && (
+                <DummyReport
+                  report={previewReport}
+                  patient={currentPatient}
+                  centerName={getCenterName(previewReport.centerId)}
+                />
+              )}
+            </div>
           </div>
         </DialogContent>
       </Dialog>
@@ -300,4 +302,77 @@ function generateReportInsights(reports) {
   return insights;
 }
 
+// Dummy structured report component shown when no PDF is available
+function DummyReport({ report, patient, centerName }) {
+  const format = (iso) => new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  return (
+    <div className="max-w-4xl mx-auto p-6">
+      <header className="border-b border-border pb-4 mb-4">
+        <div className="flex items-start justify-between">
+          <div>
+            <h2 className="text-xl font-semibold">{centerName}</h2>
+            <p className="text-sm text-muted-foreground">Radiology Report</p>
+          </div>
+          <div className="text-right text-sm">
+            <div><span className="text-muted-foreground">Report Date:</span> {format(report.reportDate)}</div>
+            <div><span className="text-muted-foreground">Accession:</span> {report.id || 'BP-000'}</div>
+          </div>
+        </div>
+      </header>
+
+      <section className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm mb-6">
+        <div>
+          <div className="text-muted-foreground">Patient</div>
+          <div className="font-medium">{patient?.name || 'Patient'}</div>
+        </div>
+        <div>
+          <div className="text-muted-foreground">Modality / Body Part</div>
+          <div className="font-medium">{report.modality} • {report.bodyPart}</div>
+        </div>
+        <div>
+          <div className="text-muted-foreground">Status</div>
+          <div className="font-medium capitalize">{report.status || 'finalized'}</div>
+        </div>
+        <div>
+          <div className="text-muted-foreground">Ordering Provider</div>
+          <div className="font-medium">N/A</div>
+        </div>
+      </section>
+
+      <section className="mb-6">
+        <h3 className="font-semibold mb-2">Clinical History</h3>
+        <p className="text-sm leading-relaxed text-card-foreground/90">
+          {report.clinicalHistory || 'History of pain. Evaluation requested for suspected injury.'}
+        </p>
+      </section>
+
+      <section className="mb-6">
+        <h3 className="font-semibold mb-2">Technique</h3>
+        <p className="text-sm leading-relaxed text-card-foreground/90">
+          {report.modality} examination performed with standard protocol sequences. Contrast not administered unless otherwise stated.
+        </p>
+      </section>
+
+      {report.findings && (
+        <section className="mb-6">
+          <h3 className="font-semibold mb-2">Findings</h3>
+          <p className="text-sm leading-relaxed whitespace-pre-line">{report.findings}</p>
+        </section>
+      )}
+
+      <section className="mb-6">
+        <h3 className="font-semibold mb-2">Impression</h3>
+        <ol className="list-decimal pl-5 space-y-1 text-sm">
+          {(report.impression ? report.impression.split(/\n+|;+/) : ['No acute abnormality identified.']).map((item, idx) => (
+            <li key={idx}>{item.trim() || '—'}</li>
+          ))}
+        </ol>
+      </section>
+
+      <footer className="border-t border-border pt-4 text-xs text-muted-foreground">
+        Electronically signed by: Staff Radiologist
+      </footer>
+    </div>
+  );
+}
 
