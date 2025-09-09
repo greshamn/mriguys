@@ -23,7 +23,8 @@ import {
   Upload,
   CheckCircle,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Activity
 } from 'lucide-react';
 import { useRole } from '../context/RoleContext';
 
@@ -78,6 +79,7 @@ const Sidebar = ({ isOpen, onToggle, collapsed = false, onCollapse }) => {
         return [
           { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard', active: location.pathname === '/dashboard' },
           { icon: Clock, label: 'Queues', path: '/queues', active: location.pathname === '/queues' },
+          { icon: Activity, label: 'Workflow', path: '/workflow', active: location.pathname === '/workflow' },
           { icon: RefreshCw, label: 'Reports', path: '/reports', active: location.pathname === '/reports' }
         ];
       

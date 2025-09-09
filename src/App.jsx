@@ -26,6 +26,7 @@ import Queues from './pages/Queues';
 import UsersPage from './pages/Users';
 import Settings from './pages/Settings';
 import MasterData from './pages/MasterData';
+import Workflow from './pages/Workflow';
 
 
 function App() {
@@ -63,6 +64,7 @@ function App() {
             
             {/* Operations Queues */}
             <Route path="queues" element={<Queues />} />
+            <Route path="workflow" element={<Workflow />} />
             
             {/* Imaging Center Worklist */}
             <Route path="worklist" element={<Worklist />} />
