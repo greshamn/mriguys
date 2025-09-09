@@ -408,7 +408,7 @@ export default function Queues() {
         </Card>
 
         <Card className="overflow-hidden">
-          <CardContent className="p6">
+          <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-600">Completed</p>

@@ -25,6 +25,7 @@ import Messages from './pages/Messages';
 import Queues from './pages/Queues';
 import UsersPage from './pages/Users';
 import Settings from './pages/Settings';
+import MasterData from './pages/MasterData';
 
 
 function App() {
@@ -87,6 +88,7 @@ function App() {
             {/* Admin */}
             <Route path="users" element={<UsersPage />} />
             <Route path="settings" element={<Settings />} />
+            <Route path="master-data" element={<MasterData />} />
             
             {/* 404 route */}
             <Route path="*" element={

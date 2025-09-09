@@ -15,6 +15,7 @@ import { generateSlotPickerURL } from '@/lib/deepLinking.js';
 import { CenterProfileModal } from '@/components/public/CenterProfileModal.jsx';
 import { Sparkles } from 'lucide-react';
 import { CenterCard } from '@/components/public/CenterCard.jsx';
+import { useRole } from '@/context/RoleContext.jsx';
 
 const steps = [
   'Patient',
@@ -46,6 +47,7 @@ const Stepper = ({ current }) => {
 export default function ReferralWizard() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { viewingAsRole } = useRole();
 
   const [step, setStep] = useState(0);
   const [modality, setModality] = useState('');
@@ -458,27 +460,30 @@ export default function ReferralWizard() {
 
         {/* Right rail */}
         <div className="col-span-12 xl:col-span-4 space-y-4">
-          <Card>
-            <CardHeader className="py-3"><CardTitle className="text-base">Validation & Progress</CardTitle></CardHeader>
-            <CardContent className="space-y-2 text-sm">
-              <div className={`flex items-center justify-between ${selectedPatientId ? 'text-foreground' : 'text-muted-foreground'}`}>
-                <span>Patient selected</span>
-                {selectedPatientId ? '✅' : '—'}
-              </div>
-              <div className={`flex items-center justify-between ${(modality && bodyPart) ? 'text-foreground' : 'text-muted-foreground'}`}>
-                <span>Exam chosen</span>
-                {(modality && bodyPart) ? '✅' : '—'}
-              </div>
-              <div className="flex items-center justify-between text-muted-foreground">
-                <span>Safety flags</span>
-                <Badge variant="secondary">{contraindicationCount}</Badge>
-              </div>
-              <div className={`flex items-center justify-between ${selectedCenterId ? 'text-foreground' : 'text-muted-foreground'}`}>
-                <span>Center selected</span>
-                {selectedCenterId ? '✅' : '—'}
-              </div>
-            </CardContent>
-          </Card>
+          {/* Hide Validation & Progress card for referrer role */}
+          {viewingAsRole !== 'referrer' && (
+            <Card>
+              <CardHeader className="py-3"><CardTitle className="text-base">Validation & Progress</CardTitle></CardHeader>
+              <CardContent className="space-y-2 text-sm">
+                <div className={`flex items-center justify-between ${selectedPatientId ? 'text-foreground' : 'text-muted-foreground'}`}>
+                  <span>Patient selected</span>
+                  {selectedPatientId ? '✅' : '—'}
+                </div>
+                <div className={`flex items-center justify-between ${(modality && bodyPart) ? 'text-foreground' : 'text-muted-foreground'}`}>
+                  <span>Exam chosen</span>
+                  {(modality && bodyPart) ? '✅' : '—'}
+                </div>
+                <div className="flex items-center justify-between text-muted-foreground">
+                  <span>Safety flags</span>
+                  <Badge variant="secondary">{contraindicationCount}</Badge>
+                </div>
+                <div className={`flex items-center justify-between ${selectedCenterId ? 'text-foreground' : 'text-muted-foreground'}`}>
+                  <span>Center selected</span>
+                  {selectedCenterId ? '✅' : '—'}
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           <Card className="overflow-hidden">
             <div className="bg-gradient-to-r from-purple-600 via-fuchsia-600 to-violet-600 text-white p-3">

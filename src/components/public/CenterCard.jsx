@@ -192,18 +192,19 @@ export function CenterCard({ center, onClick, selected = false }) {
         <div className="flex gap-2 pt-2">
           <Button 
             size="sm" 
-            className="flex-1"
+            className="flex-1 min-w-0"
             onMouseDown={(e) => e.stopPropagation()}
             onClick={(e) => {
               e.stopPropagation();
               setBookingOpen(true);
             }}
           >
-            📅 Book Appointment
+            <span className="truncate">📅 Book</span>
           </Button>
           <Button 
             size="sm" 
             variant="outline"
+            className="flex-1 min-w-0"
             onClick={(e) => {
               e.stopPropagation();
               
@@ -214,7 +215,7 @@ export function CenterCard({ center, onClick, selected = false }) {
               window.open(mapsURL, '_blank');
             }}
           >
-            🗺️ Directions
+            <span className="truncate">🗺️ Directions</span>
           </Button>
         </div>
         {/* Booking Modal */}
